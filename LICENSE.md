@@ -18,3 +18,13 @@ This license lets others remix, adapt, and build upon your work non-commercially
 
 View [License Deed](https://creativecommons.org/licenses/by-nc-sa/4.0) | View [Legal Code](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode)
 
+# Addition
+
+## Français
+
+Ce code est connu pour contenir des failles de sécurité. L'utilisation se fait à vos risque et péril.
+
+## English
+
+This code is known to contain security issues. Use it at your own risk.
+
