@@ -1,0 +1,27 @@
+Bonjour, c'est Fibretigre.
+
+Vous trouverez ci-joints les fichiers pour récrer sur votre serveur le JDR « AT RPG » (Asynchrone et je me souviens plus pourquoi il y a un T, puis RPG), qui permet de jouer à plein sur le serveur.
+
+Si vous avez des questions, n'hésitez pas à joindre notre serveur ici : https://discord.gg/RAhph7z
+
+Installation :
+
+En gros il vous faut un serveur avec PHP et une base SQL. 
+
+La structure des 3 tables est dans « database »
+
+Le fichier connexion est à modifier pour activer votre connexion à la base de données. Attention, le fichier connexion.php est dans un répertoire supérieur par rapport au répertoire du jeu. 
+
+Jeu :
+
+Le 1er compte créé sur le jeu est le compte admin (il peut avoir n'importe quel nom).
+
+Une fois ce compte créé et le joueur/MJ logué, il peut aller sur main.php et avoir accès à l'ensemble des commandes.
+
+Le mode de fonctionnement ensuite est détaillé lors d'une partie ici :
+
+https://www.youtube.com/watch?v=bUFo1yhHT7E
+
+À bientôt
+
+FibreTigre
