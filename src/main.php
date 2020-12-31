@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 include "../connexion.php";
 
@@ -55,7 +55,7 @@ $row=$stmt->fetch();
   <tr>
     <td>
       <font style="font-family: 'Libre Baskerville', Black;font-size: 20px;">
-<?
+<?php
 
 
 $genre="Homme";
@@ -119,12 +119,12 @@ print "<input type=\"submit\" value=\"Mon choix est irrévocable\"></form>";
 
 ?>
 (Votre vote a bien été pris en compte)
-<?
+<?php
 } else {
 
 ?>
 (Pas de décision en cours)
-<?
+<?php
 }
 }
 ?>
@@ -133,7 +133,7 @@ print "<input type=\"submit\" value=\"Mon choix est irrévocable\"></form>";
 <b>Possessions :</b><br>
 
 
-<?
+<?php
 $stmt = $db->prepare("SELECT quoi FROM loot WHERE idh=$id ORDER BY id DESC");
   $stmt->execute();
  foreach($stmt->fetchAll() as $key => $row){
