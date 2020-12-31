@@ -13,8 +13,8 @@ $pass = utf8_decode($pass);
 
 $stmt = $db->prepare("SELECT id,hp FROM hrpg WHERE nom=:nom AND mdp=:pass");
 $stmt->execute([
-  ':nom' => $nom,
-  ':pass' => $pass,
+    ':nom' => $nom,
+    ':pass' => $pass,
 ]);
 
 $row = $stmt->fetch();
@@ -22,15 +22,13 @@ $id = $row[0];
 $hp = $row[1];
 
 if ($id != "" && $hp > 0) {
-  $_SESSION['id'] = $id;
-  $_SESSION['nom'] = $nom;
-  $text = "Bonjour " . $nom . ".<br><br>Votre grande aventure continue.<br><br>Cliquez <a href=main.php style=color:#ff0000>ici</a>.";
-}
-elseif ($sante < 1 && $id != "") {
-  $text = "Bonjour " . $nom . ".<br><br>Votre est mort :-( On en recrée un nouveau ? <br><br>Retourner au <a href=index.php>menu principal</a>";
-}
-else {
-  $text = "Bonjour " . $nom . ".<br><br>Nous n'avons pas réussi à vous identifier :-( <br><br>Voulez-vous <a href=continue.php>recommencer</a> <br>ou retourner au <a href=index.php>menu principal</a> ?";
+    $_SESSION['id'] = $id;
+    $_SESSION['nom'] = $nom;
+    $text = "Bonjour " . $nom . ".<br><br>Votre grande aventure continue.<br><br>Cliquez <a href=main.php style=color:#ff0000>ici</a>.";
+} elseif ($sante < 1 && $id != "") {
+    $text = "Bonjour " . $nom . ".<br><br>Votre est mort :-( On en recrée un nouveau ? <br><br>Retourner au <a href=index.php>menu principal</a>";
+} else {
+    $text = "Bonjour " . $nom . ".<br><br>Nous n'avons pas réussi à vous identifier :-( <br><br>Voulez-vous <a href=continue.php>recommencer</a> <br>ou retourner au <a href=index.php>menu principal</a> ?";
 }
 
 ?>
@@ -52,7 +50,7 @@ else {
   <font style="font-family: 'Libre Baskerville', Black;font-size: 30px;">
     <br><br><br>
     <td align="center">
-      <?php print "$text"; ?>
+        <?php print "$text"; ?>
     </td>
     </tr>
     </table>

@@ -1,26 +1,30 @@
 <html>
 <head>
   <title>AT RPG</title>
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Cinzel+Decorative">
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Libre+Baskerville">
+  <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Cinzel+Decorative">
+  <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Libre+Baskerville">
 </head>
 <body>
 <table width="100%" height="100%" border="0">
   <tr>
     <td align="center">
-      <font style="font-family: 'Cinzel Decorative', Black;font-size: 90px;"><b>AT RPG</b></font>
+      <font style="font-family: 'Cinzel Decorative', Black;font-size: 90px;"><b>AT
+          RPG</b></font>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <font style="font-family: 'Libre Baskerville', Black;font-size: 30px;">Repartons à l'aventure !
+      <font style="font-family: 'Libre Baskerville', Black;font-size: 30px;">Repartons
+        à l'aventure !
         <br><br><br>
         <form action="continuevalid.php" method="post">
           <table align=center border=0>
             <tr>
               <td><font style="font-family: 'Libre Baskerville', Black;font-size: 30px;">
                   Nom : <input type="text" name="nom" size=40 style="height:30px;padding: 12px 20px;margin: 4px 0;box-sizing: border-box;"><br><br><br>
-                  Mot de passe : <input type="password" name="pass"  size=24 style="height:30px;padding: 12px 20px 12px;margin: 4px 0;box-sizing: border-box;"></font>
+                  Mot de passe : <input type="password" name="pass" size=24 style="height:30px;padding: 12px 20px 12px;margin: 4px 0;box-sizing: border-box;"></font>
               </td>
             </tr>
           </table>
