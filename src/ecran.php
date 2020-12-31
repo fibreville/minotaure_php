@@ -354,17 +354,17 @@ if ($id==1) {
 
       // propriete = +1h / -1m / +1s
 
-//      $modif=substr($propriete,0,2);
-//      $modifquoi=substr($propriete,2,1);
-//
-//      if ($modifquoi=="h") {$modifquoi="hp";}
-//      if ($modifquoi=="m") {$modifquoi="mind";}
-//      if ($modifquoi=="s") {$modifquoi="str";}
-//
-//      $modif=$modifquoi.$modif;
-//
-//      $stmt = $db->prepare("UPDATE hrpg SET $modifquoi=$modif WHERE id=$idh");
-//      $stmt->execute();
+      $modif=substr($propriete,0,2);
+      $modifquoi=substr($propriete,2,1);
+
+      if ($modifquoi=="h") {$modifquoi="hp";}
+      if ($modifquoi=="m") {$modifquoi="mind";}
+      if ($modifquoi=="s") {$modifquoi="str";}
+
+      $modif=$modifquoi.$modif;
+
+      $stmt = $db->prepare("UPDATE hrpg SET $modifquoi=$modif WHERE id=$idh");
+      $stmt->execute();
     }
   }
 
