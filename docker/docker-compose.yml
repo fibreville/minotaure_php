@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  atrpg:
+    image: atrpg:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./src:/var/www/html
+    ports:
+      - "80:80"
+
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./db/database.sql:/docker-entrypoint-initdb.d/database.sql
+      - ./data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password-to-change
+      MYSQL_DATABASE: atrpg
+      MYSQL_USER: atrpg
+      MYSQL_PASSWORD: mot-de-passe
+

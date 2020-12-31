@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../connexion.php";
+include "connexion.php";
 
 $choix=$_POST['choix'];
 $lead=$_POST['lead'];
