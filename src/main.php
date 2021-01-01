@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../connexion.php";
+include "connexion.php";
 
 $choix = $_POST['choix'];
 $lead = $_POST['lead'];
@@ -8,8 +8,6 @@ $traitre = $_POST['traitre'];
 $id = $_SESSION['id'];
 
 if ($choix != "") {
-
-
     $stmt = $db->prepare("UPDATE hrpg SET vote=$choix WHERE id=$id");
     $stmt->execute();
 
@@ -22,7 +20,6 @@ if ($choix != "") {
         $stmt = $db->prepare("UPDATE hrpg SET traitre='2' WHERE id=$id");
         $stmt->execute();
     }
-
 }
 
 $stmt = $db->prepare("SELECT id,nom,hf,str,mind,hp,leader,vote,tag1,tag2,tag3,traitre FROM hrpg WHERE id=$id");

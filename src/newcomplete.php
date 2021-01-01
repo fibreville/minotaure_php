@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../connexion.php";
+include "connexion.php";
 
 $nom = $_POST['nom'];
 $genre = $_POST['genre'];
@@ -36,8 +36,7 @@ $id = $row[0];
 if ($id != "") {
     $probleme = 1;
 }
-if ($probleme == 1) {
-    ?>
+if ($probleme == 1) { ?>
   <html>
   <head>
     <meta http-equiv="refresh" content="0;URL=new.php?text=erreur">
@@ -45,8 +44,9 @@ if ($probleme == 1) {
   <body>
   </body>
   </html>
-    <?php
-} else {
+<?php
+}
+else {
     $hp = 5 + rand(0, 5);
     $str = $stat[0];
     $mind = $stat[1];
@@ -129,6 +129,6 @@ if ($probleme == 1) {
     </font>
   </body>
   </html>
-    <?php
+<?php
 }
 ?>
