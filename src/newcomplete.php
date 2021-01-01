@@ -25,60 +25,14 @@ $nom = utf8_decode($nom);
 $pass = utf8_decode($pass);
 
 $stmt = $db->prepare("SELECT id FROM hrpg WHERE nom=:nom AND mdp=:pass");
-<<<<<<< HEAD
-  $stmt->execute([
-      ':nom' => $nom,
-      ':pass' => $pass
-    ]);
-||||||| 1d3cc59
-$stmt->execute([
-    ':nom' => $nom,
-    ':pass' => $pass
-  ]);
-=======
 $stmt->execute([
     ':nom' => $nom,
     ':pass' => $pass,
 ]);
->>>>>>> 68f3c5bd14b20435cdd1f675aa0b1dbba3d7d61d
 
-<<<<<<< HEAD
-    $row=$stmt->fetch();
-   $id=$row[0];
-
-   if ($id!="") {$probleme=1;}
-
-   if ($probleme==1) {
-||||||| 1d3cc59
-$row=$stmt->fetch();
-$id=$row[0];
-=======
 $row = $stmt->fetch();
 $id = $row[0];
->>>>>>> 68f3c5bd14b20435cdd1f675aa0b1dbba3d7d61d
 
-<<<<<<< HEAD
-?>
-||||||| 1d3cc59
-if ($id!="") {
-  $probleme=1;
-}
-if ($probleme==1) {
-?>
-  <html>
-    <head>
-      <meta http-equiv="refresh" content="0;URL=new.php?text=erreur">
-    </head>
-    <body>
-    </body>
-  </html>
-<?php
-  }
-  else {
-    $hp=5+rand(0,5);
-    $str=$stat[0];
-    $mind=$stat[1];
-=======
 if ($id != "") {
     $probleme = 1;
 }
@@ -96,134 +50,17 @@ if ($probleme == 1) {
     $hp = 5 + rand(0, 5);
     $str = $stat[0];
     $mind = $stat[1];
->>>>>>> 68f3c5bd14b20435cdd1f675aa0b1dbba3d7d61d
 
-<<<<<<< HEAD
-<html>
-<head>
-<meta http-equiv="refresh" content="0;URL=new.php?text=erreur">
-</head>
-<body>
-</body>
-</html>
-
-<?
-
-}
-
-else {
-  
-
-$hp=5+rand(0,5);
-
-$str=$stat[0];
-$mind=$stat[1];
-
-
-  $stmt = $db->prepare("SELECT tag1 FROM hrpg WHERE hp>0 ORDER BY RAND()");
-  $stmt->execute();
-  $row=$stmt->fetch();
-  $tag1=$row[0];
-||||||| 1d3cc59
-    $stmt = $db->prepare("SELECT tag1 FROM hrpg WHERE hp>0 ORDER BY RAND()");
-    $stmt->execute();
-    $row=$stmt->fetch();
-    $tag1=$row[0];
-=======
     $stmt = $db->prepare("SELECT tag1 FROM hrpg WHERE hp>0 ORDER BY RAND()");
     $stmt->execute();
     $row = $stmt->fetch();
     $tag1 = $row[0];
->>>>>>> 68f3c5bd14b20435cdd1f675aa0b1dbba3d7d61d
 
     $stmt = $db->prepare("SELECT tag2 FROM hrpg WHERE hp>0 ORDER BY RAND()");
-<<<<<<< HEAD
-  $stmt->execute();
-  $row=$stmt->fetch();
-  $tag2=$row[0];
-||||||| 1d3cc59
-    $stmt->execute();
-    $row=$stmt->fetch();
-    $tag2=$row[0];
-=======
     $stmt->execute();
     $row = $stmt->fetch();
     $tag2 = $row[0];
->>>>>>> 68f3c5bd14b20435cdd1f675aa0b1dbba3d7d61d
 
-<<<<<<< HEAD
-  $stmt = $db->prepare("SELECT tag3 FROM hrpg WHERE hp>0 ORDER BY RAND()");
-  $stmt->execute();
-  $row=$stmt->fetch();
-  $tag3=$row[0];
-
-  if ($tag1=="") {$tag1=" ";}
-    if ($tag2=="") {$tag2=" ";}
-      if ($tag3=="") {$tag3=" ";}
-
-try{  
-    $stmt = $db->prepare("INSERT INTO hrpg (nom,mdp,hf,str,mind,hp,tag1,tag2,tag3) VALUES(:nom,:pass,:genre,:str,:mind,:hp,:tag1,:tag2,:tag3)");
-
-    $stmt->execute([
-      ':nom' => $nom,
-      ':pass' => $pass,
-      ':genre' => $genre,
-      ':str' => $str,
-      ':mind' => $mind,
-      ':hp' => $hp,
-      ':tag1' => $tag1,
-      ':tag2' => $tag2,
-      ':tag3' => $tag3
-    ]);
-
-    $id = $db->lastInsertId();
-
-  } catch(\PDOException $e){
-    die($e->getMessage());
-  }
-  
-  $_SESSION['id']=$id;
-
-$nom=utf8_encode($nom);
-$pass=utf8_encode($pass);
-
-
-?>
-||||||| 1d3cc59
-    $stmt = $db->prepare("SELECT tag3 FROM hrpg WHERE hp>0 ORDER BY RAND()");
-    $stmt->execute();
-    $row=$stmt->fetch();
-    $tag3=$row[0];
-
-    if ($tag1=="") {$tag1=" ";}
-    if ($tag2=="") {$tag2=" ";}
-    if ($tag3=="") {$tag3=" ";}
-
-    try{
-      $stmt = $db->prepare("INSERT INTO hrpg (nom,mdp,hf,str,mind,hp,tag1,tag2,tag3) VALUES(:nom,:pass,:genre,:str,:mind,:hp,:tag1,:tag2,:tag3)");
-      $stmt->execute([
-        ':nom' => $nom,
-        ':pass' => $pass,
-        ':genre' => $genre,
-        ':str' => $str,
-        ':mind' => $mind,
-        ':hp' => $hp,
-        ':tag1' => $tag1,
-        ':tag2' => $tag2,
-        ':tag3' => $tag3
-      ]);
-
-      $id = $db->lastInsertId();
-    }
-    catch(Exception $e){
-      die($e->getMessage());
-    }
-
-    $_SESSION['id']=$id;
-    $nom=utf8_encode($nom);
-    $pass=utf8_encode($pass);
-?>
-=======
     $stmt = $db->prepare("SELECT tag3 FROM hrpg WHERE hp>0 ORDER BY RAND()");
     $stmt->execute();
     $row = $stmt->fetch();
@@ -263,72 +100,7 @@ $pass=utf8_encode($pass);
     $nom = utf8_encode($nom);
     $pass = utf8_encode($pass);
     ?>
->>>>>>> 68f3c5bd14b20435cdd1f675aa0b1dbba3d7d61d
 
-<<<<<<< HEAD
-
-
-<html>
-<head>
-<title>AT RPG</title>
-  <link rel="stylesheet" type="text/css"
-          href="https://fonts.googleapis.com/css?family=Libre+Baskerville">
-</head>
-<body>
-<div align="center">
-<table border="0" align="center" width=700>
-<tr>
-<td align="left">
-<font style="font-family: 'Libre Baskerville', Black;font-size: 20px;"><? print $nom; ?> entre en scène.</font>
-<br>
-<br>
-<br>
-<font style="font-family: 'Libre Baskerville', Black;font-size: 15px;">
-Bienvenue dans notre grande aventure.
-<br><br>
-<a href="main.php">C'est parti.</a>
-</td>
-</tr>
-</table>  
-</font>
-</body>
-</html>
-
- <?
-
- }
-
-
- ?>
-||||||| 1d3cc59
-  <html>
-    <head>
-      <title>AT RPG</title>
-      <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Libre+Baskerville">
-    </head>
-    <body>
-      <div align="center">
-      <table border="0" align="center" width=700>
-      <tr>
-      <td align="left">
-      <font style="font-family: 'Libre Baskerville', Black;font-size: 20px;"><?php print $nom; ?> entre en scène.</font>
-      <br>
-      <br>
-      <br>
-      <font style="font-family: 'Libre Baskerville', Black;font-size: 15px;">
-      Bienvenue dans notre grande aventure.
-      <br><br>
-      <a href="main.php">C'est parti.</a>
-      </td>
-      </tr>
-      </table>
-      </font>
-    </body>
-  </html>
-<?php
- }
-?>
-=======
   <html>
   <head>
     <title>AT RPG</title>
@@ -360,4 +132,3 @@ Bienvenue dans notre grande aventure.
     <?php
 }
 ?>
->>>>>>> 68f3c5bd14b20435cdd1f675aa0b1dbba3d7d61d

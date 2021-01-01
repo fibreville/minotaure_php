@@ -45,27 +45,6 @@ if ($id != "" && $hp > 0) {
 </head>
 <body>
 <div align="center">
-<<<<<<< HEAD
-<font style="font-family: 'Cinzel Decorative', Black;font-size: 90px;"><b>AT RPG</b></font>
-<br><br>
-<font style="font-family: 'Libre Baskerville', Black;font-size: 30px;">
-<br><br><br>
-<td align="center">
-<? print "$text"; ?>
-</td>
-</tr>
-</table>	
-||||||| 1d3cc59
-  <font style="font-family: 'Cinzel Decorative', Black;font-size: 90px;"><b>AT RPG</b></font>
-  <br><br>
-  <font style="font-family: 'Libre Baskerville', Black;font-size: 30px;">
-    <br><br><br>
-    <td align="center">
-      <?php print "$text"; ?>
-    </td>
-    </tr>
-    </table>
-=======
   <font style="font-family: 'Cinzel Decorative', Black;font-size: 90px;"><b>AT RPG</b></font>
   <br><br>
   <font style="font-family: 'Libre Baskerville', Black;font-size: 30px;">
@@ -75,6 +54,5 @@ if ($id != "" && $hp > 0) {
     </td>
     </tr>
     </table>
->>>>>>> 68f3c5bd14b20435cdd1f675aa0b1dbba3d7d61d
 </body>
 </html>
