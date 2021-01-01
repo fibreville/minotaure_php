@@ -1,4 +1,4 @@
 *.idea
 *.DS_store
 data
-connexion.php
+*connexion.php
