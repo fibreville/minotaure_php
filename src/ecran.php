@@ -892,8 +892,4 @@ if ($id == 1) {
   </html>
     <?php
 }
-<<<<<<< HEAD
 ?>
-=======
-?>
->>>>>>> upstream/main
