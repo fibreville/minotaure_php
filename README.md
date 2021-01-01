@@ -5,7 +5,7 @@
 #### A quoi ça sert ?
 
 Ce programme permet de récréer sur votre serveur le JDR « AT RPG » (Asynchronous Tactical RPG), qui permet de jouer à
-plein sur un serveur.  
+plein sur un serveur.
 L'idée et le code d'origine ont été fournies par [Fibretigre](https://www.twitch.tv/fibretigre) le 31/12/20. Rejoignez
 le discord de la communauté sur : [discord server](https://discord.gg/RAhph7z)
 
@@ -15,7 +15,7 @@ le discord de la communauté sur : [discord server](https://discord.gg/RAhph7z)
 - importez la base de données du fichier La structure des 3 tables est dans « database »
 
 Le fichier connexion_example.php est à modifier pour indiquer votre connexion à la base de données.
-Exemple, si votre base de donnée est locale, que votre base s'appelle base1, que votre identifiant 
+Exemple, si votre base de donnée est locale, que votre base s'appelle base1, que votre identifiant
 est toto et votre mot de passe titi, indiquez :
 
 $db = new PDO('mysql:host=localhost;dbname=base1;', 'toto', 'titi');
@@ -24,7 +24,15 @@ Les fichiers dans /src n'ont pas besoin d'être modifiés.
 
 #### Installation avec Docker :
 
-TODO
+Il faut avoir [docker](https://docs.docker.com/get-docker/), [docker-compose](https://docs.docker.com/compose/install/)
+et [make](https://fr.wikipedia.org/wiki/Make).
+
+1. Cloner le repo: `git clone https://github.com/fibreville/atrpg.git`
+2. Lancer les conteneurs: `make up`
+
+* Pour voir les logs: `make logs`
+* Pour arrêter les conteneurs: `make down`
+* Pour détruire conteneurs et données: `make reset`
 
 #### Pour jouer :
 
