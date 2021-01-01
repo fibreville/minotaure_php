@@ -27,12 +27,12 @@ Les fichiers dans /src n'ont pas besoin d'être modifiés.
 Il faut avoir [docker](https://docs.docker.com/get-docker/), [docker-compose](https://docs.docker.com/compose/install/)
 et [make](https://fr.wikipedia.org/wiki/Make).
 
-1. Cloner le repo: `git clone https://github.com/fibreville/atrpg.git`
-2. Lancer les conteneurs: `make up`
+1. Cloner le repo : `git clone https://github.com/fibreville/atrpg.git`
+2. Lancer les conteneurs : `make up`
 
-* Pour voir les logs: `make logs`
-* Pour arrêter les conteneurs: `make down`
-* Pour détruire conteneurs et données: `make reset`
+* Pour voir les logs : `make logs`
+* Pour arrêter les conteneurs : `make down`
+* Pour détruire conteneurs et données : `make reset`
 
 #### Pour jouer :
 
