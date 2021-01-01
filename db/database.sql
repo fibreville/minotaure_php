@@ -8,7 +8,7 @@
 
 
 #
-Affichage de la table hrpg
+# Affichage de la table hrpg
 # ------------------------------------------------------------
 
 DROP TABLE IF EXISTS `hrpg`;
@@ -34,7 +34,7 @@ CREATE TABLE `hrpg`
 
 
 #
-Affichage de la table loot
+# Affichage de la table loot
 # ------------------------------------------------------------
 
 DROP TABLE IF EXISTS `loot`;
@@ -50,7 +50,7 @@ CREATE TABLE `loot`
 
 
 #
-Affichage de la table sondage
+# Affichage de la table sondage
 # ------------------------------------------------------------
 
 DROP TABLE IF EXISTS `sondage`;
@@ -71,8 +71,7 @@ CREATE TABLE `sondage`
     `choixtag` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-LOCK
-TABLES `sondage` WRITE;
+LOCK TABLES `sondage` WRITE;
 /*!40000 ALTER TABLE `sondage` DISABLE KEYS */;
 
 INSERT INTO `sondage` (`choix`, `c1`, `c2`, `c3`, `c4`, `c5`, `c6`, `c7`, `c8`,

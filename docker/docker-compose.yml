@@ -8,10 +8,11 @@ services:
       dockerfile: docker/Dockerfile
     volumes:
       - ./src:/var/www/html
+      - ./src/connexion_example.php:/var/www/html/connexion.php
     ports:
       - "80:80"
 
-  mysql:
+  serveur-mysql:
     image: mysql:5.7
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -19,7 +20,7 @@ services:
       - ./data/mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: password-to-change
-      MYSQL_DATABASE: atrpg
-      MYSQL_USER: atrpg
-      MYSQL_PASSWORD: mot-de-passe
+      MYSQL_DATABASE: nombase
+      MYSQL_USER: login
+      MYSQL_PASSWORD: mdp
 
