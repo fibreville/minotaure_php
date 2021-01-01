@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 include "connexion.php";
 
@@ -21,19 +21,20 @@ $row = $stmt->fetch();
 $id = $row[0];
 $hp = $row[1];
 
-if ($id != "" && $hp > 0) {
-    $_SESSION['id'] = $id;
-    $_SESSION['nom'] = $nom;
-    $text = "Bonjour " . $nom . ".<br><br>Votre grande aventure continue.<br><br>Cliquez <a href=main.php style=color:#ff0000>ici</a>.";
-} elseif ($sante < 1 && $id != "") {
-    $text = "Bonjour " . $nom . ".<br><br>Votre est mort :-( On en recrée un nouveau ? <br><br>Retourner au <a href=index.php>menu principal</a>";
-} else {
+if ($id != "") {
+  if ($hp > 0) {
+      $_SESSION['id'] = $id;
+      $_SESSION['nom'] = $nom;
+      $text = "Bonjour " . $nom . ".<br><br>Votre grande aventure continue.<br><br>Cliquez <a href=main.php style=color:#ff0000>ici</a>.";
+  }
+  else {
+      $text = "Bonjour " . $nom . ".<br><br>Votre est mort :-( On en recrée un nouveau ? <br><br>Retourner au <a href=index.php>menu principal</a>";
+  }
+}
+else {
     $text = "Bonjour " . $nom . ".<br><br>Nous n'avons pas réussi à vous identifier :-( <br><br>Voulez-vous <a href=continue.php>recommencer</a> <br>ou retourner au <a href=index.php>menu principal</a> ?";
 }
-
 ?>
-
-
 <html>
 <head>
 <title>AT RPG</title>
@@ -41,7 +42,6 @@ if ($id != "" && $hp > 0) {
           href="https://fonts.googleapis.com/css?family=Cinzel+Decorative">
   <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Libre+Baskerville">
-   
 </head>
 <body>
 <div align="center">

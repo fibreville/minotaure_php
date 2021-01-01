@@ -35,13 +35,5 @@
     </td>
   </tr>
 </table>
-
-<br><br>
-<input type="submit" value="Continuer l'Aventure" style="border-top:2px solid #666666;border-left:2px solid #666666;border-right:2px solid #000000;border-bottom:2px solid #000000;padding:10px 20px;font-size:	30px;background-color:#FFFFFF;font-weight:bold;color:#000000;font-family: 'Libre Baskerville', Black;">
-</form>
-</font>
-</td>
-</tr>
-</table>	
 </body>
 </html>
