@@ -44,7 +44,7 @@ else {
           href="https://fonts.googleapis.com/css?family=Libre+Baskerville">
 </head>
 <body>
-  <div align="center">
+<div align="center">
   <font style="font-family: 'Cinzel Decorative', Black;font-size: 90px;"><b>AT RPG</b></font>
   <br><br>
   <font style="font-family: 'Libre Baskerville', Black;font-size: 30px;">

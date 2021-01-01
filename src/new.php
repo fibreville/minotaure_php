@@ -62,4 +62,8 @@ if ($text == "erreur") {
 </div>
 </form>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> upstream/main
