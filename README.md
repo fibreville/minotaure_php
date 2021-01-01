@@ -29,6 +29,7 @@ et [make](https://fr.wikipedia.org/wiki/Make).
 
 1. Cloner le repo : `git clone https://github.com/fibreville/atrpg.git`
 2. Lancer les conteneurs : `make up`
+3. Lancer le navigateur et aller sur http://127.0.0.1
 
 * Pour voir les logs : `make logs`
 * Pour arrêter les conteneurs : `make down`
