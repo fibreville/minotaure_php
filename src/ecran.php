@@ -59,7 +59,6 @@ foreach ($tags as $key => $tag) {
 if ($type != "") {
   if ($victimetag != "") {
     $stmt = $db->prepare("SELECT $type,nom,id FROM hrpg WHERE hp>0 && (tag1='$victimetag' || tag2='$victimetag' || tag3='$victimetag')");
-    $sanction .= "<b>$l</b> victoires pour <b>$k</b> défaites pour le groupe $victimetag.";
   }
   else {
     $travail = explode(",", $victime);
@@ -110,7 +109,12 @@ if ($type != "") {
       $l++;
     }
   }
-  $sanction .= "<b>$l</b> victoires pour <b>$k</b> défaites.";
+  if ($victimetag != "") {
+    $sanction .= "<b>$l</b> victoires pour <b>$k</b> défaites pour le groupe $victimetag";
+  }
+  else {
+    $sanction .= "<b>$l</b> victoires pour <b>$k</b> défaites.";
+  }
 }
 
 if ($loot != "") {
@@ -361,8 +365,10 @@ if ($action == "traitre") {
   $stmt->execute();
 }
 
-$nbhv = $db->query("SELECT COUNT(*) FROM hrpg WHERE hp>0 AND id>1")->fetchColumn();
-$nbhm = $db->query("SELECT COUNT(*) FROM hrpg WHERE hp<1 AND id>1")->fetchColumn();
+$nbhv = $db->query("SELECT COUNT(*) FROM hrpg WHERE hp>0 AND id>1")
+  ->fetchColumn();
+$nbhm = $db->query("SELECT COUNT(*) FROM hrpg WHERE hp<1 AND id>1")
+  ->fetchColumn();
 $nbhma = $db->query("SELECT COUNT(*) FROM hrpg WHERE mind>=str")
   ->fetchColumn();
 $nbhstr = $db->query("SELECT COUNT(*) FROM hrpg WHERE mind<str AND id>1")
@@ -392,10 +398,10 @@ $traitrevote = utf8_encode($row[2]);
 <div class="wrapper-main">
   <?php
   $stmt = $db->prepare("
-    SELECT id,nom,hf,str,mind,hp,tag1,tag2,tag3 
-    FROM hrpg 
-    WHERE id > 1
-    ORDER BY hp <= 0, nom");
+      SELECT id,nom,hf,str,mind,hp,tag1,tag2,tag3 
+      FROM hrpg 
+      WHERE id > 1
+      ORDER BY hp <= 0, nom");
   $stmt->execute();
   $players = $stmt->fetchAll();
   ?>
@@ -453,22 +459,22 @@ $traitrevote = utf8_encode($row[2]);
         }
 
         print "
-            <div class=\"$alive\">
-              <b>$nom</b>
-              <div class='tags'>
-                <span class='genre-$hf'>$genre</span>
-                $str_tags
-              </div>";
+              <div class=\"$alive\">
+                <b>$nom</b>
+                <div class='tags'>
+                  <span class='genre-$hf'>$genre</span>
+                  $str_tags
+                </div>";
 
         if ($hp > 0) {
           print "<div class='stats'>
-                <span>$aptitude</span>
-                <span>Esprit : $mind</span>
-                <span>Corps : $str</span>
-                <span>Vie: $hp</span>
-                <span>Joueur #$id_joueur</span>
-              </div>  
-            ";
+                  <span>$aptitude</span>
+                  <span>Esprit : $mind</span>
+                  <span>Corps : $str</span>
+                  <span>Vie: $hp</span>
+                  <span>Joueur #$id_joueur</span>
+                </div>  
+              ";
         }
         print '</div>';
       }
@@ -507,7 +513,8 @@ $traitrevote = utf8_encode($row[2]);
         else {
           ?>
           <form method=post action=ecran.php#poll>
-            <input type="text" name="choix" size="30" placeholder="Intitulé des choix">
+            <input type="text" name="choix" size="30"
+                   placeholder="Intitulé des choix">
             <input type="text" name="c1" size="30">
             <input type="text" name="c2" size="30">
             <input type="text" name="c3" size="30">
@@ -533,18 +540,22 @@ $traitrevote = utf8_encode($row[2]);
             <option value="mind">Esprit</option>
             <option value="str">Corps</option>
           </select>
-          <label for="difficulte">Difficulté</label><input type="number" name="difficulte" size="10">
+          <label for="difficulte">Difficulté</label><input type="number"
+                                                           name="difficulte"
+                                                           size="10">
           <label for="penalite">Pénalité</label>
           <span>
-            <input type="number" name="penalite" size="10">
-            <select name="penalite_type">
-              <option value="mind">Esprit</option>
-              <option value="str">Corps</option>
-              <option value="hp">Santé</option>
-            </select>
-          </span>
-          <label for="victime">Qui</label><input type="text" name="victime" size="10">
-          <label for="victimetag">Tag</label><input type="text" name="victimetag" size="10">
+              <input type="number" name="penalite" size="10">
+              <select name="penalite_type">
+                <option value="mind">Esprit</option>
+                <option value="str">Corps</option>
+                <option value="hp">Santé</option>
+              </select>
+            </span>
+          <label for="victime">Qui</label><input type="text" name="victime"
+                                                 size="10">
+          <label for="victimetag">Tag</label><input type="text"
+                                                    name="victimetag" size="10">
           <input type="submit" value="EPROUVER">
         </form>
         <div><?php print $sanction; ?></div>
@@ -552,18 +563,21 @@ $traitrevote = utf8_encode($row[2]);
       <div id="loot">
         <form method=post action=ecran.php>
           <h3>Loot</h3>
-          <label for="loot">Quoi</label><input type="text" name="loot" size="30">
-          <label for="propriete">Effet</label><input type="text" name="propriete" size="10">
+          <label for="loot">Quoi</label><input type="text" name="loot"
+                                               size="30">
+          <label for="propriete">Effet</label><input type="text"
+                                                     name="propriete" size="10">
           <label for="qui">À qui</label>
           <select type="text" name="qui">
             <option value=*>Tout le monde</option>
             <?php
-            foreach($list_players as $key_player => $player) {
+            foreach ($list_players as $key_player => $player) {
               print "<option value=$key_player>$player</option>";
             }
             ?>
           </select>
-          <label for="qui_multiple">Avancé (séparez des ID joueurs par des virgules)</label><input type="text" name="qui_multiple" size="10">
+          <label for="qui_multiple">Avancé (séparez des ID joueurs par des
+            virgules)</label><input type="text" name="qui_multiple" size="10">
           <input type="submit" value="DONNER">
         </form>
       </div>
@@ -599,7 +613,13 @@ $traitrevote = utf8_encode($row[2]);
   </div>
   <?php
   }
+  else {
   ?>
+    <span>Vous n'êtes pas admin. <a href="main.php">Retournez en arrière !</a></span>
+  <?php
+  }
+  ?>
+
   <?php include "footer.php"; ?>
 </html>
 
