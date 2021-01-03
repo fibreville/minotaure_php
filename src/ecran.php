@@ -224,7 +224,7 @@ if ($action == 'election') {
       $query = $db->prepare("UPDATE hrpg SET leader = 0");
       $query->execute();
       $query = $db->prepare("SELECT id, nom FROM hrpg WHERE hp > 0 AND id > 1 AND id <> :leader ORDER BY RAND() LIMIT 1");
-      $query->execute([':leader' => $leader]);
+      $query->execute([':leader' => $leader ? $leader : 1]);
       $row = $query->fetch(PDO::FETCH_ASSOC);
       $id_leader = $row['id'];
       $query = $db->prepare("UPDATE hrpg SET leader=1 WHERE id='$id_leader'");
@@ -235,7 +235,7 @@ if ($action == 'election') {
       $query = $db->prepare("UPDATE hrpg SET traitre = 0");
       $query->execute();
       $query = $db->prepare("SELECT id, nom FROM hrpg WHERE hp > 0 AND id > 1 AND id <> :traitre ORDER BY RAND() LIMIT 1");
-      $query->execute([':traitre' => $traitre]);
+      $query->execute([':traitre' => $traitre ? $traitre : 1]);
       $row = $query->fetch(PDO::FETCH_ASSOC);
       $id_traitre = $row['id'];
       $query = $db->prepare("UPDATE hrpg SET traitre=1 WHERE id='$id_traitre'");
