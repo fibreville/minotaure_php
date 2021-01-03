@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <html id="page-mj">
 <?php
 include "header.php";
