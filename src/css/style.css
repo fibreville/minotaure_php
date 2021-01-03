@@ -169,12 +169,13 @@ input[type=submit],
 }
 #group {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  grid-gap: 3px;
   grid-auto-rows: minmax(100px, auto);
   font-size: 11px;
   border-top: 1px dotted;
   padding-top: 15px;
+  word-break: break-word;
 }
 #group > div {
   display: flex;
