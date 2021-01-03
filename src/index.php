@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <html id="page-index">
   <?php include 'header.php' ?>
   <a href="new.php">Création de personnage</a>

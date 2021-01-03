@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php
 $text = $_GET['text'];
 
