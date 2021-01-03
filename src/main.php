@@ -10,18 +10,24 @@ $traitre = $cleanPost['traitre'];
 
 $id = $_SESSION['id'];
 if ($choix != "") {
-  $stmt = $db->prepare("UPDATE hrpg SET vote=$choix WHERE id=:id");
-  $stmt->execute([':id' => $id]);
+  $stmt = $db->prepare("UPDATE hrpg SET vote=:choix WHERE id=:id");
+  $stmt->execute([
+      ':choix' => $choix,
+      ':id' => $id,
+  ]);
 
   if ($lead == 1) {
-    $stmt = $db->prepare("UPDATE hrpg SET leader='2' WHERE id=:id");
-    $stmt->execute([':id' => $id]);
+      $stmt = $db->prepare("UPDATE hrpg SET leader='2' WHERE id=:id");
+      $stmt->execute([
+      ':id' => $id,
+  ]);
   }
 
   if ($traitre == 1) {
-    $stmt = $db->prepare("UPDATE hrpg SET traitre='2' WHERE id=:id");
-    $stmt->execute([':id' => $id]);
-  }
+      $stmt = $db->prepare("UPDATE hrpg SET traitre='2' WHERE id=:id");
+      $stmt->execute([
+      ':id' => $id,
+  ]);
 }
 ?>
 <div id="character-wrapper"></div>
