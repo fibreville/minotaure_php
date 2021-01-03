@@ -79,10 +79,7 @@ INSERT INTO `sondage` (`choix`, `c1`, `c2`, `c3`, `c4`, `c5`, `c6`, `c7`, `c8`,
 VALUES ('', '', '', '', '', '', '', '', '', '', '', 'A');
 
 /*!40000 ALTER TABLE `sondage` ENABLE KEYS */;
-UNLOCK
-TABLES;
-
-
+UNLOCK TABLES;
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
