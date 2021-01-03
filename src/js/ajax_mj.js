@@ -19,7 +19,10 @@ $(document).ready(function() {
 
     var hash = window.location.hash;
     if (hash != '') {
-        openTab($("div[data-target=epreuve]"));
+        openTab($("div[data-target=" + hash.substr(1) + "]"));
+    }
+    else {
+        openTab($("div[data-target=elections]"));
     }
 
     var interval = 2000;

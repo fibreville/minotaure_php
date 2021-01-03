@@ -25,7 +25,7 @@ $traitre = $row[0];
 if ($action == "delete") {
   $query = $db->query("TRUNCATE TABLE sondage");
   $query = $db->query("INSERT INTO sondage VALUES ('','','','','','','','','','','','')");
-  $query = $db->query("TRUNCATE TABLE hrpg");
+  $query = $db->query("DELETE FROM hrpg WHERE id > 1;");
   $query = $db->query("TRUNCATE TABLE loot");
 }
 // TRAITEMENT DE L'AJOUT DE TAGS.
