@@ -12,31 +12,20 @@ if ($nom == "" || $pass == "") {
 }
 
 $nom = substr(ucfirst(strtolower(strip_tags($nom))), 0, 12);
-
-if (($stat[0] + $stat[1]) != 6) {
-  $stat = 22;
-}
-
 $pass = $pass . substr($nom, 0, 3) . substr($nom, -1);
-
 $pass = md5($pass);
-
-$nom = utf8_decode($nom);
-$pass = utf8_decode($pass);
-
-$stmt = $db->prepare("SELECT id FROM hrpg WHERE nom=:nom AND mdp=:pass");
+$stmt = $db->prepare("SELECT id FROM hrpg WHERE nom=:nom");
 $stmt->execute([
   ':nom' => $nom,
-  ':pass' => $pass,
 ]);
 
 $row = $stmt->fetch();
 $id = $row[0];
 
 if ($id != "") {
-  $probleme = 1;
+  $probleme = 2;
 }
-if ($probleme == 1) { ?>
+if (isset($probleme)) { ?>
   <html>
   <head>
     <meta http-equiv="refresh" content="0;URL=new.php?text=erreur">
@@ -47,10 +36,15 @@ if ($probleme == 1) { ?>
   <?php
 }
 else {
+  if (empty($stat)) {
+    $str = rand(2,3);
+    $mind = 5 - $str;
+  }
+  else {
+    $str = $stat[0];
+    $mind = $stat[1];
+  }
   $hp = 5 + rand(0, 5);
-  $str = $stat[0];
-  $mind = $stat[1];
-
   $stmt = $db->prepare("SELECT tag1 FROM hrpg WHERE hp>0 ORDER BY RAND()");
   $stmt->execute();
   $row = $stmt->fetch();
@@ -96,16 +90,14 @@ else {
   }
 
   $_SESSION['id'] = $id;
-  $nom = utf8_encode($nom);
-  $pass = utf8_encode($pass);
   ?>
 
   <html>
     <?php include 'header.php'; ?>
-    <div align="center">
-      <?php print $nom; ?> entre en scène.
-      Bienvenue dans notre grande aventure.
-       <a href="main.php">C'est parti.</a>
+    <div>
+      <div><?php print $nom; ?> entre en scène.</div>
+      <div>Bienvenue dans notre grande aventure.</div>
+      <div><a href="main.php">C'est parti.</a></div>
     </div>
     <?php include "footer.php"; ?>
   </html>

@@ -16,6 +16,12 @@ html:not(#page-mj) body {
 html:not(#page-mj) h2 {
   margin-bottom: 30px;
 }
+h3 {
+  margin-top: 0;
+}
+.intro {
+  margin: 10px 0 20px 0;
+}
 
 body > form,
 body > form > fieldset {
@@ -27,17 +33,17 @@ body > form > fieldset {
 body > div {
   margin-bottom: 15px;
 }
-
+html:not(#page-new) select,
 html:not(#page-new) input[type=text],
 html:not(#page-new) input[type=password] {
   width: 100%;
-  height: 30px;
-  padding: 12px 20px;
-  margin: 4px 0;
+  padding: 5px 10px;
+  margin-bottom: 10px;
   box-sizing: border-box;
 }
-
-
+html:not(#page-new) label {
+  margin-bottom: 5px;
+}
 
 h1 {
   font-family: 'Cinzel Decorative', cursive;
@@ -52,16 +58,27 @@ a {
   text-decoration: none;
 }
 
+form {
+  margin: 0;
+}
+
+
+input[type=submit],
 .submit-button {
   border-top: 2px solid #666;
   border-left: 2px solid #666;
   border-right: 2px solid #000;
   border-bottom: 2px solid #000;
   padding: 10px 20px;
-  font-size: 30px;
   background-color: #fff;
   font-weight: bold;
   color: #000;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-family: 'Libre Baskerville', serif;
+}
+.submit-button {
   margin-top: 20px;
 }
 
@@ -78,9 +95,14 @@ a {
 }
 
 /* ECRAN MJ */
-#page-mj > body > div {
+.wrapper-main {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+}
+.instructions {
+  font-size: 10px;
+  margin-bottom: 10px;
 }
 .genre-1 {
   color: #990000;
@@ -100,15 +122,14 @@ a {
   display: block;
 }
 .wrapper-left {
-  min-width: 60%;
+  flex: 5;
   border: 1px solid black;
   padding: 15px;
   display: flex;
-  justify-content: center;
   flex-direction: column;
 }
 .wrapper-center {
-  width: 25%;
+  flex: 2;
   border: 1px solid black;
   padding: 15px;
   display: flex;
@@ -116,12 +137,20 @@ a {
   flex-direction: column;
   margin-left: 1%;
 }
+.wrapper-center form input[type=submit] {
+  margin-top: auto;
+}
 .wrapper-right {
-  width: 15%;
+  flex: 1;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  justify-content: flex-start;
+}
+#poll_results {
+  margin-bottom: 15px;
+}
+#poll_results table {
+  margin: 20px 0;
 }
 #tabs > div {
   border: 1px solid black;
@@ -131,8 +160,12 @@ a {
   margin-bottom: 5px;
   border-left: 0;
 }
+#tabs > div.active,
 #tabs > div:hover {
-  background: lightblue;
+  background: #acc7cd;
+}
+#tabs > div:hover {
+  background: #98a7a9;
 }
 #group {
   display: grid;
@@ -140,6 +173,8 @@ a {
   grid-gap: 10px;
   grid-auto-rows: minmax(100px, auto);
   font-size: 11px;
+  border-top: 1px dotted;
+  padding-top: 15px;
 }
 #group > div {
   display: flex;
@@ -149,14 +184,20 @@ a {
   border-radius: 8px;
 }
 #group-stats {
-  margin-bottom: 10px;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  border-bottom: 1px dotted;
+  text-align: left;
+  margin: 0 auto;
 }
 #group-stats > span {
   margin-bottom: 10px;
+}
+.looser {
+  background: #ffbfbf;
+}
+.winner {
+  background: #b1ffb1;
 }
 .not-alive {
   background: lightgrey;
@@ -172,20 +213,65 @@ a {
 }
 #choices {
   width: 100%;
+  height: 100%;
 }
-#choices > div:not(#elections) {
+#choices > div {
   display: none;
 }
-#choices > div:not(#elections),
-#choices > div > form {
+#choices > div.active {
+  display: flex;
+  height: 100%;
   flex-direction: column;
 }
 #choices > div > form {
   display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 #choices > div > form select,
 #choices > div > form input {
   margin-bottom: 5px;
+}
+#poll > a {
+  margin-top: auto;
+}
+.epreuve-cr {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.epreuve-header {
+  margin-bottom: 5px;
+}
+.success {
+  color: green;
+}
+.fail {
+  color: red;
+}
+.wrapper-center fieldset {
+  background: #F4F4F4;
+  margin-bottom: 20px;
+}
+.wrapper-penalite {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+}
+.wrapper-penalite > * {
+  flex: 1;
+}
+#delete-game {
+  display: block;
+}
+#delete-game-confirm {
+  display: none;
+  background: red;
+  color: white;
+}
+#delete-game-confirm.active {
+  display: block;
 }
 
 /* ECRAN PJ */
@@ -208,6 +294,12 @@ a {
 }
 .character-tags, .character-stats {
   margin: 10px 0;
+}
+input[type=submit] {
+  margin-top: 15px;
+}
+.wakeup {
+  font-size: 90px;
 }
 
 /* PAGE NEW */

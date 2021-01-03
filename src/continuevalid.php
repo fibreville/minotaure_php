@@ -6,9 +6,9 @@
   $nom = $cleanPost['nom'];
   $pass = $cleanPost['pass'];
 
-  $nom = utf8_decode(ucfirst(strtolower($nom)));
+  $nom = ucfirst(strtolower($nom));
   $pass = $pass . substr($nom, 0, 3) . substr($nom, -1);
-  $pass = utf8_decode(md5($pass));
+  $pass = md5($pass);
 
   $stmt = $db->prepare("SELECT id,hp FROM hrpg WHERE nom=:nom AND mdp=:pass");
   $stmt->execute([

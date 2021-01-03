@@ -2,7 +2,7 @@
 $text = $_GET['text'];
 
 if ($text == "erreur") {
-  $erreur = "<font color=red>Ce héros avec ce mot de passe existe déjà ! Merci d'utiliser « Reprendre une partie ».<br>Si malheureusement vous êtes mort, nous vous invitons à créer un nouveau personnage.<br><br></font>";
+  $erreur = "<font color=red>Ce héros existe déjà ! Merci d'utiliser « Reprendre une partie ».<br>Si malheureusement vous êtes mort, nous vous invitons à créer un nouveau personnage.<br><br></font>";
 }
 ?>
 <html id="page-new">
