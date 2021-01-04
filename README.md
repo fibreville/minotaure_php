@@ -34,9 +34,10 @@ Il faut avoir [docker](https://docs.docker.com/get-docker/), [docker-compose](ht
 et [make](https://fr.wikipedia.org/wiki/Make).
 
 1. Cloner le repo : `git clone https://github.com/fibreville/atrpg.git`
-2. Lancer les conteneurs : `make up`
-3. Lancer le navigateur et aller sur http://127.0.0.1
-4. Faire que son PC soit accessible depuis Internet: Aller sur la box, faire que le port 80 soit envoyé sur le PC, port 80 aussi. L'URL pour internet sera alors http://address-ip .
+1. Lancer les conteneurs : `make up`
+1. Lancer le navigateur et aller sur [http://127.0.0.1:8080]
+1. Créer le premier compte qui sera le MJ
+1. Faire que son PC soit accessible depuis Internet: Aller sur la box, faire que le port 8080 de la box soit envoyé sur le port 8080 du PC. L'URL pour internet sera alors http://address-ip:8080 .
 
 * Pour voir les logs : `make logs`
 * Pour arrêter les conteneurs : `make down`

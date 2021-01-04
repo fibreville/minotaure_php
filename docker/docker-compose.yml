@@ -10,7 +10,7 @@ services:
       - ./src:/var/www/html
       - ./src/connexion_example.php:/var/www/html/connexion.php
     ports:
-      - "80:80"
+      - "8080:80"
 
   serveur-mysql:
     image: mysql:5.7
