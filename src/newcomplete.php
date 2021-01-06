@@ -37,25 +37,25 @@ if (isset($probleme)) { ?>
 }
 else {
   if (empty($stat)) {
-    $str = rand(2,3);
-    $mind = 5 - $str;
+    $str = array_rand([1,2,4,5], 1);
+    $mind = 6 - $str;
   }
   else {
     $str = $stat[0];
     $mind = $stat[1];
   }
   $hp = 5 + rand(0, 5);
-  $stmt = $db->prepare("SELECT tag1 FROM hrpg WHERE hp>0 ORDER BY RAND()");
+  $stmt = $db->prepare("SELECT tag1 FROM hrpg WHERE hp > 0 AND id > 1 ORDER BY RAND()");
   $stmt->execute();
   $row = $stmt->fetch();
   $tag1 = $row[0];
 
-  $stmt = $db->prepare("SELECT tag2 FROM hrpg WHERE hp>0 ORDER BY RAND()");
+  $stmt = $db->prepare("SELECT tag2 FROM hrpg WHERE hp > 0 AND id > 1 ORDER BY RAND()");
   $stmt->execute();
   $row = $stmt->fetch();
   $tag2 = $row[0];
 
-  $stmt = $db->prepare("SELECT tag3 FROM hrpg WHERE hp>0 ORDER BY RAND()");
+  $stmt = $db->prepare("SELECT tag3 FROM hrpg WHERE hp > 0 AND id > 1 ORDER BY RAND()");
   $stmt->execute();
   $row = $stmt->fetch();
   $tag3 = $row[0];

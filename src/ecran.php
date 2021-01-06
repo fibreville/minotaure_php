@@ -5,10 +5,58 @@ include "header.php";
 $id = $_SESSION['id'];
 
 if ($id == 1) {
+
 $cleanPost = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 $action = $_GET['action'];
 
+// TRAITEMENT DE LA SUPPRESSION DE L'AVENTURE
+if ($action == "delete") {
+  $query = $db->query("TRUNCATE TABLE sondage");
+  $query = $db->query("INSERT INTO sondage VALUES ('','','','','','','','','','','','')");
+  $query = $db->query("DELETE FROM hrpg WHERE id > 1;");
+  $query = $db->query("TRUNCATE TABLE loot");
+  $query = $db->query("TRUNCATE TABLE settings");
+}
+
 // VARIABLES GENERALES.
+$settings_set = ['carac1_name', 'carac2_name', 'carac1_group', 'carac2_group'];
+$default_settings_set = [
+  'carac1_name' => 'esprit',
+  'carac2_name' => 'corps',
+  'carac1_group' => 'malin',
+  'carac2_group' => 'fort',
+];
+
+if ($action == 'settings') {
+  // PARAMETRES AVENTURE.
+  $_SESSION['adventure_name'] = $cleanPost['adventure_name'];
+  $_SESSION['adventure_guide'] = $cleanPost['adventure_guide'];
+  if (empty($cleanPost['image_url'])) {
+    unset($_SESSION['image_url']);
+  }
+  else {
+    $_SESSION['image_url'] = $cleanPost['image_url'];
+  }
+
+  foreach ($settings_set as $setting_set) {
+    if (!empty($cleanPost[$setting_set])) {
+      $query = $db->prepare("DELETE FROM settings WHERE name = :name");
+      $query->execute([':name' => $setting_set]);
+      $query = $db->prepare("INSERT INTO settings (name, value) VALUES (:name, :value)");
+      $query->execute([':name' => $setting_set, ':value' => $cleanPost[$setting_set]]);
+    }
+  }
+}
+$query = $db->prepare("SELECT name,value FROM settings");
+$query->execute();
+$settings = $query->fetchAll(PDO::FETCH_KEY_PAIR);
+foreach ($settings_set as $setting_set) {
+  if (!isset($settings[$setting_set])) {
+    $settings[$setting_set] = $default_settings_set[$setting_set];
+  }
+}
+
+
 //$nb_dead = $db->query("SELECT COUNT(*) FROM hrpg WHERE hp < 1 AND id > 1")->fetchColumn();
 //$nbhma = $db->query("SELECT COUNT(*) FROM hrpg WHERE mind >= str AND id > 1")->fetchColumn();
 //$nbhstr = $db->query("SELECT COUNT(*) FROM hrpg WHERE mind <= str AND id > 1")->fetchColumn();
@@ -22,13 +70,6 @@ $query->execute();
 $row = $query->fetch();
 $traitre = $row[0];
 
-// TRAITEMENT DE LA SUPPRESSION DE L'AVENTURE
-if ($action == "delete") {
-  $query = $db->query("TRUNCATE TABLE sondage");
-  $query = $db->query("INSERT INTO sondage VALUES ('','','','','','','','','','','','')");
-  $query = $db->query("DELETE FROM hrpg WHERE id > 1;");
-  $query = $db->query("TRUNCATE TABLE loot");
-}
 // TRAITEMENT DE L'AJOUT DE TAGS.
 if ($action == "tags") {
   $tag1 = $cleanPost['tag1'];
@@ -59,16 +100,16 @@ if ($action == "epreuve") {
   $victimetag = $cleanPost['victimetag'];
   $victime_multiple = $cleanPost['victime_multiple'];
   $type = $cleanPost['type'];
-  $difficulte = $cleanPost['difficulte'];
+  $difficulte = (int)$cleanPost['difficulte'];
   $penalite_type = $cleanPost['penalite_type'];
   $penalite = $cleanPost['penalite'];
   $sanction = $cleanPost['sanction'];
   if ($victimetag != "") {
-    $specifity = "AND hp > 0 && (tag1='$victimetag' || tag2='$victimetag' || tag3='$victimetag')";
+    $specifity = "AND hp > 0 && (tag1 = '$victimetag' || tag2 = '$victimetag' || tag3 = '$victimetag')";
   }
   else {
     if (!empty($victime_multiple)) {
-      $specifity = 'AND hp>0 AND id IN(' . $victime_multiple . ')';
+      $specifity = 'AND hp > 0 AND id IN(' . $victime_multiple . ')';
     }
     elseif ($victime == "*") {
       $specifity = 'AND hp > 0';
@@ -81,18 +122,18 @@ if ($action == "epreuve") {
     }
     else {
       $idh = $victime;
-      $specifity = "AND id=$idh";
+      $specifity = "AND id = $idh";
     }
   }
-  $query = $db->prepare("SELECT $type,nom,id,$penalite_type FROM hrpg WHERE id > 1 " . $specifity);
+  $query = $db->prepare("SELECT $type, id, $penalite_type FROM hrpg WHERE id > 1 " . $specifity);
   $query->execute();
   $nb_victories = $nb_defeats = 0;
   foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $key => $row) {
     $valeur = $row[$type];
-    $nom = $row['nom'];
     $id_joueur = $row['id'];
     $valeur_sanction = $row[$penalite_type];
-    if (($valeur + rand(1, 6)) < ($difficulte + rand(1, 6))) {
+    // On tire un D6 + la difficulté allant de -2 à +2.
+    if ($valeur <= ($difficulte + rand(1, 6))) {
       // Défaite.
       $failures[] = 'pj-' . $id_joueur;
       $nb_defeats++;
@@ -254,8 +295,8 @@ if ($action == 'election') {
     elseif ($random_choice == "random_str") {
       $query_select = $db->prepare("SELECT nom,id FROM hrpg WHERE hp>0 AND mind < str AND id > 1 ORDER BY RAND() LIMIT 1");
     }
-    elseif (!empty($election_tag)) {
-      $query_select = $db->prepare("SELECT nom,id FROM hrpg WHERE hp>0 AND id>1 AND (tag1 LIKE '$election_tag' || tag2 LIKE '$election_tag' || tag3 LIKE '$election_tag') ORDER BY RAND() LIMIT 1");
+    elseif (!empty($random_tag)) {
+      $query_select = $db->prepare("SELECT nom,id FROM hrpg WHERE hp>0 AND id>1 AND (tag1 LIKE '$random_tag' || tag2 LIKE '$random_tag' || tag3 LIKE '$random_tag') ORDER BY RAND() LIMIT 1");
     }
 
     if (isset($query_select)) {
@@ -265,13 +306,6 @@ if ($action == 'election') {
     }
   }
 }
-
-elseif ($action == 'settings') {
-  // PARAMETRES AVENTURE.
-  $_SESSION['adventure_name'] = $cleanPost['adventure_name'];
-  $_SESSION['adventure_guide'] = $cleanPost['adventure_guide'];
-}
-
 ?>
 <script
         src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -279,8 +313,14 @@ elseif ($action == 'settings') {
         crossorigin="anonymous">
 </script>
 <script src="js/ajax_mj.js"></script>
-<h2><?php print (isset($_SESSION['adventure_name']) ? $_SESSION['adventure_name'] : 'Notre Aventure'); ?></h2>
-<div class="intro"><?php print (isset($_SESSION['adventure_guide']) ? $_SESSION['adventure_guide'] : "Rejoindre l'Aventure : maspero.blue/rpg/ ou taper !aventure"); ?></div>
+
+<div class="wrapper-intro">
+  <div class="intro">
+    <h2><?php print (isset($_SESSION['adventure_name']) ? $_SESSION['adventure_name'] : 'Notre Aventure'); ?></h2>
+    <?php print (isset($_SESSION['adventure_guide']) ? $_SESSION['adventure_guide'] : "Rejoindre l'Aventure : maspero.blue/rpg/ ou taper !aventure"); ?>
+  </div>
+  <div class="intro-image"><img src="<?php print (isset($_SESSION['image_url']) ? $_SESSION['image_url']  : './img/logo.png'); ?>" /></div>
+</div>
 <div class="wrapper-main">
   <?php
   $query = $db->prepare("
@@ -335,14 +375,14 @@ elseif ($action == 'settings') {
             break;
         }
 
-        if ($str < $mind) {
-          $aptitude = "malin";
+        if ($str > 3 && $mind > 3) {
+          $aptitude = $settings['carac1_group'] . ' et ' . $settings['carac2_group'];
         }
-        if ($str > $mind) {
-          $aptitude = "fort";
+        elseif ($mind> 3) {
+          $aptitude = $settings['carac1_group'];
         }
-        if ($str == $mind) {
-          $aptitude = "malin et fort";
+        elseif ($str > 3) {
+          $aptitude = $settings['carac2_group'];
         }
 
         print "<div id=pj-$id_joueur class=\"$alive\">
@@ -355,8 +395,8 @@ elseif ($action == 'settings') {
         if ($hp > 0) {
           print "<div class='stats'>
                       <span>$aptitude</span>
-                      <span>Esprit : $mind</span>
-                      <span>Corps : $str</span>
+                      <span>" . $settings['carac1_name'] . ": $mind</span>
+                      <span>" . $settings['carac2_name'] . ": $str</span>
                       <span>Vie: $hp</span>
                       <span>Joueur #$id_joueur</span>
                     </div>  
@@ -374,7 +414,7 @@ elseif ($action == 'settings') {
         <h3>Nominations</h3>
         <form method=post action=ecran.php?action=election>
           <fieldset>
-            <legend>Nommer</legend>
+            <legend>👇 Nommer</legend>
             <select name="election">
               <option value="">Choisir</option>
               <option value="leader">👑 Nommer un nouveau leader</option>
@@ -382,16 +422,16 @@ elseif ($action == 'settings') {
             </select>
           </fieldset>
           <fieldset>
-            <legend>Désigner</legend>
+            <legend>🎲 Désigner au hasard</legend>
             <label for="random_choice">Parmi</label>
             <select name="random_choice">
               <option value="">Choisir</option>
-              <option value="random">🎲 Designer quelqu'un au hasard</option>
-              <option value="random_mind">🧠 Designer un malin au hasard</option>
-              <option value="random_str">💪 Designer un fort au hasard</option>
+              <option value="random">Un personnage</option>
+              <option value="random_mind">Un personnage <?php print $settings['carac1_group']; ?></option>
+              <option value="random_str">Un personnage <?php print $settings['carac2_group']; ?></option>
             </select>
             <span>ou ayant le tag :</span>
-            <input type="text" name="election_tag" placeholder="nomdutag" size="15">
+            <input type="text" name="random_tag" placeholder="nomdutag" size="15">
           </fieldset>
           <input type="submit" value="OK">
         </form>
@@ -410,7 +450,7 @@ elseif ($action == 'settings') {
         $choix = $row[0];
 
         if ($choix != "") {
-          print "$choix";
+          print "<span class='poll-label'>$choix</span>";
           print "<div id='poll_results'><table><tr><td>En attente des votes.</td></tr></table></div>";
           print "<a class='submit-button' href=ecran.php?action=clean>Terminer le sondage</a>";
         }
@@ -445,17 +485,26 @@ elseif ($action == 'settings') {
           <span class="wrapper-penalite">
             <label for="type">Type</label>
             <select name="type">
-              <option value="mind">Esprit</option>
-              <option value="str">Corps</option>
+              <option value="mind"><?php print $settings['carac1_name'] ?></option>
+              <option value="str"><?php print $settings['carac2_name'] ?></option>
             </select>
-            <input type="number" placeholder="difficulté" name="difficulte" size="10">
+          </span>
+          <span class="wrapper-penalite">
+            <label for="difficulte">Difficulté</label>
+            <select name="difficulte">
+              <option value="-2">Trivial (-2)</option>
+              <option value="-1">Facile (-1)</option>
+              <option value="0" selected>Normal (0)</option>
+              <option value="1">Difficile (+1)</option>
+              <option value="2">Ardu (+2)</option>
+            </select>
           </span>
           <span class="wrapper-penalite">
             <label for="penalite">Pénalité</label>
             <select name="penalite_type">
-              <option value="mind">Esprit</option>
-              <option value="str">Corps</option>
               <option value="hp">Santé</option>
+              <option value="mind"><?php print $settings['carac1_name'] ?></option>
+              <option value="str"><?php print $settings['carac2_name'] ?></option>
             </select>
             <input type="number" name="penalite" size="10">
           </span>
@@ -464,8 +513,8 @@ elseif ($action == 'settings') {
             <label for="victime">par groupe de personnages</label>
             <select name="victime">
               <option value=*>⭐ Tout le monde</option>
-              <option value=mind>🧠 Les malins</option>
-              <option value=str>💪 Les balaises</option>
+              <option value=mind>Chaque personnage <?php print $settings['carac1_group'] ?></option>
+              <option value=str>Chaque personnage <?php print $settings['carac2_group'] ?></option>
               <?php
               foreach ($list_players as $key_player => $player) {
                 print "<option value=$key_player>$player</option>";
@@ -494,8 +543,8 @@ elseif ($action == 'settings') {
             <span class="wrapper-penalite">
               <select name="propriete">
                 <option value=hp>💛 Vie</option>
-                <option value=mind>🧠 Esprit</option>
-                <option value=str>💪 Corps</option>
+                <option value=mind><?php print $settings['carac1_name']; ?></option>
+                <option value=str><?php print $settings['carac2_name']; ?></option>
               </select>
               <input type="number" name="bonus" placeholder="bonus" size="10">
             </span>
@@ -504,8 +553,8 @@ elseif ($action == 'settings') {
           <label for="qui">À qui</label>
           <select name="qui">
             <option value=*>⭐ Tout le monde</option>
-            <option value=mind>🧠 Les malins</option>
-            <option value=str>💪 Les balaises</option>
+            <option value=mind>Chaque personnage <?php print $settings['carac1_group'] ?></option>
+            <option value=str>Chaque personnage <?php print $settings['carac2_group'] ?></option>
             <?php
             foreach ($list_players as $key_player => $player) {
               print "<option value=$key_player>$player</option>";
@@ -533,11 +582,31 @@ elseif ($action == 'settings') {
         <!-- FORMULAIRE DES PARAMETRES DE LA PARTIE-->
         <h3>Paramètres</h3>
         <form method=post action=ecran.php?action=settings>
-          <label for="adventure_name">Nom de l'aventure</label>
-          <input type="text" name="adventure_name" size="10" value="<?php print $_SESSION['adventure_name']; ?>">
-          <label for="adventure_guide">Adresse ip ou url pour rejoindre</label>
-          <input type="text" name="adventure_guide" size="10" value="<?php print $_SESSION['adventure_guide']; ?>">
+          <fieldset>
+            <legend>Intro</legend>
+            <label for="adventure_name">Nom de l'aventure</label>
+            <input type="text" name="adventure_name" size="10" value="<?php print $_SESSION['adventure_name']; ?>">
+            <label for="adventure_guide">Adresse ip ou url pour rejoindre</label>
+            <input type="text" name="adventure_guide" size="10" value="<?php print $_SESSION['adventure_guide']; ?>">
+            <label for="adventure_guide">Image url</label>
+            <input type="text" name="image_url" size="10" value="<?php print $_SESSION['image_url']; ?>">
+          </fieldset>
+          <fieldset>
+            <legend>1ère caractéristique</legend>
+            <label for="carac1_name">Nom</label>
+            <input type="text" placeholder="esprit" name="carac1_name" value="<?php print $settings['carac1_name']; ?>">
+            <label for="carac1_group">Un personnage fort dans cette carac est :</label>
+            <input type="text" placeholder="malin" name="carac1_group" value="<?php print $settings['carac1_group']; ?>">
+          </fieldset>
+          <fieldset>
+            <legend>2ème caractéristique</legend>
+            <label for="carac2_name">Nom</label>
+            <input type="text" placeholder="corps" name="carac2_name" value="<?php print $settings['carac2_name']; ?>">
+            <label for="carac2_group">Un personnage fort dans cette carac est :</label>
+            <input type="text" placeholder="fort" name="carac2_group" value="<?php print $settings['carac2_group']; ?>">
+          </fieldset>
           <input type="submit" value="Enregistrer">
+
           <div class="delete-game">
             <span id="delete-game" class="submit-button">🗑️ Détruire l'aventure</span>
             <a id="delete-game-confirm" class="submit-button" href="ecran.php?action=delete">Confirmez</a>
@@ -554,15 +623,15 @@ elseif ($action == 'settings') {
       <div data-target="loot">Loot</div>
       <div data-target="tags">Tags</div>
       <div data-target="settings">Paramètres</div>
-      <div><a href="ecran.php">Recharger</div>
+      <div><a href="ecran.php">Recharger</a></div>
     </div>
   </div>
   <?php
   }
   else {
+    print $_SESSION['id'];
     print '<span>Vous n\'êtes pas admin. <a href="index.php">Retournez en arrière !</a></span>';
   }
   include "footer.php";
   ?>
 </html>
-

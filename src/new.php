@@ -1,13 +1,18 @@
 <?php session_start(); ?>
+<html id="page-new">
+<?php include 'header.php'; ?>
 <?php
 $text = $_GET['text'];
+
+$settings_set = ['carac1_name', 'carac2_name', 'carac1_group', 'carac2_group'];
+$query = $db->prepare("SELECT * FROM settings");
+$query->execute();
+$settings = $query->fetchAll(PDO::FETCH_KEY_PAIR);
 
 if ($text == "erreur") {
   $erreur = "<font color=red>Ce héros existe déjà ! Merci d'utiliser « Reprendre une partie ».<br>Si malheureusement vous êtes mort, nous vous invitons à créer un nouveau personnage.<br><br></font>";
 }
 ?>
-<html id="page-new">
-<?php include 'header.php'; ?>
 <form method="post" action="newcomplete.php">
   <?php print $erreur; ?>
   <h2>Création de personnage</h2>
@@ -26,10 +31,10 @@ if ($text == "erreur") {
   </fieldset>
   <fieldset>
     <legend>Votre type de personnage</legend>
-    <span><input type="radio" name="stat" value="51">super fort et super bête</span>
-    <span><input type="radio" name="stat" value="42">plutôt fort et plutôt bête</span>
-    <span><input type="radio" name="stat" value="24">plutôt malin et plutôt faiblard</span>
-    <span><input type="radio" name="stat" value="15">super malin et super faible</span>
+    <span><input type="radio" name="stat" value="51"><?php print 'très ' . $settings['carac1_group'] . ' mais pas ' . $settings['carac2_group']; ?></span>
+    <span><input type="radio" name="stat" value="42"><?php print 'plutôt ' . $settings['carac1_group'] . ' mais peu ' . $settings['carac2_group']; ?></span>
+    <span><input type="radio" name="stat" value="24"><?php print 'peu ' . $settings['carac1_group'] . ' mais plutôt ' . $settings['carac2_group']; ?></span>
+    <span><input type="radio" name="stat" value="15"><?php print 'pas ' . $settings['carac1_group'] . ' mais très ' . $settings['carac2_group']; ?></span>
   </fieldset>
   <input class="submit-button" type="submit" value="Partir à l'aventure">
 </form>
