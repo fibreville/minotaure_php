@@ -1,16 +1,3 @@
-# ************************************************************
-# Sequel Pro SQL dump
-# Version 4541
-#
-# http://www.sequelpro.com/
-# https://github.com/sequelpro/sequelpro
-#
-# Hôte: localhost (MySQL 5.7.26)
-# Base de données: atrpg
-# Temps de génération: 2021-01-06 04:17:25 +0000
-# ************************************************************
-
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -41,17 +28,6 @@ CREATE TABLE `hrpg` (
   `tag3` mediumtext NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-LOCK TABLES `hrpg` WRITE;
-/*!40000 ALTER TABLE `hrpg` DISABLE KEYS */;
-
-INSERT INTO `hrpg` (`id`, `nom`, `mdp`, `hf`, `str`, `mind`, `hp`, `leader`, `traitre`, `vote`, `tag1`, `tag2`, `tag3`)
-VALUES
-	(1,'Admin','4a06bade330db06288ba9c137bb5f121',1,5,1,9,0,0,0,' ',' ',' ');
-
-/*!40000 ALTER TABLE `hrpg` ENABLE KEYS */;
-UNLOCK TABLES;
-
 
 # Affichage de la table loot
 # ------------------------------------------------------------
@@ -110,8 +86,6 @@ VALUES
 
 /*!40000 ALTER TABLE `sondage` ENABLE KEYS */;
 UNLOCK TABLES;
-
-
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
