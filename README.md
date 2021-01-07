@@ -16,7 +16,7 @@ L'idée et le code d'origine ont été fournies par [FibreTigre](https://www.twi
 ### Installation sans Docker
 
 1. Il vous faut un serveur avec PHP et une base SQL
-1. Importez la base de données du fichier `database.sql` (3 tables)
+1. Importez la base de données du fichier `database.sql`
 1. Modifier le fichier `src/connexion_example.php` pour permettre la connexion à la base de données
 
 Exemple : si votre base de donnée est locale, qu'elle s'appelle `base1`, que votre identifiant est `toto` et votre mot de passe `titi`, écrivez :
