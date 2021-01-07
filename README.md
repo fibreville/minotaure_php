@@ -5,7 +5,7 @@
 
 ### AVERTISSEMENT
 
-⚠️ Ce logiciel contient plusieurs failles de sécurité et les mots de passe ne sont pas secret du tout ! Utilisation à vos risques et périls.
+⚠️ Ce logiciel contient plusieurs failles de sécurité et les mots de passe ne sont pas secrets du tout ! Utilisation à vos risques et périls.
 
 ### À quoi ça sert ?
 
