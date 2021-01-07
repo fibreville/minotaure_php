@@ -17,7 +17,8 @@ L'idée et le code d'origine ont été fournies par [FibreTigre](https://www.twi
 
 1. Il vous faut un serveur avec PHP et une base SQL
 1. Importez la base de données du fichier `database.sql`
-1. Modifiez le fichier `src/connexion_example.php` pour permettre la connexion à la base de données
+1. Renommez le fichier `src/connexion_example.php` en `src/connexion.php`
+1. Modifiez-le pour permettre la connexion à la base de données
 
 Exemple : si votre base de donnée est locale, qu'elle s'appelle `base1`, que votre identifiant est `toto` et votre mot de passe `titi`, écrivez :
 ```php
@@ -56,7 +57,7 @@ et [make](https://fr.wikipedia.org/wiki/Make).
 
 ### Purpose
 
-This program lets you create an "AT RPG" (Asynchronous Tactical Role-Playing Game) on your own server where hundreds of players can take decisions collectively by voting. It was designed to be used on Twitch.
+This program lets you create the "AT RPG" (Asynchronous Tactical Role-Playing Game) on your own server where hundreds of players can take decisions collectively by voting. It was designed to be used on Twitch.
 
 The original source was provided by [FibreTigre](https://www.twitch.tv/fibretigre) on 12/31/2020.
 Join his community's Discord (in French + 1 English channel): [https://discord.gg/RAhph7z]
@@ -65,7 +66,8 @@ Join his community's Discord (in French + 1 English channel): [https://discord.g
 
 1. Set up a PHP server with SQL
 1. Import the `database.sql` file into you database (3 tables)
-1. Change the login and password (`mdp`) in `src/connexion_example.php` to grant access to the database
+1. Rename `src/connexion_example.php` to `src/connexion.php`
+1. Edit this file to grant access to the database
 
 Example: if you use a local database named `base1` with login `foo` and password `bar`, change the 3rd line to:
 ```php
