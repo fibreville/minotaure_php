@@ -16,7 +16,7 @@ html:not(#page-mj) body {
 html:not(#page-mj) h2 {
   margin-bottom: 30px;
 }
-.page-wrapper {
+html:not(#page-mj) .page-wrapper {
   height: 100%;
   padding: 0 15px;
   display: flex;
@@ -27,8 +27,22 @@ html:not(#page-mj) h2 {
 h3 {
   margin-top: 0;
 }
+.wrapper-intro {
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+}
 .intro {
+  flex: 2;
   margin: 10px 0 20px 0;
+}
+.intro-image {
+  flex: 1;
+}
+.intro-image > img {
+  max-width: 100%;
+  height: auto;
+  max-height: 150px;
 }
 
 .page-wrapper > form,
@@ -39,7 +53,7 @@ h3 {
   justify-items: center;
 }
 .page-wrapper > div {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 html:not(#page-new) select,
 html:not(#page-new) input[type=text],
@@ -103,6 +117,16 @@ input[type=submit],
 }
 
 /* ECRAN MJ */
+#page-mj .page-wrapper {
+  padding: 0 15px;
+  margin: 20px;
+}
+#page-mj h1 {
+  display: none;
+}
+#page-mj h2 {
+  margin-bottom: 10px;
+}
 .wrapper-main {
   display: flex;
   justify-content: space-between;
@@ -123,6 +147,7 @@ input[type=submit],
 }
 .stats, .tags {
   margin-top: 5px;
+  text-transform: capitalize;
 }
 #elections > *,
 .stats > span,
@@ -208,6 +233,21 @@ input[type=submit],
 .winner {
   background: #b1ffb1;
 }
+.not-alive.looser {
+  background: #989898;
+  order: -1;
+  animation-duration: .6s;
+  animation-name: clignoter;
+  animation-iteration-count: 4;
+  transition: none;
+}
+
+@keyframes clignoter {
+  0%   { opacity:1; }
+  40%   {opacity:0; }
+  100% { opacity:1; }
+}
+
 .not-alive {
   background: lightgrey;
   position: relative;
@@ -282,8 +322,25 @@ input[type=submit],
 #delete-game-confirm.active {
   display: block;
 }
+.poll-label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.winner-vote {
+  color: green;
+}
+.traitor-vote {
+  text-decoration: line-through;
+}
+.lead-vote {
+  color: #04c804;
+  font-weight: bold;
+}
+.poll-action {
+  margin-bottom: 5px;
+}
 
-/* ECRAN PJ */
+  /* ECRAN PJ */
 #page-character h1 {
   font-size: 30px;
 }
@@ -309,6 +366,11 @@ input[type=submit] {
 }
 .wakeup {
   font-size: 90px;
+}
+.powers {
+  margin-top: 5px;
+  font-weight: bold;
+  color: darkred;
 }
 
 /* PAGE NEW */

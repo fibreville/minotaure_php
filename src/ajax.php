@@ -3,14 +3,14 @@ session_start();
 include "connexion.php";
 
 if ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
-  $stmt = $db->prepare("SELECT nom,leader,vote FROM hrpg WHERE leader>0 AND hp>0");
+  $stmt = $db->prepare("SELECT nom,leader,vote FROM hrpg WHERE leader > 0 AND hp > 0");
   $stmt->execute();
   $row = $stmt->fetch();
   $leader = $row[0];
   $leadvalue = $row[1];
   $leadvote = $row[2];
 
-  $stmt = $db->prepare("SELECT nom,traitre,vote FROM hrpg WHERE traitre>0 AND hp > 0 AND id > 1");
+  $stmt = $db->prepare("SELECT nom,traitre,vote FROM hrpg WHERE traitre > 0 AND hp > 0 AND id > 1");
   $stmt->execute();
   $row = $stmt->fetch();
   $traitre = $row[0];
@@ -47,18 +47,32 @@ if ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
   $max_vote = $votes[0]['c'];
   $pctot = 0;
 
+  if ($choixtag != "") {
+    print "Vote limité au groupe : $choixtag";
+  }
+  if ($leadvalue == 2) {
+    print "<div class='poll-action leader-action'>👑 Le leader $leader a utilisé son pouvoir et choisi : " . $options['c' . $leadvote] . "!</div>";
+  }
+  if ($traitrevalue == 2) {
+    print "<div class='poll-action traitor-action'>🗡️ Le traitre $traitre a utilisé son pouvoir et annule un choix.</div>";
+  }
+
   foreach ($votes as $key => $vote) {
     $nb_votants = $vote['c'];
     $pc = round(($nb_votants * 100 / $nb_total), 2);
     $pctot += $pc;
     $tmp_result = '';
+    $classes = [];
     if ($nb_votants == $max_vote) {
-      print '<tr style="color: green">';
+      $classes[] = 'winner-vote';
     }
-    else {
-      print '<tr>';
+    if ($leadvalue == 2 && $vote['vote'] == $leadvote) {
+       $classes[] = 'lead-vote';
     }
-    print "<td>" . $options['c' . $vote['vote']] . " : </td><td>$nb_votants / $nb_total soit $pc %</td></tr>";
+    if ($traitrevalue == 2 && $vote['vote'] == $traitrevote) {
+       $classes[] = 'traitor-vote';
+    }
+    print "<tr class=\"" . implode(' ', $classes) . "\"><td>" . $options['c' . $vote['vote']] . " : </td><td>$nb_votants / $nb_total soit $pc %</td></tr>";
     unset($options['c' . $vote['vote']]);
   }
   foreach ($options as $option) {
@@ -68,15 +82,7 @@ if ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
   }
   print "</table>";
   print "<div>Total votants : $pctot %</div>";
-  if ($choixtag != "") {
-    print "(vote limité à $choixtag)";
-  }
-  if ($leadvalue == 2) {
-    print "<b>Le leader $leader a utilisé son pouvoir et choisi le choix $leadvote !</b>";
-  }
-  if ($traitrevalue == 2) {
-    print "<b>Le traitre $traitre a utilisé son pouvoir et choisi d'annuler le choix $traitrevote !</b>";
-  }
+
 }
 elseif ($_GET['role'] == 'pj') {
   $id = $_SESSION['id'];
@@ -154,13 +160,18 @@ elseif ($_GET['role'] == 'pj') {
           }
           $key++;
         }
-        if ($leader == 1) {
-          print "<input type=checkbox name=lead value=1><label for=lead>Utiliser mon pouvoir de leader</label>";
+
+        if ($leader == 1 || $traitre == 1) {
+          print '<span class="powers">';
+          if ($leader == 1) {
+            print "<input type=checkbox name=lead value=1><label for=lead>👑 Utiliser mon pouvoir de leader</label>";
+          }
+          if ($traitre == 1) {
+            print "<input type=checkbox name=traitre value=1><label for=traitre>🗡️ Utiliser mon pouvoir de traitre et annuler le vote choisi<label>";
+          }
+          print '</span>';
         }
 
-        if ($traitre == 1) {
-          print "<input type=checkbox name=traitre value=1><label for=traitre>Utiliser mon pouvoir de traitre et annuler le vote choisi<label>";
-        }
         print '<input type="submit" value="Votre choix est irrévocable"></form>';
         }
         elseif ($vote != 0) {

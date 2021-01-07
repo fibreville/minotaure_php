@@ -1,5 +1,4 @@
 <?php session_start(); ?>
-<!doctype html>
 <html id="page-character">
 <?php
 include 'header.php';
