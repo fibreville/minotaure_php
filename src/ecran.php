@@ -18,15 +18,6 @@ if ($action == "delete") {
   $query = $db->query("TRUNCATE TABLE settings");
 }
 
-// VARIABLES GENERALES.
-$settings_set = ['carac1_name', 'carac2_name', 'carac1_group', 'carac2_group'];
-$default_settings_set = [
-  'carac1_name' => 'esprit',
-  'carac2_name' => 'corps',
-  'carac1_group' => 'malin',
-  'carac2_group' => 'fort',
-];
-
 if ($action == 'settings') {
   // PARAMETRES AVENTURE.
   $_SESSION['adventure_name'] = $cleanPost['adventure_name'];
@@ -44,15 +35,8 @@ if ($action == 'settings') {
       $query->execute([':name' => $setting_set]);
       $query = $db->prepare("INSERT INTO settings (name, value) VALUES (:name, :value)");
       $query->execute([':name' => $setting_set, ':value' => $cleanPost[$setting_set]]);
+      $settings[$setting_set] = $cleanPost[$setting_set];
     }
-  }
-}
-$query = $db->prepare("SELECT name,value FROM settings");
-$query->execute();
-$settings = $query->fetchAll(PDO::FETCH_KEY_PAIR);
-foreach ($settings_set as $setting_set) {
-  if (!isset($settings[$setting_set])) {
-    $settings[$setting_set] = $default_settings_set[$setting_set];
   }
 }
 
