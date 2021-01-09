@@ -13,7 +13,11 @@ Ce programme permet de récréer sur votre serveur le JDR « AT RPG » (Asynchro
 
 L'idée et le code d'origine ont été fournies par [FibreTigre](https://www.twitch.tv/fibretigre) le 31/12/20. Rejoignez le discord de la communauté ici : [https://discord.gg/RAhph7z]
 
-### Installation sans Docker
+### Installation sur un hébergeur gratuit en 10 min
+
+[![Regarder la vidéo](https://img.youtube.com/vi/mqaFfTHbFcw/hqdefault.jpg)](https://youtu.be/mqaFfTHbFcw)
+
+### Installation locale sans Docker
 
 1. Il vous faut un serveur avec PHP et une base SQL
 1. Importez la base de données du fichier `database.sql`
@@ -27,7 +31,7 @@ $db = new PDO('mysql:host=localhost;dbname=base1;', 'toto', 'titi');
 
 Les fichiers dans `/src` n'ont pas besoin d'être modifiés.
 
-### Installation avec Docker
+### Installation locale avec Docker
 
 Il faut avoir [docker](https://docs.docker.com/get-docker/), [docker-compose](https://docs.docker.com/compose/install/)
 et [make](https://fr.wikipedia.org/wiki/Make).
@@ -61,6 +65,11 @@ This program lets you create the "AT RPG" (Asynchronous Tactical Role-Playing Ga
 
 The original source was provided by [FibreTigre](https://www.twitch.tv/fibretigre) on 12/31/2020.
 Join his community's Discord (in French + 1 English channel): [https://discord.gg/RAhph7z]
+
+
+### Install on an online free host
+
+[![Watch the video](https://img.youtube.com/vi/mqaFfTHbFcw/hqdefault.jpg)](https://youtu.be/mqaFfTHbFcw)
 
 ### Install without Docker
 
