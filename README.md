@@ -15,7 +15,7 @@ L'idée et le code d'origine ont été fournies par [FibreTigre](https://www.twi
 
 ### Installation sur un hébergeur gratuit en 10 min
 
-[Regarder le tutoriel sur youtube](https://youtu.be/mqaFfTHbFcw)
+[Regarder le tutoriel sur youtube](https://youtu.be/mqaFfTHbFcw).
 
 ### Installation locale sans Docker
 
@@ -67,9 +67,9 @@ The original source was provided by [FibreTigre](https://www.twitch.tv/fibretigr
 Join his community's Discord (in French + 1 English channel): [https://discord.gg/RAhph7z]
 
 
-### Install on an online free host
+### Install on an online free host in 10 minutes
 
-[Watch the tutorial on youtube](https://youtu.be/mqaFfTHbFcw)
+[Watch the tutorial on youtube](https://youtu.be/mqaFfTHbFcw).
 
 ### Install without Docker
 
