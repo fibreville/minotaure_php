@@ -76,6 +76,9 @@ Join his community's Discord (in French + 1 English channel): [https://discord.g
 
 ### Install on an online free host in 10 minutes
 
+Warning: we strongly advise not to use ATRPG for more than 100 people on a free host.
+If you use a free host, install the 2.3 version or higher of ATRPG.
+
 [Watch the tutorial on youtube](https://youtu.be/mqaFfTHbFcw).
 
 ### Install without Docker
@@ -88,6 +91,11 @@ Join his community's Discord (in French + 1 English channel): [https://discord.g
 Example: if you use a local database named `base1` with login `foo` and password `bar`, change the 3rd line to:
 ```php
 $db = new PDO('mysql:host=localhost;dbname=base1;', 'foo', 'bar');
+```
+
+5. Si vous utilisez la version 2.3 minimum, indiquez le chemin de vos fichiers temporaires à la place de /tmp (cette valeur par défaut marche sur beaucoup d'environnements, vous n'avez pas forcément besoin de la changer).
+```php
+$tmp_path = '/tmp';
 ```
 
 Other files in `/src` can be used as is.
