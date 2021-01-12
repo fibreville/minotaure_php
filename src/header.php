@@ -16,15 +16,20 @@ foreach ($settings_set as $setting_set) {
     $settings[$setting_set] = $default_settings_set[$setting_set];
   }
 }
-
 ?>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta charset="UTF-8">
   <title>Maspero Blue</title>
-  <link rel="stylesheet" type="text/css" href="./css/style.css"">
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
 </head>
 <body>
+  <?php if (isset($_SESSION['nom']))
+  { ?>
+  <nav id="account_actions">
+    <a href="logout.php">Déconnexion de <?php echo $_SESSION['nom']; ?></a>
+  </nav><?php
+  } ?>
   <div class="page-wrapper">
     <h1>AT RPG</h1>
