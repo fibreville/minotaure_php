@@ -8,8 +8,9 @@ $pass = $_POST['pass'];
 $stat = $_POST['stat'];
 $probleme = null;
 
-if (empty($nom) || empty($pass))
-  $probleme = 'Merci de remplire le champ: ' . (empty($nom) ? 'nom' : 'mot de pass');
+if (empty($nom) || empty($pass)) {
+  $probleme = 'Veuillez remplir le champ : ' . (empty($nom) ? 'nom' : 'mot de passe');
+}
 
 $nom = substr(ucfirst(strtolower(strip_tags($nom))), 0, 12);
 $pass = $pass . substr($nom, 0, 3) . substr($nom, -1);
