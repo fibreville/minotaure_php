@@ -15,6 +15,9 @@ L'idée et le code d'origine ont été fournies par [FibreTigre](https://www.twi
 
 ### Installation sur un hébergeur gratuit en 10 min
 
+Attention, nous ne conseillons pas d'utiliser un hébergeur gratuit si vous voulez jouer à plus de 100 personnes.
+Quelque soit le nombre de personnes, avec ce genre d'héberger, utilisez la version 2.3 de ATRPG minimum.
+
 [Regarder le tutoriel sur youtube](https://youtu.be/mqaFfTHbFcw).
 
 ### Installation locale sans Docker
@@ -28,6 +31,7 @@ Exemple : si votre base de donnée est locale, qu'elle s'appelle `base1`, que vo
 ```php
 $db = new PDO('mysql:host=localhost;dbname=base1;', 'toto', 'titi');
 ```
+1. Si vous utilisez la version 2.3 minimum, indiquez le chemin de vos fichiers temporaires (en général le dossier /tmp). 
 
 Les fichiers dans `/src` n'ont pas besoin d'être modifiés.
 
