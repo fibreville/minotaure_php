@@ -30,6 +30,16 @@ html:not(#page-mj) .page-wrapper {
 h3 {
   margin-top: 0;
 }
+#account_actions{
+  font-family: cursive;
+  text-align: right;
+  padding: 0 5px;
+  font-size: 14px;
+}
+#account_actions a, #account_actions a:visited{
+  color: black;
+  text-decoration: underline;
+}
 .wrapper-intro {
   display: flex;
   flex-basis: 100%;

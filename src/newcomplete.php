@@ -6,9 +6,10 @@ $nom = $_POST['nom'];
 $genre = $_POST['genre'];
 $pass = $_POST['pass'];
 $stat = $_POST['stat'];
+$probleme = null;
 
-if ($nom == "" || $pass == "") {
-  $probleme = 1;
+if (empty($nom) || empty($pass)) {
+  $probleme = 'Veuillez remplir le champ : ' . (empty($nom) ? 'nom' : 'mot de passe');
 }
 
 $nom = substr(ucfirst(strtolower(strip_tags($nom))), 0, 12);
@@ -21,19 +22,12 @@ $stmt->execute([
 
 $row = $stmt->fetch();
 $id = $row[0];
-
-if ($id != "") {
-  $probleme = 2;
+if (!empty($id)) {
+  $probleme = 'Ce nom est déjà utilisé. Veuillez en choisir un autre.';
 }
-if (isset($probleme)) { ?>
-  <html>
-  <head>
-    <meta http-equiv="refresh" content="0;URL=new.php?text=erreur">
-  </head>
-  <body>
-  </body>
-  </html>
-  <?php
+
+if (!empty($probleme)) {
+  die('<html><head><meta http-equiv="refresh" content="0;URL=new.php?text='.urlencode($probleme).'"></head><body></body></html>');
 }
 else {
   if (empty($stat)) {
@@ -69,7 +63,6 @@ else {
   if ($tag3 == "") {
     $tag3 = " ";
   }
-
   try {
     $stmt = $db->prepare("INSERT INTO hrpg (nom,mdp,hf,carac2,carac1,hp,tag1,tag2,tag3) VALUES(:nom,:pass,:genre,:carac2,:carac1,:hp,:tag1,:tag2,:tag3)");
     $stmt->execute([
@@ -85,22 +78,21 @@ else {
     ]);
 
     $id = $db->lastInsertId();
-  } catch (Exception $e) {
+  } 
+  catch (Exception $e) {
     die($e->getMessage());
   }
 
   $_SESSION['id'] = $id;
-  ?>
-
-  <html>
-    <?php include 'header.php'; ?>
-    <div>
-      <div><?php print $nom; ?> entre en scène.</div>
-      <div>Bienvenue dans notre grande aventure.</div>
-      <div><a href="main.php">C'est parti.</a></div>
-    </div>
-    <?php include "footer.php"; ?>
-  </html>
-  <?php
-}
+  $_SESSION['nom'] = $nom;
 ?>
+
+<html>
+  <?php include 'header.php'; ?>
+  <div>
+    <div><?php print $nom; ?> entre en scène.</div>
+    <div>Bienvenue dans notre grande aventure.</div>
+    <div><a href="main.php">C'est parti.</a></div>
+  </div>
+  <?php include "footer.php"; ?>
+</html>
