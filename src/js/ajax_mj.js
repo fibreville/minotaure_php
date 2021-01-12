@@ -1,11 +1,20 @@
 $(document).ready(function() {
     var poll_results = function() {
         $.ajax({
-            url: "ajax.php?role=mj",
-            context: document.body,
-            dataType : 'html',
-            success: function(html, code){
-                $('#poll_results').html(html);
+            url: "ajax.php?role=heartbeat",
+            type: 'get',
+            dataType: 'JSON',
+            success: function(response){
+                if (response == true) {
+                    $.ajax({
+                        url: "ajax.php?role=mj",
+                        context: document.body,
+                        dataType : 'html',
+                        success: function(html, code){
+                            $('#poll_results').html(html);
+                        }
+                    });
+                }
             }
         });
     };
@@ -25,7 +34,7 @@ $(document).ready(function() {
         openTab($("div[data-target=elections]"));
     }
 
-    var interval = 2000;
+    var interval = 4000;
     setInterval(poll_results, interval);
 
     $("#tabs div").click(function() {

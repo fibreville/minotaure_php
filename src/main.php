@@ -1,7 +1,9 @@
 <?php session_start(); ?>
 <html id="page-character">
 <?php
+$_SESSION['current_timestamp'] = 0;
 include 'header.php';
+
 $cleanPost = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 $choix = $cleanPost['choix'];
 $lead = $cleanPost['lead'];
@@ -31,7 +33,8 @@ if ($traitre == 1) {
 }
 
 ?>
-<div id="character-wrapper"></div>
+<div id="loader" class="active"></div>
+<div id="character-wrapper">Nous récupérons votre personnage.</div>
 <script
         src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
