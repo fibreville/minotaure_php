@@ -17,8 +17,8 @@ CREATE TABLE `hrpg` (
   `nom` mediumtext NOT NULL,
   `mdp` mediumtext NOT NULL,
   `hf` tinyint(1) NOT NULL,
-  `str` tinyint(1) NOT NULL,
-  `mind` tinyint(1) NOT NULL,
+  `carac2` tinyint(1) NOT NULL,
+  `carac1` tinyint(1) NOT NULL,
   `hp` tinyint(1) NOT NULL,
   `leader` tinyint(1) NOT NULL DEFAULT '0',
   `traitre` tinyint(1) NOT NULL DEFAULT '0',
@@ -38,20 +38,6 @@ CREATE TABLE `loot` (
   `id` int(15) unsigned NOT NULL AUTO_INCREMENT,
   `idh` int(15) NOT NULL,
   `quoi` mediumtext NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-
-# Affichage de la table settings
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `settings`;
-
-CREATE TABLE `settings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) DEFAULT NULL,
-  `value` varchar(60) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -86,6 +72,8 @@ VALUES
 
 /*!40000 ALTER TABLE `sondage` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

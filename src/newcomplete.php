@@ -37,12 +37,12 @@ if (isset($probleme)) { ?>
 }
 else {
   if (empty($stat)) {
-    $str = array_rand([1,2,4,5], 1);
-    $mind = 6 - $str;
+    $carac2 = array_rand([1,2,4,5], 1);
+    $carac1 = 6 - $carac2;
   }
   else {
-    $str = $stat[0];
-    $mind = $stat[1];
+    $carac2 = $stat[0];
+    $carac1 = $stat[1];
   }
   $hp = 5 + rand(0, 5);
   $stmt = $db->prepare("SELECT tag1 FROM hrpg WHERE hp > 0 AND id > 1 ORDER BY RAND()");
@@ -71,13 +71,13 @@ else {
   }
 
   try {
-    $stmt = $db->prepare("INSERT INTO hrpg (nom,mdp,hf,str,mind,hp,tag1,tag2,tag3) VALUES(:nom,:pass,:genre,:str,:mind,:hp,:tag1,:tag2,:tag3)");
+    $stmt = $db->prepare("INSERT INTO hrpg (nom,mdp,hf,carac2,carac1,hp,tag1,tag2,tag3) VALUES(:nom,:pass,:genre,:carac2,:carac1,:hp,:tag1,:tag2,:tag3)");
     $stmt->execute([
       ':nom' => $nom,
       ':pass' => $pass,
       ':genre' => $genre,
-      ':str' => $str,
-      ':mind' => $mind,
+      ':carac2' => $carac2,
+      ':carac1' => $carac1,
       ':hp' => $hp,
       ':tag1' => $tag1,
       ':tag2' => $tag2,

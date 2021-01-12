@@ -6,4 +6,5 @@ try {
 catch (PDOException $e) {
     die('Erreur sql : ' . $e->getMessage());
 }
+$tmp_path = '/tmp';
 

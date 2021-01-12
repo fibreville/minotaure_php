@@ -1,8 +1,18 @@
 <?php
 session_start();
 include "connexion.php";
+include "variables.php";
+$settings = $_SESSION['settings'];
 
-if ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
+if ($_GET['role'] == 'heartbeat') {
+  if ($_SESSION['id'] == 1) {
+    print json_encode($_SESSION['current_poll']);
+  }
+  else {
+    print json_encode(!isset($_SESSION['current_timestamp']) || $_SESSION['current_timestamp'] < $game_timestamp);
+  }
+}
+elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
   $stmt = $db->prepare("SELECT nom,leader,vote FROM hrpg WHERE leader > 0 AND hp > 0");
   $stmt->execute();
   $row = $stmt->fetch();
@@ -10,7 +20,7 @@ if ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
   $leadvalue = $row[1];
   $leadvote = $row[2];
 
-  $stmt = $db->prepare("SELECT nom,traitre,vote FROM hrpg WHERE traitre > 0 AND hp > 0 AND id > 1");
+  $stmt = $db->prepare("SELECT nom,traitre,vote FROM hrpg WHERE traitre > 0 AND hp > 0");
   $stmt->execute();
   $row = $stmt->fetch();
   $traitre = $row[0];
@@ -82,9 +92,12 @@ if ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
   }
   print "</table>";
   print "<div>Total votants : $pctot %</div>";
-
+  if ($pctot == 100) {
+    $_SESSION['current_poll'] = FALSE;
+  }
 }
 elseif ($_GET['role'] == 'pj') {
+  $_SESSION['current_timestamp'] = time();
   $id = $_SESSION['id'];
   $stmt = $db->prepare("SELECT * FROM hrpg WHERE id=:id");
   $stmt->execute([':id' => $id]);
@@ -92,15 +105,15 @@ elseif ($_GET['role'] == 'pj') {
   $id = $row['id'];
   $nom = $row['nom'];
   $hf = $row['hf'];
-  $str = $row['str'];
-  $mind = $row['mind'];
+  $carac2 = $row['carac2'];
+  $carac1 = $row['carac1'];
   $hp = $row['hp'];
   $leader = $row['leader'];
   $vote = $row['vote'];
   $tags = [$row['tag1'], $row['tag2'], $row['tag3']];
   $traitre = $row['traitre'];
-  ?>
-  <div>
+?>
+<div>
   <h2>Votre aventurier</h2>
   <?php
   $genre = "Homme";
@@ -127,8 +140,8 @@ elseif ($_GET['role'] == 'pj') {
         ?>
       </div>
       <div class="character-stats">
-        <div>💪 Force : <b><?php print $str; ?></b></div>
-        <div>🧠 Esprit : <b><?php print $mind; ?></b></div>
+        <div><?php print $settings['carac1_name']; ?> : <b><?php print $carac1; ?></b></div>
+        <div><?php print $settings['carac2_name']; ?> : <b><?php print $carac2; ?></b></div>
         <div>💛 Points de vie : <b><?php print $hp; ?></b></div>
       </div>
       <?php if ($leader == 1) { ?>
@@ -162,14 +175,14 @@ elseif ($_GET['role'] == 'pj') {
         }
 
         if ($leader == 1 || $traitre == 1) {
-          print '<span class="powers">';
+          print '<div class="powers">';
           if ($leader == 1) {
-            print "<input type=checkbox name=lead value=1><label for=lead>👑 Utiliser mon pouvoir de leader</label>";
+            print "<div><input type=checkbox name=lead value=1><label for=lead>👑 Utiliser mon pouvoir de leader</label></div>";
           }
           if ($traitre == 1) {
-            print "<input type=checkbox name=traitre value=1><label for=traitre>🗡️ Utiliser mon pouvoir de traitre et annuler le vote choisi<label>";
+            print "<div><input type=checkbox name=traitre value=1><label for=traitre>🗡️ Utiliser mon pouvoir de traitre et annuler le vote choisi<label></div>";
           }
-          print '</span>';
+          print '</div>';
         }
 
         print '<input type="submit" value="Votre choix est irrévocable"></form>';
@@ -184,7 +197,7 @@ elseif ($_GET['role'] == 'pj') {
           <div>Pas de décision en cours</div>
           <?php
         }
-      ?>
+        ?>
     </div>
     <div class="loot">
       <?php
@@ -208,11 +221,10 @@ elseif ($_GET['role'] == 'pj') {
       ?>
     </div>
     <?php
-    }
-  else {
-  ?>
+  }
+  else { ?>
     <div class="wakeup">☠</div>
     <div><?php print "$nom est $dead_name"; ?></div>
-  <?php
+<?php
   }
 }

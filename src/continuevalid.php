@@ -1,6 +1,7 @@
 <?php session_start(); ?>
 <html>
   <?php
+  $_SESSION['current_timestamp'] = 0;
   include "header.php";
 
   $cleanPost = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -23,23 +24,32 @@
   if ($id != "") {
     $_SESSION['id'] = $id;
     $_SESSION['nom'] = $nom;
-    if ($hp > 0) {
+    if ($id == 1) {
       $text = 'Votre grande aventure continue';
-      $link = 'Cliquez <a class="link_primary" href=main.php>ici</a>';
+      $link = 'Accédez à l\'écran du MJ en cliquant <a class="link_primary" href=ecran.php>ici</a>';
     }
     else {
-      $text = 'Votre personnage est mort ☠️. On en recrée un nouveau ?';
-      $link = "Retourner au <a href=index.php>menu principal</a>";
+      if ($hp > 0) {
+        $text = 'Votre grande aventure continue';
+        $link = 'Cliquez <a class="link_primary" href=main.php>ici</a>';
+      }
+      else {
+        $text = 'Votre personnage est mort ☠️. On en recrée un nouveau ?';
+        $link = "Retourner au <a href=index.php>menu principal</a>";
+      }
     }
   }
   else {
-    $text = "Nous n'avons pas réussi à vous identifier :-(";
     $link = "Voulez-vous <a href=continue.php>recommencer</a> <br>ou retourner au <a href=index.php>menu principal</a>";
   }
   ?>
   <div>
-    <div>Bonjour <?php echo $nom; ?>.</div>
-    <div><?php echo $text; ?></div>
+    <?php if ($id == ""): ?>
+      <div class="hello">Bonjour, nous n'avons pas réussi à vous identifier 😢 !</div>
+    <?php else: ?>
+      <div class="hello">Bonjour <?php echo $nom; ?>.</div>
+      <div><?php echo $text; ?></div>
+    <?php endif; ?>
     <div><?php echo $link; ?></div>
   </div>
   <?php include "footer.php"; ?>
