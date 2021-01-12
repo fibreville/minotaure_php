@@ -11,11 +11,9 @@ $default_settings_set = [
 $query = $db->prepare("SELECT name, value FROM settings");
 $query->execute();
 $settings = $query->fetchAll(PDO::FETCH_KEY_PAIR);
-foreach ($settings_set as $setting_set) {
-  if (!isset($settings[$setting_set])) {
+foreach ($settings_set as $setting_set)
+  if (!isset($settings[$setting_set]))
     $settings[$setting_set] = $default_settings_set[$setting_set];
-  }
-}
 
 ?>
 <head>
@@ -23,8 +21,14 @@ foreach ($settings_set as $setting_set) {
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta charset="UTF-8">
   <title>Maspero Blue</title>
-  <link rel="stylesheet" type="text/css" href="./css/style.css"">
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
 </head>
 <body>
+  <?php if (isset($_SESSION['nom']))
+  { ?>
+  <nav id="account_actions">
+    <a href="logout.php">Déconnexion de <?php echo $_SESSION['nom']; ?></a>
+  </nav><?php
+  } ?>
   <div class="page-wrapper">
     <h1>AT RPG</h1>

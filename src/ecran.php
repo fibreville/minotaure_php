@@ -2,9 +2,14 @@
 <html id="page-mj">
 <?php
 include "header.php";
-$id = $_SESSION['id'];
 
-if ($id == 1) {
+if ($_SESSION['id'] != 1)
+{
+  print $_SESSION['id'];
+  print '<span>Vous n\'êtes pas admin. <a href="index.php">Retournez en arrière !</a></span>';
+  include "footer.php";
+  die('</html>');
+}
 
 $cleanPost = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 $action = $_GET['action'];
@@ -18,7 +23,7 @@ if ($action == "delete") {
   $query = $db->query("TRUNCATE TABLE settings");
 }
 
-if ($action == 'settings') {
+elseif ($action == 'settings') {
   // PARAMETRES AVENTURE.
   $_SESSION['adventure_name'] = $cleanPost['adventure_name'];
   $_SESSION['adventure_guide'] = $cleanPost['adventure_guide'];
@@ -79,7 +84,7 @@ if ($action == "tags") {
 }
 
 // TRAITEMENT DES EPREUVES.
-if ($action == "epreuve") {
+elseif ($action == "epreuve") {
   $victime = $cleanPost['victime'];
   $victimetag = $cleanPost['victimetag'];
   $victime_multiple = $cleanPost['victime_multiple'];
@@ -233,8 +238,7 @@ if ($action == "poll") {
       ':choixtag' => $choixtag,
     ]);
   } catch (PDOException $e) {
-    print "Erreur !: " . $e->getMessage() . "<br/>";
-    die();
+    die("Erreur !: " . $e->getMessage() . "<br/>");
   }
 }
 
@@ -308,8 +312,8 @@ if ($action == 'election') {
 <div class="wrapper-main">
   <?php
   $query = $db->prepare("
-    SELECT id,nom,hf,str,mind,hp,tag1,tag2,tag3 
-    FROM hrpg 
+    SELECT id,nom,hf,str,mind,hp,tag1,tag2,tag3
+    FROM hrpg
     WHERE id > 1
     ORDER BY hp <= 0, nom");
   $query->execute();
@@ -383,7 +387,7 @@ if ($action == 'election') {
                       <span>" . $settings['carac2_name'] . ": $str</span>
                       <span>Vie: $hp</span>
                       <span>Joueur #$id_joueur</span>
-                    </div>  
+                    </div>
                   ";
         }
         print '</div>';
@@ -610,12 +614,5 @@ if ($action == 'election') {
       <div><a href="ecran.php">Recharger</a></div>
     </div>
   </div>
-  <?php
-  }
-  else {
-    print $_SESSION['id'];
-    print '<span>Vous n\'êtes pas admin. <a href="index.php">Retournez en arrière !</a></span>';
-  }
-  include "footer.php";
-  ?>
+<?php include "footer.php"; ?>
 </html>
