@@ -11,10 +11,11 @@ $default_settings_set = [
 $query = $db->prepare("SELECT name, value FROM settings");
 $query->execute();
 $settings = $query->fetchAll(PDO::FETCH_KEY_PAIR);
-foreach ($settings_set as $setting_set)
-  if (!isset($settings[$setting_set]))
+foreach ($settings_set as $setting_set) {
+  if (!isset($settings[$setting_set])) {
     $settings[$setting_set] = $default_settings_set[$setting_set];
-
+  }
+}
 ?>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
