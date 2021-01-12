@@ -31,7 +31,10 @@ Exemple : si votre base de donnée est locale, qu'elle s'appelle `base1`, que vo
 ```php
 $db = new PDO('mysql:host=localhost;dbname=base1;', 'toto', 'titi');
 ```
-5. Si vous utilisez la version 2.3 minimum, indiquez le chemin de vos fichiers temporaires (en général le dossier /tmp). 
+5. Si vous utilisez la version 2.3 minimum, indiquez le chemin de vos fichiers temporaires à la place de /tmp (cette valeur par défaut marche sur beaucoup d'environnements, vous n'avez pas forcément besoin de la changer).
+```php
+$tmp_path = '/tmp';
+```
 
 Les fichiers dans `/src` n'ont pas besoin d'être modifiés.
 
