@@ -16,4 +16,3 @@ include "variables.php";
   </nav><?php
   } ?>
   <div class="page-wrapper">
-    <h1>AT RPG</h1>

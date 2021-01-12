@@ -8,7 +8,7 @@ $pass = $_POST['pass'];
 $stat = $_POST['stat'];
 $probleme = null;
 
-if (empty($nom) || empty($pass)) {
+if (empty($nom) || empty($pass)) {
   $probleme = 'Veuillez remplir le champ : ' . (empty($nom) ? 'nom' : 'mot de passe');
 }
 
@@ -96,3 +96,4 @@ else {
   </div>
   <?php include "footer.php"; ?>
 </html>
+<?php } ?>

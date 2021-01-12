@@ -31,9 +31,8 @@ h3 {
   margin-top: 0;
 }
 #account_actions{
-  font-family: cursive;
   text-align: right;
-  padding: 0 5px;
+  padding: 5px;
   font-size: 14px;
 }
 #account_actions a, #account_actions a:visited{
