@@ -23,7 +23,7 @@ $row = $stmt->fetch();
 $id = $row[0];
 
 if (!empty($id))
-  $probleme = 'Ce nom est malheuresement déjà utilisé, merci d\'en choisir un autre ou de te rappeler de ton mot de passe.';
+  $probleme = 'Ce nom est déjà utilisé. Veuillez en choisir un autre.';
 
 if (!empty($probleme))
   die('<html><head><meta http-equiv="refresh" content="0;URL=new.php?text='.urlencode($probleme).'"></head><body></body></html>');
