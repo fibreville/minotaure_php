@@ -5,10 +5,8 @@
   include "header.php";
 
   $cleanPost = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-  $nom = $cleanPost['nom'];
+  $nom = strtolower($cleanPost['nom']);
   $pass = $cleanPost['pass'];
-
-  $nom = $nom;
   $pass = $pass . substr($nom, 0, 3) . substr($nom, -1);
   $pass = md5($pass);
 
@@ -47,7 +45,7 @@
     <?php if ($id == ""): ?>
       <div class="hello">Bonjour, nous n'avons pas réussi à vous identifier 😢 !</div>
     <?php else: ?>
-      <div class="hello">Bonjour <?php echo $nom; ?>.</div>
+      <div class="hello">Bonjour <span class="pj-name"><?php echo $nom; ?>.</span></div>
       <div><?php echo $text; ?></div>
     <?php endif; ?>
     <div><?php echo $link; ?></div>
