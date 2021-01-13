@@ -16,7 +16,6 @@ CREATE TABLE `hrpg` (
   `id` int(15) unsigned NOT NULL AUTO_INCREMENT,
   `nom` mediumtext NOT NULL,
   `mdp` mediumtext NOT NULL,
-  `hf` tinyint(1) NOT NULL,
   `carac2` tinyint(1) NOT NULL,
   `carac1` tinyint(1) NOT NULL,
   `hp` tinyint(1) NOT NULL,
@@ -26,8 +25,12 @@ CREATE TABLE `hrpg` (
   `tag1` mediumtext NOT NULL,
   `tag2` mediumtext NOT NULL,
   `tag3` mediumtext NOT NULL,
+  `log` mediumtext,
+  `lastlog` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 
 # Affichage de la table loot
 # ------------------------------------------------------------
