@@ -12,7 +12,7 @@ include "variables.php";
 <body>
   <?php if (isset($_SESSION['nom'])) { ?>
   <nav id="account_actions">
-    <a href="logout.php">Déconnexion de <?php echo $_SESSION['nom']; ?></a>
+    <a href="logout.php">Déconnexion</a>
   </nav><?php
   } ?>
   <div class="page-wrapper">

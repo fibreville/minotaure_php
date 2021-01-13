@@ -89,9 +89,15 @@ else {
     $_SESSION['id'] = $id;
     $_SESSION['nom'] = $nom;
   ?>
-    <div><?php print $nom; ?> entre en scène.</div>
-    <div>Bienvenue dans notre grande aventure.</div>
-    <div><a href="main.php">C'est parti.</a></div>
+    <?php if ($id != 1): ?>
+      <div><span class="pj-name"><?php print $nom; ?></span> entre en scène.</div>
+      <div>Bienvenue dans notre grande aventure.</div>
+      <div><a href="main.php">C'est parti.</a></div>
+    <?php else: ?>
+      <div>Le compte d'administration a été créé.</div>
+      <div>Bienvenue dans votre aventure.</div>
+      <div><a href="ecran.php">Aller sur l'écran du MJ.</a></div>
+    <?php endif; ?>
   <?php
   }
   else {
