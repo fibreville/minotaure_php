@@ -8,7 +8,7 @@
   $nom = $cleanPost['nom'];
   $pass = $cleanPost['pass'];
 
-  $nom = ucfirst(strtolower($nom));
+  $nom = $nom;
   $pass = $pass . substr($nom, 0, 3) . substr($nom, -1);
   $pass = md5($pass);
 
