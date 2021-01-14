@@ -4,7 +4,6 @@
 include "header.php";
 
 if ($_SESSION['id'] != 1) {
-  print $_SESSION['id'];
   print '<span>Vous n\'êtes pas admin. <a href="index.php">Retournez en arrière !</a></span>';
   include "footer.php";
   die('</html>');
@@ -25,6 +24,7 @@ if ($action == "delete") {
   $query = $db->query("TRUNCATE TABLE sondage");
   $query = $db->query("INSERT INTO sondage VALUES ('','','','','','','','','','','','')");
   $query = $db->query("DELETE FROM hrpg WHERE id > 1;");
+  $query = $db->query("ALTER TABLE hrpg AUTO_INCREMENT = 2");
   $query = $db->query("TRUNCATE TABLE loot");
   $_SESSION['settings'] = $settings = [];
   unset($_SESSION['traitre']);

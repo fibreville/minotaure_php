@@ -34,25 +34,28 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
   $choix = $row['choix'];
   $choixtag = $row['choixtag'];
 
-  $stmt = $db->prepare("
+  $sql_poll_count = "
     SELECT COUNT(*) 
     FROM hrpg 
     WHERE hp > 0 
-    AND id > 1 
-    AND (tag1 = :choixtag OR tag2 = :choixtag OR tag3 = :choixtag)
-  ");
-  $stmt->execute([':choixtag' => $choixtag]);
+    AND id > 1";
+
+  if (!empty($choixtag)) {
+    $choixtag_sql = '("' . implode('", "', explode(',', $choixtag)) . '")';
+    $sql_poll_count .= " AND (tag1 IN $choixtag_sql OR tag2 IN $choixtag_sql OR tag3 IN $choixtag_sql)";
+  }
+  $stmt = $db->prepare($sql_poll_count);
+  $stmt->execute();
   $nb_total = $stmt->fetchColumn();
 
   print "<table>";
-  $pctot = 0;
   $query = $db->prepare("
     SELECT vote, COUNT(id) c 
     FROM hrpg 
     WHERE vote > 0
     GROUP BY vote 
     ORDER BY c DESC");
-  $query->execute([':choixtag' => $choixtag]);
+  $query->execute();
   $votes = $query->fetchAll(PDO::FETCH_ASSOC);
   $max_vote = $votes[0]['c'];
   $pctot = 0;
@@ -137,10 +140,10 @@ if ($hp > 0) { ?>
       <div>💛 Points de vie : <b><?php print $hp; ?></b></div>
     </div>
     <?php if ($leader == 1) { ?>
-      <div>Vous êtes actuellement <b>Leader</b> 👑 !</div>
+      <div class="pj-role">Vous êtes actuellement <b>Leader</b> 👑 !</div>
     <?php } ?>
     <?php if ($traitre == 1) { ?>
-      <div>Vous êtes actuellement <b>Traitre</b> 🗡️!</div>
+      <div class="pj-role">Vous êtes actuellement <b>Traitre</b> 🗡️!</div>
     <?php } ?>
   </div>
   <?php
@@ -149,11 +152,11 @@ if ($hp > 0) { ?>
   $row = $stmt->fetch(PDO::FETCH_ASSOC);
   $choix = $row['choix'];
   $cX = array_splice($row, 1, 10);
-  $choixtag = $row['choixtag'];
+  $choixtag = explode(',', $row['choixtag']);
   ?>
   <div class="poll-choice">
     <?php
-    if ($choix != "" && $vote == 0 && ($choixtag == "" || in_array($choixtag, $tags))) {
+    if ($choix != "" && $vote == 0 && ($choixtag == "" || array_intersect($choixtag, $tags))) {
     ?>
     <div>Décision en cours : <b><?php print $choix; ?></b></div>
     <form action=main.php method=post>
