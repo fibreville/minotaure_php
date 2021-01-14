@@ -9,10 +9,10 @@ include "variables.php";
   <title><?php print $settings['adventure_name']; ?></title>
   <link rel="stylesheet" type="text/css" href="./css/style.css">
 </head>
-<body>
-  <?php if (isset($_SESSION['nom'])) { ?>
+<body class="light">
   <nav id="account_actions">
-    <a href="logout.php">Déconnexion</a>
-  </nav><?php
-  } ?>
+    <span href="dark.php" class="enableDarkMode" title="Dark mode" onclick="setBright('light','dark')"></span>
+    <span href="light.php" class="enableLightMode" title="Light mode" onclick="setBright('dark','light')"></span>
+    <?php if (isset($_SESSION['nom'])){ ?><a href="logout.php">Déconnexion</a><?php } ?>
+  </nav>
   <div class="page-wrapper">

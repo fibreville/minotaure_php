@@ -13,6 +13,16 @@ body {
   padding: 0;
   text-align: center;
 }
+body.dark {
+  background: black;
+  color: white;
+}
+body.dark a,body.dark a:visited{
+  color: white;
+}
+body.light a,body.light a:visited{
+  color: black;
+}
 html:not(#page-mj) body {
   height: 100vh;
 }
@@ -38,6 +48,27 @@ h3 {
 #account_actions a, #account_actions a:visited{
   color: black;
   text-decoration: underline;
+}
+#account_actions .enableDarkMode, #account_actions .enableLightMode{
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  border: 1px solid black;
+  display: inline-block;
+  cursor:pointer;
+  margin-rigth: 5px;
+}
+#account_actions .enableDarkMode{
+  background: black;
+  box-shadow: 0 0 3px black;
+}
+body.dark #account_actions .enableDarkMode{
+  border: 1px solid white;
+}
+body.dark #account_actions .enableLightMode{
+  background: white;
+  box-shadow: 0 0 3px white;
+  border: 1px solid white;
 }
 .wrapper-intro {
   display: flex;
@@ -331,7 +362,7 @@ input[type=submit],
   color: red;
 }
 .wrapper-center fieldset {
-  background: #F4F4F4;
+  background: rgba(0,0,0,0.1);
   margin-bottom: 20px;
 }
 .wrapper-penalite {
