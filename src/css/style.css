@@ -385,6 +385,9 @@ input[type=submit],
   display: flex;
   flex-wrap: wrap;
 }
+.pj-role {
+  flex-basis: 100%;
+}
 .character > .character-name {
   flex-basis: 100%;
   font-size: 1.5em;

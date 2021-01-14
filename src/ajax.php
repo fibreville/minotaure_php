@@ -140,10 +140,10 @@ if ($hp > 0) { ?>
       <div>💛 Points de vie : <b><?php print $hp; ?></b></div>
     </div>
     <?php if ($leader == 1) { ?>
-      <div>Vous êtes actuellement <b>Leader</b> 👑 !</div>
+      <div class="pj-role">Vous êtes actuellement <b>Leader</b> 👑 !</div>
     <?php } ?>
     <?php if ($traitre == 1) { ?>
-      <div>Vous êtes actuellement <b>Traitre</b> 🗡️!</div>
+      <div class="pj-role">Vous êtes actuellement <b>Traitre</b> 🗡️!</div>
     <?php } ?>
   </div>
   <?php
