@@ -378,6 +378,7 @@ if ($action == 'election') {
           $list_players[$id_joueur] = $nom;
         }
 
+        $aptitude = '';
         if ($carac2 > 3 && $carac1 > 3) {
           $aptitude = $settings['carac1_group'] . ' et ' . $settings['carac2_group'];
         }
@@ -396,7 +397,7 @@ if ($action == 'election') {
 
         if ($hp > 0) {
           print "<div class='stats'>";
-          if ($aptitude) { print "<span>$aptitude</span>"; }
+          if (!empty($aptitude)) { print "<span>$aptitude</span>"; }
           print "
             <span>" . $settings['carac1_name'] . ": $carac1</span>
             <span>" . $settings['carac2_name'] . ": $carac2</span>
