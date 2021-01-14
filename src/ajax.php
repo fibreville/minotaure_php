@@ -156,7 +156,7 @@ if ($hp > 0) { ?>
   ?>
   <div class="poll-choice">
     <?php
-    if ($choix != "" && $vote == 0 && ($choixtag == "" || array_intersect($choixtag, $tags))) {
+    if ($choix != "" && $vote == 0 && ($row['choixtag'] == "" || array_intersect($choixtag, $tags))) {
     ?>
     <div>Décision en cours : <b><?php print $choix; ?></b></div>
     <form action=main.php method=post>
