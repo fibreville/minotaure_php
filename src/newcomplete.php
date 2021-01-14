@@ -40,8 +40,8 @@ else {
       $carac1 = 6 - $carac2;
     }
     else {
-      $carac2 = $stat[0];
-      $carac1 = $stat[1];
+      $carac2 = $stat[1];
+      $carac1 = $stat[0];
     }
     $hp = 5 + rand(0, 5);
     $stmt = $db->prepare("SELECT tag1 FROM hrpg WHERE hp > 0 AND id > 1 ORDER BY RAND()");
