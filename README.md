@@ -57,7 +57,7 @@ et [make](https://fr.wikipedia.org/wiki/Make).
 
 - Le 1er compte créé sur le jeu est le compte admin (il peut avoir n'importe quel nom).
 - Une fois ce compte créé et le joueur/MJ logué, il peut aller sur `ecran.php` et avoir accès à l'ensemble des commandes.
-- Le mode de fonctionnement ensuite est détaillé lors d'une partie ici : https://www.youtube.com/watch?v=bUFo1yhHT7E
+- Le mode de fonctionnement ensuite est détaillé ici : [https://www.youtube.com/watch?v=XGU3_dczcNE]
 
 
 ## 🇺🇸 English readme
@@ -120,4 +120,4 @@ and [make](https://fr.wikipedia.org/wiki/Make).
 - The first account you create will be the admin (it can have any name)
 - After logging in with this account, the user may go to `ecran.php` and access all commands
 - *Et voilà !*
-- Demo video (in French): https://www.youtube.com/watch?v=bUFo1yhHT7E
+- Demo video (in French): https://www.youtube.com/watch?v=XGU3_dczcNE
