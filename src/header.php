@@ -11,8 +11,8 @@ include "variables.php";
 </head>
 <body class="light">
   <nav id="account_actions">
-    <span href="dark.php" class="enableDarkMode" title="Dark mode" onclick="setBright('light','dark')"></span>
-    <span href="light.php" class="enableLightMode" title="Light mode" onclick="setBright('dark','light')"></span>
+    <span class="enableDarkMode" title="Dark mode" onclick="setBright('light','dark')"></span>
+    <span class="enableLightMode" title="Light mode" onclick="setBright('dark','light')"></span>
     <?php if (isset($_SESSION['nom'])){ ?><a href="logout.php">Déconnexion</a><?php } ?>
   </nav>
   <div class="page-wrapper">
