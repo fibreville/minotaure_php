@@ -1,17 +1,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Libre+Baskerville&display=swap');
-
+:root {
+  --font-color: #000;
+  --background-color: #FFF;
+  --content-background: rgba(0,0,0,0.1);
+  --border-color: #333;
+  --border-color-secondary: #000;
+  --tab-active: #acc7cd;
+  --tab-hover: #98a7a9;
+  --fail-background: #ffbfbf;
+  --success-background: #b1ffb1;
+  --warning-background: #f1a14c;
+  --disabled-background: #a4a4a4;
+  --disabled-background-secondary: #989898;
+}
+[data-theme="dark"] {
+  --font-color: #FFF;
+  --background-color: #000;
+  --content-background: rgba(0,0,0,0.1);
+  --border-color: #333;
+  --border-color-secondary: #fff;
+}
 .debug {
   display: none !important;
 }
 html, body {
   margin: 0;
   padding: 0;
+  transition: background 0.4s linear 0s;
+  background-color: var(--background-color);
 }
 body {
   font-family: 'Libre Baskerville', serif;
-  color: black;
+  color: var(--font-color);
   padding: 0;
   text-align: center;
+}
+body a,body a:visited{
+  color: var(--font-color);
+}
+body a:hover{
+  text-shadow: 0 0 2px var(--font-color);
 }
 html:not(#page-mj) body {
   height: 100vh;
@@ -36,8 +64,26 @@ h3 {
   font-size: 14px;
 }
 #account_actions a, #account_actions a:visited{
-  color: black;
+  color: var(--font-color);
   text-decoration: underline;
+}
+#account_actions .enableDarkMode, #account_actions .enableLightMode{
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  display: inline-block;
+  cursor:pointer;
+  margin-rigth: 5px;
+}
+#account_actions .enableDarkMode{
+  background: black;
+  box-shadow: 0 0 3px black;
+}
+#account_actions .enableLightMode{
+  background: white;
+  box-shadow: 0 0 3px white;
+  border: 1px solid white;
 }
 .wrapper-intro {
   display: flex;
@@ -105,14 +151,14 @@ form {
 
 input[type=submit],
 .submit-button {
-  border-top: 2px solid #666;
-  border-left: 2px solid #666;
-  border-right: 2px solid #000;
-  border-bottom: 2px solid #000;
+  border-top: 2px solid var(--border-color);
+  border-left: 2px solid var(--border-color);
+  border-right: 2px solid var(--border-color-secondary);
+  border-bottom: 2px solid var(--border-color-secondary);
   padding: 10px 20px;
-  background-color: #fff;
+  background-color: var(--background-color);
   font-weight: bold;
-  color: #000;
+  color: var(--font-color);
   cursor: pointer;
   text-transform: uppercase;
   font-size: 16px;
@@ -122,12 +168,12 @@ input[type=submit],
   margin-top: 20px;
 }
 
-.index-wrapper a {
+body .index-wrapper a {
   font-size: 25px;
   margin-bottom: 10px;
 }
 .index-wrapper a:hover {
-  color: black;
+  color: var(--font-color);
 }
 .hello {
   margin-bottom: 20px;
@@ -208,12 +254,11 @@ input[type=submit],
   margin-bottom: 5px;
   border-left: 0;
 }
-#tabs > div.active,
-#tabs > div:hover {
-  background: #acc7cd;
+#tabs > div.active{
+  background: var(--tab-active);
 }
 #tabs > div:hover {
-  background: #98a7a9;
+  background: var(--tab-hover);
 }
 #group {
   display: grid;
@@ -243,13 +288,13 @@ input[type=submit],
   margin-bottom: 10px;
 }
 .looser {
-  background: #ffbfbf;
+  background: var(--fail-background);
 }
 .winner {
-  background: #b1ffb1;
+  background: var(--success-background);
 }
 .not-alive.looser {
-  background: #989898;
+  background: var(--disabled-background);
   order: -1;
   animation-duration: .6s;
   animation-name: clignoter;
@@ -264,7 +309,7 @@ input[type=submit],
 }
 @keyframes bg-blink {
   0%   { background:transparent; }
-  40%  { background: #f1a14c; }
+  40%  { background: var(--warning-background); }
   100% { background:transparent; }
 }
 
@@ -275,7 +320,7 @@ input[type=submit],
   text-transform: capitalize;
 }
 .not-alive {
-  background: #a4a4a4;
+  background: var(--disabled-background);
   position: relative;
 }
 .not-alive:before {
@@ -331,7 +376,7 @@ input[type=submit],
   color: red;
 }
 .wrapper-center fieldset {
-  background: #F4F4F4;
+  background: var(--content-background);
   margin-bottom: 20px;
 }
 .wrapper-penalite {
@@ -447,9 +492,9 @@ input[type=submit] {
 #loader {
   font-size: 10px;
   text-indent: -9999em;
-  border-top: 0.5em solid rgba(255, 255, 255, 0.2);
-  border-right: 0.5em solid rgba(255, 255, 255, 0.2);
-  border-bottom: 0.5em solid rgba(255, 255, 255, 0.2);
+  border-top: 0.5em solid var(--border-color);
+  border-right: 0.5em solid var(--border-color);
+  border-bottom: 0.5em solid var(--border-color);
   border-left: 0.5em solid black;
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
