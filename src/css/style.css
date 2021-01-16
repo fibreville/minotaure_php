@@ -520,10 +520,10 @@ input[type=submit] {
 #loader {
   font-size: 10px;
   text-indent: -9999em;
-  border-top: 0.5em solid var(--border-color);
-  border-right: 0.5em solid var(--border-color);
-  border-bottom: 0.5em solid var(--border-color);
-  border-left: 0.5em solid var(--border-color);
+  border-top: 0.5em solid var(--font-color);
+  border-right: 0.5em solid var(--font-color);
+  border-bottom: 0.5em solid var(--font-color);
+  border-left: 0.5em solid var(--background-color);
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
