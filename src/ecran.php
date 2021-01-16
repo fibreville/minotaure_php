@@ -636,7 +636,7 @@ if ($action == 'election') {
       <div data-target="tags">Tags</div>
       <div data-target="settings">Paramètres</div>
       <div class="debug" data-target="debug">Debug</div>
-      <div><a href="ecran.php">Recharger</a></div>
+      <div><a class='no-color' href="ecran.php">Recharger</a></div>
     </div>
   </div>
   <?php include "footer.php"; ?>
