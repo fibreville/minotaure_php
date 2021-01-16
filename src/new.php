@@ -1,6 +1,6 @@
-<?php session_start(); ?>
-<html id="page-new">
 <?php
+session_start();
+$page_id = 'page-new';
 $_SESSION['current_timestamp'] = 0;
 include 'header.php';
 $text = $_GET['text'];
@@ -30,4 +30,3 @@ if ($text == "erreur") {
 <?php
 include "footer.php";
 ?>
-</html>

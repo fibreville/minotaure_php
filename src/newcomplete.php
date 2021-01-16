@@ -28,10 +28,7 @@ else {
     $probleme = 'Ce nom est déjà utilisé. Veuillez en choisir un autre.';
   }
 }
-?>
-
-<html>
-<?php include 'header.php'; ?>
+include 'header.php'; ?>
 <div>
   <?php
   if (empty($probleme)) {
