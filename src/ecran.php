@@ -66,8 +66,8 @@ if ($action == "tags") {
         $item = $travail[$k];
 
         $query2 = $db->prepare("
-            UPDATE hrpg 
-            SET lastlog='$time',log='Vous avez un nouveau tag',tag$key='$item' 
+            UPDATE hrpg
+            SET lastlog='$time',log='Vous avez un nouveau tag',tag$key='$item'
             WHERE id='$id_joueur'");
         $query2->execute();
       }
@@ -129,8 +129,8 @@ elseif ($action == "epreuve") {
 
   if (!empty($loosers) && $penalite) {
     $query = $db->prepare("
-        UPDATE hrpg 
-        SET $penalite_type=GREATEST($penalite_type-$penalite,0),lastlog='$time',log='$log' 
+        UPDATE hrpg
+        SET $penalite_type=GREATEST($penalite_type-$penalite,0),lastlog='$time',log='$log'
         WHERE id IN (" . implode(',', $loosers) . ")");
     $query->execute();
   }
@@ -187,7 +187,7 @@ elseif ($action == "loot") {
 
     // Mise à jour des stats des PJs concernés.
     $query_update = $db->prepare("
-        UPDATE hrpg 
+        UPDATE hrpg
         SET lastlog='$time',log='Vous avez reçu un nouvel objet.'," . $loot_expression . $condition_sql);
     $query_update->execute();
 
@@ -331,8 +331,8 @@ if ($action == 'election') {
 <div class="wrapper-main">
   <?php
   $query = $db->prepare("
-  SELECT id,nom,carac2,carac1,hp,tag1,tag2,tag3 
-  FROM hrpg 
+  SELECT id,nom,carac2,carac1,hp,tag1,tag2,tag3
+  FROM hrpg
   WHERE id > 1
   ORDER BY hp <= 0, nom");
   $query->execute();
@@ -490,32 +490,32 @@ if ($action == 'election') {
         <div class="instructions">Faites passer un test à tout ou partie de la population.</div>
         <!-- FORMULAIRE DES EPREUVES-->
         <form method=post action=ecran.php?action=epreuve#epreuve>
-        <span class="wrapper-penalite">
-          <label for="type">Type</label>
-          <select name="type">
-            <option value="carac1"><?php print $settings['carac1_name'] ?></option>
-            <option value="carac2"><?php print $settings['carac2_name'] ?></option>
-          </select>
-        </span>
           <span class="wrapper-penalite">
-          <label for="difficulte">Difficulté</label>
-          <select name="difficulte">
-            <option value="-2">Trivial (-2)</option>
-            <option value="-1">Facile (-1)</option>
-            <option value="0" selected>Normal (0)</option>
-            <option value="1">Difficile (+1)</option>
-            <option value="2">Ardu (+2)</option>
-          </select>
-        </span>
+            <label for="type">Type</label>
+            <select name="type">
+              <option value="carac1"><?php print $settings['carac1_name'] ?></option>
+              <option value="carac2"><?php print $settings['carac2_name'] ?></option>
+            </select>
+          </span>
           <span class="wrapper-penalite">
-          <label for="penalite">Pénalité</label>
-          <select name="penalite_type">
-            <option value="hp">Santé</option>
-            <option value="carac1"><?php print $settings['carac1_name'] ?></option>
-            <option value="carac2"><?php print $settings['carac2_name'] ?></option>
-          </select>
-          <input type="number" name="penalite" size="2">
-        </span>
+            <label for="difficulte">Difficulté</label>
+            <select name="difficulte">
+              <option value="-2">Trivial (-2)</option>
+              <option value="-1">Facile (-1)</option>
+              <option value="0" selected>Normal (0)</option>
+              <option value="1">Difficile (+1)</option>
+              <option value="2">Ardu (+2)</option>
+            </select>
+          </span>
+          <span class="wrapper-penalite">
+            <label for="penalite">Pénalité</label>
+            <select name="penalite_type">
+              <option value="hp">Santé</option>
+              <option value="carac1"><?php print $settings['carac1_name'] ?></option>
+              <option value="carac2"><?php print $settings['carac2_name'] ?></option>
+            </select>
+            <input type="number" name="penalite" size="2">
+          </span>
           <fieldset>
             <legend>Qui ?</legend>
             <label for="victime">par groupe de personnages</label>
@@ -549,13 +549,13 @@ if ($action == 'election') {
           <fieldset>
             <legend>Effet</legend>
             <span class="wrapper-penalite">
-            <select name="propriete">
-              <option value=hp>💛 Vie</option>
-              <option value=carac1><?php print $settings['carac1_name']; ?></option>
-              <option value=carac2><?php print $settings['carac2_name']; ?></option>
-            </select>
-            <input type="number" name="bonus" placeholder="bonus" size="10">
-          </span>
+              <select name="propriete">
+                <option value=hp>💛 Vie</option>
+                <option value=carac1><?php print $settings['carac1_name']; ?></option>
+                <option value=carac2><?php print $settings['carac2_name']; ?></option>
+              </select>
+              <input type="number" name="bonus" placeholder="bonus" size="10">
+            </span>
           </fieldset>
 
           <label for="qui">À qui</label>
@@ -566,7 +566,7 @@ if ($action == 'election') {
             <option value=carac2>Chaque personnage <?php print $settings['carac2_group'] ?></option>
             <?php
             foreach ($list_players as $key_player => $player) {
-              print "<option value=$key_player>$player</option>";
+              print "<option value='$key_player'>$player</option>";
             }
             ?>
           </select>
@@ -593,7 +593,7 @@ if ($action == 'election') {
         <!-- FORMULAIRE DES PARAMETRES DE LA PARTIE-->
         <h3>Paramètres</h3>
         <div class="instructions">Changez les réglages de votre aventure avant ou pendant votre stream.</div>
-        <form method=post action=ecran.php?action=settings>
+        <form method="post" action="ecran.php?action=settings">
           <fieldset>
             <legend>Intro</legend>
             <label for="adventure_name">Nom de l'aventure</label>
