@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Libre+Baskerville&display=swap');
 :root {
   --font-color: #000;
+  --link-color: #73a8a3;
+  --link-hover-color: #73a8a3;
   --background-color: #FFF;
   --content-background: rgba(0,0,0,0.1);
   --border-color: #333;
@@ -17,8 +19,8 @@
   --font-color: #FFF;
   --background-color: #000;
   --content-background: rgba(0,0,0,0.1);
-  --border-color: #333;
-  --border-color-secondary: #fff;
+  --border-color: #777;
+  --border-color-secondary: #333;
 }
 .debug {
   display: none !important;
@@ -35,21 +37,20 @@ body {
   padding: 0;
   text-align: center;
 }
-body a,body a:visited{
-  color: var(--font-color);
-}
 body a:hover{
-  text-shadow: 0 0 2px var(--font-color);
+  color: var(--link-hover-color);
 }
 html:not(#page-mj) body {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 html:not(#page-mj) h2 {
   margin-bottom: 30px;
 }
 html:not(#page-mj) .page-wrapper {
-  height: 100%;
   padding: 0 15px;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -58,32 +59,45 @@ html:not(#page-mj) .page-wrapper {
 h3 {
   margin-top: 0;
 }
-#account_actions{
-  text-align: right;
+#account_actions {
+  display: flex;
   padding: 5px;
   font-size: 14px;
+  justify-content: flex-end;
+  align-items: center;
 }
-#account_actions a, #account_actions a:visited{
+#account_actions > *:not(:last-child):after {
+  content: '|';
+  margin-left: 10px;
+}
+#account_actions a {
   color: var(--font-color);
-  text-decoration: underline;
 }
-#account_actions .enableDarkMode, #account_actions .enableLightMode{
+#account_actions .enableDarkMode,
+#account_actions .enableLightMode {
   height: 15px;
   width: 15px;
   border-radius: 50%;
   border: 1px solid var(--border-color);
   display: inline-block;
-  cursor:pointer;
-  margin-rigth: 5px;
+  cursor: pointer;
 }
-#account_actions .enableDarkMode{
+#account_actions .enableDarkMode {
   background: black;
   box-shadow: 0 0 3px black;
 }
-#account_actions .enableLightMode{
+#account_actions .enableLightMode {
   background: white;
-  box-shadow: 0 0 3px white;
-  border: 1px solid white;
+  box-shadow: 0 0 3px lightgray;
+  border: 1px solid lightgray;
+}
+.theme-switch {
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+}
+.theme-switch > span {
+  margin-left: 5px;
 }
 .wrapper-intro {
   display: flex;
@@ -141,7 +155,12 @@ h2 {
   margin: 0;
 }
 a {
+  color: var(--link-color);
   text-decoration: none;
+}
+a.no-color,
+a.no-color:hover {
+  color: var(--font-color);
 }
 
 form {
@@ -169,19 +188,28 @@ input[type=submit],
 }
 
 body .index-wrapper a {
+  color: var(--font-color);
+}
+body .index-wrapper a {
   font-size: 25px;
   margin-bottom: 10px;
 }
 .index-wrapper a:hover {
-  color: var(--font-color);
+  color: var(--link-hover-color);
 }
 .hello {
   margin-bottom: 20px;
   font-size: 20px;
 }
-
-.primary-link {
-  color: #ff0000;
+.secondary-links {
+  margin-top: auto;
+  margin-bottom: 130px;
+  font-size: 15px !important;
+  display: flex;
+  flex-direction: column;
+}
+.secondary-links > * {
+  margin-bottom: 5px;
 }
 
 /* ECRAN MJ */
@@ -217,14 +245,14 @@ body .index-wrapper a {
 }
 .wrapper-left {
   flex: 5;
-  border: 1px solid black;
+  border: 1px solid var(--border-color);
   padding: 15px;
   display: flex;
   flex-direction: column;
 }
 .wrapper-center {
   flex: 2;
-  border: 1px solid black;
+  border: 1px solid var(--border-color);
   padding: 15px;
   display: flex;
   justify-content: center;
@@ -247,7 +275,7 @@ body .index-wrapper a {
   margin: 20px 0;
 }
 #tabs > div {
-  border: 1px solid black;
+  border: 1px solid var(--border-color);
   padding: 5px;
   border-radius: 0 5px 5px 0;
   cursor: pointer;
@@ -273,7 +301,7 @@ body .index-wrapper a {
 #group > div {
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
+  border: 1px solid var(--border-color);
   padding: 5px 10px;
   border-radius: 8px;
 }
@@ -423,7 +451,7 @@ body .index-wrapper a {
   font-size: 30px;
 }
 #character-wrapper > div {
-  border: 1px solid black;
+  border: 1px solid var(--border-color);
   padding: 15px;
 }
 .character {
@@ -495,7 +523,7 @@ input[type=submit] {
   border-top: 0.5em solid var(--border-color);
   border-right: 0.5em solid var(--border-color);
   border-bottom: 0.5em solid var(--border-color);
-  border-left: 0.5em solid black;
+  border-left: 0.5em solid var(--border-color);
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
@@ -535,10 +563,4 @@ input[type=submit] {
 }
 #page-new fieldset label {
   margin-right: 15px;
-}
-
-.version {
-  margin-top: auto;
-  margin-bottom: 130px;
-  font-size: 15px !important;
 }

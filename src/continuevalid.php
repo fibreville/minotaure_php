@@ -24,12 +24,12 @@
     $_SESSION['nom'] = $nom;
     if ($id == 1) {
       $text = 'Votre grande aventure continue';
-      $link = 'Accédez à l\'écran du MJ en cliquant <a class="link_primary" href=ecran.php>ici</a>';
+      $link = 'Accédez à l\'écran du MJ en cliquant <a href=ecran.php>ici</a>';
     }
     else {
       if ($hp > 0) {
         $text = 'Votre grande aventure continue';
-        $link = 'Cliquez <a class="link_primary" href=main.php>ici</a>';
+        $link = 'Cliquez <a href=main.php>ici</a>';
       }
       else {
         $text = 'Votre personnage est mort ☠️. On en recrée un nouveau ?';

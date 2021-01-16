@@ -314,11 +314,6 @@ if ($action == 'election') {
   }
 }
 ?>
-<script
-        src="https://code.jquery.com/jquery-3.5.1.min.js"
-        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-        crossorigin="anonymous">
-</script>
 <script src="js/ajax_mj.js"></script>
 
 <div class="wrapper-intro">
@@ -378,6 +373,7 @@ if ($action == 'election') {
           $list_players[$id_joueur] = $nom;
         }
 
+        $aptitude = '';
         if ($carac2 > 3 && $carac1 > 3) {
           $aptitude = $settings['carac1_group'] . ' et ' . $settings['carac2_group'];
         }
@@ -396,7 +392,7 @@ if ($action == 'election') {
 
         if ($hp > 0) {
           print "<div class='stats'>";
-          if ($aptitude) { print "<span>$aptitude</span>"; }
+          if (!empty($aptitude)) { print "<span>$aptitude</span>"; }
           print "
             <span>" . $settings['carac1_name'] . ": $carac1</span>
             <span>" . $settings['carac2_name'] . ": $carac2</span>
@@ -640,7 +636,7 @@ if ($action == 'election') {
       <div data-target="tags">Tags</div>
       <div data-target="settings">Paramètres</div>
       <div class="debug" data-target="debug">Debug</div>
-      <div><a href="ecran.php">Recharger</a></div>
+      <div><a class='no-color' href="ecran.php">Recharger</a></div>
     </div>
   </div>
   <?php include "footer.php"; ?>
