@@ -8,11 +8,12 @@ include "variables.php";
   <meta charset="UTF-8">
   <title><?php print $settings['adventure_name']; ?></title>
   <link rel="stylesheet" type="text/css" href="./css/style.css">
+  <script src="js/theme_switcher.js"></script>
 </head>
 <body class="light">
   <nav id="account_actions">
-    <span class="enableDarkMode" title="Dark mode" onclick="setBright('light','dark')"></span>
-    <span class="enableLightMode" title="Light mode" onclick="setBright('dark','light')"></span>
+    <span class="enableDarkMode" title="Dark mode" onclick="setTheme('dark')"></span>
+    <span class="enableLightMode" title="Light mode" onclick="setTheme('light')"></span>
     <?php if (isset($_SESSION['nom'])){ ?><a href="logout.php">Déconnexion</a><?php } ?>
   </nav>
   <div class="page-wrapper">
