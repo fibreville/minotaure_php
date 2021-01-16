@@ -8,7 +8,8 @@ include "variables.php";
   <meta charset="UTF-8">
   <title><?php print $settings['adventure_name']; ?></title>
   <link rel="stylesheet" type="text/css" href="./css/style.css">
-  <script src="js/theme_switcher.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/jquery-3.5.1.min.js"></script>
 </head>
 <body class="light">
   <nav id="account_actions">

@@ -7,6 +7,6 @@
     <a href="continue.php">Reprendre une partie</a>
     <a href="https://twitter.com/FibreTigre" target="_blank">FibreTigre</a>
   </div>
-  <a class="version" href="https://github.com/fibreville/atrpg" target="_blank">Version 2.5.3</a>
+  <a class="version" href="https://github.com/fibreville/atrpg" target="_blank">Version <?php print file_get_contents('./version.txt'); ?></a>
   <?php include 'footer.php' ?>
 </html>

@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Libre+Baskerville&display=swap');
 :root {
   --font-color: #000;
+  --link-hover-color: #73a8a3;
   --background-color: #FFF;
   --content-background: rgba(0,0,0,0.1);
   --border-color: #333;
@@ -39,7 +40,7 @@ body a,body a:visited{
   color: var(--font-color);
 }
 body a:hover{
-  text-shadow: 0 0 2px var(--font-color);
+  color: var(--link-hover-color);
 }
 html:not(#page-mj) body {
   height: 100vh;
@@ -63,11 +64,13 @@ h3 {
   padding: 5px;
   font-size: 14px;
 }
-#account_actions a, #account_actions a:visited{
+#account_actions a,
+#account_actions a:visited {
   color: var(--font-color);
   text-decoration: underline;
 }
-#account_actions .enableDarkMode, #account_actions .enableLightMode{
+#account_actions .enableDarkMode,
+#account_actions .enableLightMode {
   height: 15px;
   width: 15px;
   border-radius: 50%;
@@ -76,14 +79,14 @@ h3 {
   cursor:pointer;
   margin-rigth: 5px;
 }
-#account_actions .enableDarkMode{
+#account_actions .enableDarkMode {
   background: black;
   box-shadow: 0 0 3px black;
 }
-#account_actions .enableLightMode{
+#account_actions .enableLightMode {
   background: white;
-  box-shadow: 0 0 3px white;
-  border: 1px solid white;
+  box-shadow: 0 0 3px lightgray;
+  border: 1px solid lightgray;
 }
 .wrapper-intro {
   display: flex;
@@ -173,7 +176,7 @@ body .index-wrapper a {
   margin-bottom: 10px;
 }
 .index-wrapper a:hover {
-  color: var(--font-color);
+  color: var(--link-hover-color);
 }
 .hello {
   margin-bottom: 20px;
