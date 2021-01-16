@@ -26,6 +26,7 @@
 html, body {
   margin: 0;
   padding: 0;
+  transition: background 0.4s linear 0s;
   background-color: var(--background-color);
 }
 body {
@@ -36,6 +37,9 @@ body {
 }
 body a,body a:visited{
   color: var(--font-color);
+}
+body a:hover{
+  text-shadow: 0 0 2px var(--font-color);
 }
 html:not(#page-mj) body {
   height: 100vh;
