@@ -139,10 +139,10 @@ if ($hp > 0) { ?>
       <div><?php print $settings['carac2_name']; ?> : <b><?php print $carac2; ?></b></div>
       <div>💛 Points de vie : <b><?php print $hp; ?></b></div>
     </div>
-    <?php if ($leader == 1) { ?>
+    <?php if ($leader > 0) { ?>
       <div class="pj-role">Vous êtes actuellement <b>Leader</b> 👑 !</div>
     <?php } ?>
-    <?php if ($traitre == 1) { ?>
+    <?php if ($traitre > 0) { ?>
       <div class="pj-role">Vous êtes actuellement <b>Traitre</b> 🗡️!</div>
     <?php } ?>
   </div>

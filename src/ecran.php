@@ -10,12 +10,12 @@ if ($_SESSION['id'] != 1) {
 }
 
 $time = time();
-$leader = $_SESSION['leader'];
-$traitre = $_SESSION['traitre'];
+
 $cleanPost = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 $action = $_GET['action'];
 
 if (isset($action)) {
+  // mettre à jour le fichier servant à prévenir les PJ que leur fiche doit être rechargée.
   file_put_contents($tmp_path . '/game_timestamp.txt', time());
 }
 
@@ -49,7 +49,7 @@ elseif ($action == 'settings') {
 }
 
 // TRAITEMENT DE L'AJOUT DE TAGS.
-if ($action == "tags") {
+elseif ($action == "tags") {
   $tag1 = $cleanPost['tag1'];
   $tag2 = $cleanPost['tag2'];
   $tag3 = $cleanPost['tag3'];
@@ -150,7 +150,7 @@ elseif ($action == "epreuve") {
 }
 
 // TRAITEMENT DU LOOT
-elseif ($action == "loot") {
+if ($action == "loot") {
   $loot = $cleanPost['loot'];
   $propriete = $cleanPost['propriete'];
   $qui_multiple = $cleanPost['qui_multiple'];
@@ -210,7 +210,7 @@ elseif ($action == "loot") {
   }
 }
 
-if ($action == "clean") {
+elseif ($action == "clean") {
   $_SESSION['current_poll'] = FALSE;
   $query = $db->prepare("UPDATE sondage SET choix=''");
   $query->execute();
@@ -223,7 +223,7 @@ if ($action == "clean") {
 }
 
 // TRAITEMENT DU SONDAGE.
-if ($action == "poll") {
+elseif ($action == "poll") {
   $_SESSION['current_poll'] = TRUE;
   $choixtag = $cleanPost['choixtag'];
   $choixrandom = $cleanPost['choixrandom'];
@@ -262,7 +262,7 @@ if ($action == "poll") {
 }
 
 // TRAITEMENT DES NOMINATIONS.
-if ($action == 'election') {
+elseif ($action == 'election') {
   $designe = '';
   $election = $cleanPost['election'];
   $random_tag = $cleanPost['random_tag'];
@@ -272,24 +272,22 @@ if ($action == 'election') {
     if ($election == "leader") {
       $query = $db->prepare("UPDATE hrpg SET leader = 0,lastlog='$time',log='Vous n''êtes plus leader.' WHERE leader=1");
       $query->execute();
-      $query = $db->prepare("SELECT id, nom FROM hrpg WHERE hp > 0 AND id > 1 AND id <> :leader ORDER BY RAND() LIMIT 1");
-      $query->execute([':leader' => $leader ? $leader : 1]);
+      $query = $db->prepare("SELECT id, nom FROM hrpg WHERE hp > 0 AND id > 1 AND leader = 0 ORDER BY RAND() LIMIT 1");
+      $query->execute();
       $row = $query->fetch(PDO::FETCH_ASSOC);
       $id_leader = $row['id'];
       $query = $db->prepare("UPDATE hrpg SET leader=1,lastlog='$time',log='Vous êtes le nouveau leader.' WHERE id='$id_leader'");
       $query->execute();
-      $leader = $_SESSION['leader'] = $row['nom'];
     }
     elseif ($election == "traitre") {
       $query = $db->prepare("UPDATE hrpg SET traitre = 0,lastlog='$time',log='Vous n''êtes plus traître.' WHERE traitre=1");
       $query->execute();
-      $query = $db->prepare("SELECT id, nom FROM hrpg WHERE hp > 0 AND id > 1 AND id <> :traitre ORDER BY RAND() LIMIT 1");
-      $query->execute([':traitre' => $traitre ? $traitre : 1]);
+      $query = $db->prepare("SELECT id, nom FROM hrpg WHERE hp > 0 AND id > 1 AND traitre = 0 ORDER BY RAND() LIMIT 1");
+      $query->execute();
       $row = $query->fetch(PDO::FETCH_ASSOC);
       $id_traitre = $row['id'];
       $query = $db->prepare("UPDATE hrpg SET traitre=1,lastlog='$time',log='Vous êtes le nouveau traître.' WHERE id='$id_traitre'");
       $query->execute();
-      $traitre = $_SESSION['traitre'] = $row['nom'];
     }
   }
   if (!empty($random_choice) || !empty($random_tag)) {
@@ -325,6 +323,38 @@ if ($action == 'election') {
 </div>
 <div class="wrapper-main">
   <?php
+  $stmt = $db->prepare("SELECT nom, id, hp FROM hrpg WHERE leader = 1");
+  $stmt->execute([]);
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+  if (empty($row)) {
+    $leader = 'aucun';
+    $id_leader = 0;
+  }
+  elseif ($row['hp'] <= 0) {
+    $leader = 'mort (' . $row['nom'] . ')';
+    $id_leader = 0;
+  }
+  else {
+    $leader = $row['nom'];
+    $id_leader = $row['id'];
+  }
+
+  $stmt = $db->prepare("SELECT nom, id, hp FROM hrpg WHERE traitre = 1");
+  $stmt->execute([]);
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+  if (empty($row)) {
+    $traitre = 'aucun';
+    $id_traitre = 0;
+  }
+  elseif ($row['hp'] <= 0) {
+    $traitre = 'mort (' . $row['nom'] . ')';
+    $id_traitre = 0;
+  }
+  else {
+    $traitre = $row['nom'];
+    $id_traitre = $row['id'];
+  }
+
   $query = $db->prepare("
   SELECT id,nom,carac2,carac1,hp,tag1,tag2,tag3
   FROM hrpg
