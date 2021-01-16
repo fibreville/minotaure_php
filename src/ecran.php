@@ -27,8 +27,6 @@ if ($action == "delete") {
   $query = $db->query("ALTER TABLE hrpg AUTO_INCREMENT = 2");
   $query = $db->query("TRUNCATE TABLE loot");
   $_SESSION['settings'] = $settings = [];
-  unset($_SESSION['traitre']);
-  unset($_SESSION['leader']);
   unlink($tmp_path . '/game_timestamp.txt');
   unlink($tmp_path . '/settings_timestamp.txt');
   unlink($tmp_path . '/settings.txt');
@@ -270,24 +268,27 @@ elseif ($action == 'election') {
 
   if ($election) {
     if ($election == "leader") {
-      $query = $db->prepare("UPDATE hrpg SET leader = 0,lastlog='$time',log='Vous n''êtes plus leader.' WHERE leader=1");
+      $query = $db->prepare("SELECT id FROM hrpg WHERE hp > 0 AND id > 1 AND leader = 0 ORDER BY RAND() LIMIT 1");
       $query->execute();
-      $query = $db->prepare("SELECT id, nom FROM hrpg WHERE hp > 0 AND id > 1 AND leader = 0 ORDER BY RAND() LIMIT 1");
-      $query->execute();
-      $row = $query->fetch(PDO::FETCH_ASSOC);
-      $id_leader = $row['id'];
-      $query = $db->prepare("UPDATE hrpg SET leader=1,lastlog='$time',log='Vous êtes le nouveau leader.' WHERE id='$id_leader'");
-      $query->execute();
+      $row = $query->fetch();
+      if (!empty($row[0])) {
+        $query = $db->prepare("UPDATE hrpg SET leader=0,lastlog=:time,log='Vous n''êtes plus leader.' WHERE leader=1");
+        $query->execute([':time' => $time]);
+        $query = $db->prepare("UPDATE hrpg SET leader=1,lastlog=:time,log='Vous êtes le nouveau leader.' WHERE id=:id");
+        $query->execute([':id' => $row[0], ':time' => $time]);
+
+      }
     }
     elseif ($election == "traitre") {
-      $query = $db->prepare("UPDATE hrpg SET traitre = 0,lastlog='$time',log='Vous n''êtes plus traître.' WHERE traitre=1");
+      $query = $db->prepare("SELECT id FROM hrpg WHERE hp > 0 AND id > 1 AND traitre = 0 ORDER BY RAND() LIMIT 1");
       $query->execute();
-      $query = $db->prepare("SELECT id, nom FROM hrpg WHERE hp > 0 AND id > 1 AND traitre = 0 ORDER BY RAND() LIMIT 1");
-      $query->execute();
-      $row = $query->fetch(PDO::FETCH_ASSOC);
-      $id_traitre = $row['id'];
-      $query = $db->prepare("UPDATE hrpg SET traitre=1,lastlog='$time',log='Vous êtes le nouveau traître.' WHERE id='$id_traitre'");
-      $query->execute();
+      $row = $query->fetch();
+      if (!empty($row[0])) {
+        $query = $db->prepare("UPDATE hrpg SET traitre=0,lastlog=:time,log='Vous n''êtes plus traître.' WHERE traitre=1");
+        $query->execute([':time' => $time]);
+        $query = $db->prepare("UPDATE hrpg SET traitre=1,lastlog=:time,log='Vous êtes le nouveau traître.' WHERE id=:id");
+        $query->execute([':id' => $row[0], ':time' => $time]);
+      }
     }
   }
   if (!empty($random_choice) || !empty($random_tag)) {
@@ -324,35 +325,29 @@ elseif ($action == 'election') {
 <div class="wrapper-main">
   <?php
   $stmt = $db->prepare("SELECT nom, id, hp FROM hrpg WHERE leader = 1");
-  $stmt->execute([]);
+  $stmt->execute();
   $row = $stmt->fetch(PDO::FETCH_ASSOC);
   if (empty($row)) {
     $leader = 'aucun';
-    $id_leader = 0;
   }
   elseif ($row['hp'] <= 0) {
     $leader = 'mort (' . $row['nom'] . ')';
-    $id_leader = 0;
   }
   else {
     $leader = $row['nom'];
-    $id_leader = $row['id'];
   }
 
   $stmt = $db->prepare("SELECT nom, id, hp FROM hrpg WHERE traitre = 1");
-  $stmt->execute([]);
+  $stmt->execute();
   $row = $stmt->fetch(PDO::FETCH_ASSOC);
   if (empty($row)) {
     $traitre = 'aucun';
-    $id_traitre = 0;
   }
   elseif ($row['hp'] <= 0) {
     $traitre = 'mort (' . $row['nom'] . ')';
-    $id_traitre = 0;
   }
   else {
     $traitre = $row['nom'];
-    $id_traitre = $row['id'];
   }
 
   $query = $db->prepare("
