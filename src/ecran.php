@@ -155,12 +155,14 @@ if ($action == "loot") {
   $propriete = $cleanPost['propriete'];
   $qui_multiple = $cleanPost['qui_multiple'];
   $bonus = isset($cleanPost['bonus']) ? $cleanPost['bonus'] : 0;
-  if ($bonus >= 0) {
+  if ($bonus > 0) {
     $bonus = '+' . $bonus;
   }
   $qui = $cleanPost['qui'];
 
-  $loot_expression = ($propriete . '=' . $propriete . $bonus);
+  if ($bonus != 0){
+	$loot_expression = (", " . $propriete . '=' . $propriete . $bonus);
+  }
   if (!empty($qui_multiple)) {
     $condition_sql = " WHERE id IN (" . $qui_multiple . ")";
   }
@@ -188,11 +190,14 @@ if ($action == "loot") {
     // Mise à jour des stats des PJs concernés.
     $query_update = $db->prepare("
         UPDATE hrpg
-        SET lastlog='$time',log='Vous avez reçu un nouvel objet.'," . $loot_expression . $condition_sql);
+        SET lastlog='$time',log='Vous avez reçu un nouvel objet.'" . $loot_expression . $condition_sql);
     $query_update->execute();
 
     // Ajout du loot dans chaque inventaire.
-    if ($propriete == 'hp') {
+    if ($bonus == 0) {
+      $property_name = 'aucun effet';
+    }
+    elseif ($propriete == 'hp') {
       $property_name = 'pv';
     }
     else {
