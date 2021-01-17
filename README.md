@@ -115,6 +115,17 @@ and [make](https://fr.wikipedia.org/wiki/Make).
 * To stop the containers: `make down`
 * To delete containers and data: `make reset`
 
+### Tests unitaire (pour les developpeurs)
+
+Installation de phpunit
+```bash
+./scripts/init_tests.sh
+```
+Lancement des tests
+```bash
+./phpunit tests/
+```
+
 ### How to play
 
 - The first account you create will be the admin (it can have any name)

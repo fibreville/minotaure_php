@@ -6,7 +6,7 @@ $settings = $_SESSION['settings'];
 
 if ($_GET['role'] == 'heartbeat') {
   if ($_SESSION['id'] == 1) {
-    print json_encode($_SESSION['current_poll']);
+    print isset($_SESSION['current_poll']) ? json_encode($_SESSION['current_poll']) : '[]';
   }
   else {
     print json_encode(!isset($_SESSION['current_timestamp']) || $_SESSION['current_timestamp'] < $game_timestamp);
@@ -35,9 +35,9 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
   $choixtag = $row['choixtag'];
 
   $sql_poll_count = "
-    SELECT COUNT(*) 
-    FROM hrpg 
-    WHERE hp > 0 
+    SELECT COUNT(*)
+    FROM hrpg
+    WHERE hp > 0
     AND id > 1";
 
   if (!empty($choixtag)) {
@@ -50,10 +50,10 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
 
   print "<table>";
   $query = $db->prepare("
-    SELECT vote, COUNT(id) c 
-    FROM hrpg 
+    SELECT vote, COUNT(id) c
+    FROM hrpg
     WHERE vote > 0
-    GROUP BY vote 
+    GROUP BY vote
     ORDER BY c DESC");
   $query->execute();
   $votes = $query->fetchAll(PDO::FETCH_ASSOC);
