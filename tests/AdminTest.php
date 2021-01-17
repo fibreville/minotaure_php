@@ -77,7 +77,7 @@ final class AdminTest extends TestCase
 			'qui'=>'*',
 			'qui_multiple'=>''
 		];
-		updateLoot($db, $post);
+		update_loot($db, $post);
 
 		$after_add_count_loots = $this->getSQLCount($db, 'loot');
 		$after_add_count_logs = $this->getSQLCount($db, 'hrpg WHERE log <> ""');

@@ -153,7 +153,7 @@ function gen_loot_query_part($post)
   if (!empty($post['qui']))
     return 'id ='.$post['qui'];
 }
-function updateLoot($db, $post)
+function update_loot($db, $post)
 {
   $post['bonus'] = isset($post['bonus']) ? $post['bonus'] : 0;
   if ($post['bonus'] >= 0) {
