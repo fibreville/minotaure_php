@@ -4,3 +4,4 @@ data
 *connexion.php
 .phpunit.result.cache
 phpunit
+js/events_log.js

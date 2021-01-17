@@ -35,6 +35,7 @@ function delete_adventure($db, $tmp_path)
   unset($_SESSION['traitre']);
   unset($_SESSION['leader']);
   $_SESSION['settings'] = [];
+  file_put_contents('js/events_log.js', 'var data_failures = [], data_wins = [];');
   @unlink($tmp_path . '/game_timestamp.txt');
   @unlink($tmp_path . '/settings_timestamp.txt');
   @unlink($tmp_path . '/settings.txt');
