@@ -152,9 +152,9 @@
           </fieldset>
           <input type="submit" value="OK">
         </form>
-        <?php if (!empty($designe)) { ?>
+        <?php if (!empty($_SESSION['designe'])) { ?>
           <div><b>Le joueur désigné est :</b>
-            <div><?php print "$designe"; ?></div>
+            <div><?php print $_SESSION['designe']; ?></div>
           </div>
         <?php } ?>
       </div>
@@ -247,7 +247,7 @@
           </fieldset>
           <input type="submit" value="ÉPROUVER">
         </form>
-        <div class="epreuve-cr"><?php print $sanction; ?></div>
+        <div class="epreuve-cr"><?php print $_SESSION['sanction']; ?></div>
       </div>
 
       <div id="loot">

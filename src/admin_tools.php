@@ -138,7 +138,7 @@ function update_events($db,$post)
     $sanction .= ' pour le groupe '.$post['victimetag'].'</span>';
   }
   $sanction .= '</span>';
-  return $sanction;
+  $_SESSION['sanction'] = $sanction;
 }
 function gen_loot_query_part($post)
 {
@@ -255,6 +255,6 @@ function make_election($db,$post)
 
   $row = $db->query('SELECT nom,id FROM hrpg WHERE hp > 0 AND id > 1'.$where_add.' ORDER BY RAND() LIMIT 1')->fetch();
 
-  return $row[0].' (#'.$row[1].')';
+  $_SESSION['designe'] = $row[0].' (#'.$row[1].')';
 }
 ?>

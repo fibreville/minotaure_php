@@ -16,6 +16,7 @@ if (!isset($_GET['action'])) {
 include "connexion.php";
 include "variables.php";
 file_put_contents($tmp_path . '/game_timestamp.txt', time());
+
 // TRAITEMENT DE LA SUPPRESSION DE L'AVENTURE
 if ($_GET['action'] == "delete") {
   delete_adventure($db, $tmp_path);
@@ -24,7 +25,6 @@ if ($_GET['action'] == "delete") {
 // PARAMETRES AVENTURE.
 elseif ($_GET['action'] == 'settings') {
   save_new_settings($_POST, $tmp_path);
-  $settings = $_SESSION['settings'];
 }
 
 // TRAITEMENT DE L'AJOUT DE TAGS.
@@ -43,7 +43,7 @@ elseif ($_GET['action'] == "create_user") {
 
 // TRAITEMENT DES EPREUVES.
 elseif ($_GET['action'] == "epreuve") {
-  $sanction = update_events($db, $_POST);
+  update_events($db, $_POST);
 }
 
 // TRAITEMENT DU LOOT
@@ -62,7 +62,7 @@ elseif ($_GET['action'] == "poll") {
 
 // TRAITEMENT DES NOMINATIONS.
 elseif ($_GET['action'] == 'election') {
-  $designe = make_election($db,$_POST);
+  make_election($db,$_POST);
 }
 
 else {
