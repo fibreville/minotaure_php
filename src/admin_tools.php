@@ -132,7 +132,7 @@ function update_events($db,$post)
         .' WHERE id IN ('.implode(',', $loosers).')'
     );
   }
-  echo '<script>var data_failures = '.json_encode($failures).';var data_wins = '.json_encode($winners).';</script>';
+  file_put_contents('js/events_log.js', 'var data_failures = '.json_encode($failures).', data_wins = '.json_encode($winners).';');
   $sanction = '<span class=epreuve-header><b>'.count($winners).'</b> victoire(s) pour <b>'.count($loosers).'</b> défaite(s)';
   if (!empty($post['victimetag'])) {
     $sanction .= ' pour le groupe '.$post['victimetag'].'</span>';

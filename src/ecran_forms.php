@@ -1,5 +1,5 @@
 <script src="js/ajax_mj.js"></script>
-
+<script src="js/events_log.js"></script>
 <div class="wrapper-intro">
   <div class="intro">
     <h2><?php print $settings['adventure_name']; ?></h2>
