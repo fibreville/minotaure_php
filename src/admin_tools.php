@@ -229,7 +229,7 @@ function elect_player($db, $role)
 }
 function make_election($db,$post)
 {
-  if (!isset($post['election']) or empty($post['random_choice']) && empty($post['random_tag']))
+  if (empty($post['election']) && empty($post['random_choice']) && empty($post['random_tag']))
     return;
 
   if ($post['election'] == 'leader') {
