@@ -1,6 +1,6 @@
-<?php session_start(); ?>
-<html id="page-character">
 <?php
+session_start();
+$page_id = 'page-character';
 $_SESSION['current_timestamp'] = 0;
 include 'header.php';
 
@@ -40,4 +40,3 @@ if ($traitre == 1) {
 <?php
 include "footer.php";
 ?>
-</html>

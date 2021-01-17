@@ -1,3 +1,4 @@
-  </div>
-  <script src="./js/main.js"></script>
-</body>
+    </div>
+    <script src="./js/main.js"></script>
+  </body>
+<html>
