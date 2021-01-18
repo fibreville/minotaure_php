@@ -327,6 +327,9 @@ body .index-wrapper a {
   background: var(--success-background);
   color: var(--success-color);
 }
+.not-alive {
+  color: var(--disabled-color);
+}
 .not-alive.looser {
   background: var(--disabled-background);
   order: -1;
