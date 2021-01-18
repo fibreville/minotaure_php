@@ -7,6 +7,8 @@ admin_only();
 $page_id = 'page-mj';
 include "header.php";
 file_put_contents($tmp_path . '/game_timestamp.txt', time());
+unset($_SESSION['sanction']);
+unset($_SESSION['designe']);
 
 if (isset($_GET['action'])) {
   $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);;
@@ -32,7 +34,7 @@ if (isset($_GET['action'])) {
   }
   // TRAITEMENT DES EPREUVES.
   elseif ($_GET['action'] == "epreuve") {
-    update_events($db, $_POST);
+    print update_events($db, $_POST);
   }
   // TRAITEMENT DU LOOT
   elseif ($_GET['action'] == "loot") {

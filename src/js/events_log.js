@@ -1,1 +1,0 @@
-var data_failures = ["pj-1003","pj-1005","pj-1006"], data_wins = ["pj-1002","pj-1004"];

@@ -1,4 +1,8 @@
 <?php
+/**
+ * Contient toutes les fonctions utilisées par l'écran du MJ
+ */
+
 function admin_only() {
   if ($_SESSION['id'] != 1) {
     include "header.php";
@@ -22,7 +26,6 @@ function delete_adventure($db, $tmp_path) {
   unset($_SESSION['traitre']);
   unset($_SESSION['leader']);
   $_SESSION['settings'] = [];
-  file_put_contents('js/events_log.js', 'var data_failures = [], data_wins = [];');
   @unlink($tmp_path . '/game_timestamp.txt');
   @unlink($tmp_path . '/settings_timestamp.txt');
   @unlink($tmp_path . '/settings.txt');
@@ -84,10 +87,10 @@ function gen_victime_query_part($post) {
     return 'hp > 0';
   }
   if ($post['victime'] == 'carac1') {
-    return 'hp > 0 AND carac1 >= carac2';
+    return 'hp > 0 AND carac1 > 3';
   }
   if ($post['victime'] == 'carac2') {
-    return 'hp > 0 AND carac2 >= carac1';
+    return 'hp > 0 AND carac2 > 3';
   }
   return 'id = ' . $post['victime'];
 }
@@ -123,14 +126,15 @@ function update_events($db, $post) {
       . ' WHERE id IN (' . implode(',', $loosers) . ')'
     );
   }
-  // On place dans un fichier deux tableaux d'ids de PJ ayant échoué / réussi, à exploiter par le front.
-  file_put_contents('js/events_log.js', 'var data_failures = ' . json_encode($failures) . ', data_wins = ' . json_encode($winners) . ';');
+  // On renvoie deux tableaux d'ids de PJ ayant échoué / réussi, à exploiter par le front.
   $sanction = '<span class=epreuve-header><b>' . count($winners) . '</b> victoire(s) pour <b>' . count($loosers) . '</b> défaite(s)';
   if (!empty($post['victimetag'])) {
     $sanction .= ' pour le groupe ' . $post['victimetag'] . '</span>';
   }
   $sanction .= '</span>';
   $_SESSION['sanction'] = $sanction;
+
+  return '<script>data_failures = ' . json_encode($failures) . ', data_wins = ' . json_encode($winners) . ';</script>';
 }
 
 function gen_loot_query_part($post) {
@@ -141,10 +145,10 @@ function gen_loot_query_part($post) {
     return 'hp > 0 AND id > 1';
   }
   if ($post['qui'] == 'carac1') {
-    return 'hp > 0 AND id > 1 AND carac1 >= carac2';
+    return 'hp > 0 AND id > 1 AND carac1 > 3';
   }
   if ($post['qui'] == 'carac2') {
-    return 'hp > 0 AND id > 1 AND carac2 >= carac1';
+    return 'hp > 0 AND id > 1 AND carac2 > 3';
   }
   if (!empty($post['qui'])) {
     return 'id =' . $post['qui'];
@@ -153,7 +157,7 @@ function gen_loot_query_part($post) {
 
 function update_loot($db, $post) {
   $post['bonus'] = isset($post['bonus']) ? $post['bonus'] : 0;
-  if ($post['bonus'] >= 0) {
+  if ($post['bonus'] > 0) {
     $post['bonus'] = '+' . $post['bonus'];
   }
   $condition_sql = gen_loot_query_part($post);
@@ -164,28 +168,29 @@ function update_loot($db, $post) {
   // Selection des PJS à qui donner le loot.
   $query_select = $db->query('SELECT id FROM hrpg WHERE ' . $condition_sql);
   $ids = $query_select->fetchAll(PDO::FETCH_COLUMN);
-  $query_select->closeCursor();
-
-  // Mise à jour des stats des PJs concernés.
-  $db->query(
-    'UPDATE hrpg'
-    . ' SET lastlog="' . time() . '",'
-    . 'log="Vous avez reçu un nouvel objet.",'
-    . $post['propriete'] . '=' . $post['propriete'] . $post['bonus'] . ' WHERE ' . $condition_sql
-  );
-
   if (empty($ids)) {
     return;
   }
-
-  $property_name = $post['propriete'] == 'hp' ? 'pv' : $settings[$post['propriete'] . '_name'];
+  if ($post['bonus'] != 0) {
+    // Mise à jour des stats des PJs concernés.
+    $db->query(
+      'UPDATE hrpg'
+      . ' SET lastlog="' . time() . '",'
+      . 'log="Vous avez reçu un nouvel objet.",'
+      . $post['propriete'] . '=' . $post['propriete'] . $post['bonus'] . ' WHERE ' . $condition_sql
+    );
+    $property = $post['bonus'] . ' ' . ($post['propriete'] == 'hp' ? 'pv' : $settings[$post['propriete'] . '_name']);
+  }
+  else {
+    $property = 'aucun effet';
+  }
 
   // Ajout du loot dans chaque inventaire.
   $query = $db->prepare("INSERT INTO loot(idh,quoi) VALUES (:idh,:loot)");
   foreach ($ids as $id) {
     $query->execute([
       ':idh' => $id,
-      ':loot' => $post['loot'] . ' (' . $post['bonus'] . ' ' . $property_name . ')',
+      ':loot' => $post['loot'] . ' (' . $property . ')',
     ]);
   }
 }

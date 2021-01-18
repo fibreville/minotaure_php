@@ -5,7 +5,7 @@ include "connexion.php";
 $nom = $_POST['nom'];
 $pass = $_POST['pass'];
 $stat = $_POST['stat'];
-$probleme = null;
+$probleme = NULL;
 
 if (empty($nom) || empty($pass)) {
   $probleme = 'Veuillez remplir le champ : ' . (empty($nom) ? 'nom' : 'mot de passe') . '.';
@@ -85,9 +85,10 @@ include 'header.php'; ?>
 
     $_SESSION['id'] = $id;
     $_SESSION['nom'] = $nom;
-  ?>
+    ?>
     <?php if ($id != 1): ?>
-      <div><span class="pj-name"><?php print $nom; ?></span> entre en scène.</div>
+      <div><span class="pj-name"><?php print $nom; ?></span> entre en scène.
+      </div>
       <div>Bienvenue dans notre grande aventure.</div>
       <div><a href="main.php">C'est parti.</a></div>
     <?php else: ?>
@@ -95,16 +96,17 @@ include 'header.php'; ?>
       <div>Bienvenue dans votre aventure.</div>
       <div><a href="ecran.php">Aller sur l'écran du MJ.</a></div>
     <?php endif; ?>
-  <?php
+    <?php
   }
   else {
-  ?>
+    ?>
     <div>Impossible de créer votre personnage 😢.</div>
     <div><?php print $probleme; ?></div>
-    <div><a href=new.php>Réessayez</a> ou retournez <a href=index.php>au menu principal</div>
-  <?php
+    <div><a href=new.php>Réessayez</a> ou retournez <a href=index.php>au menu
+        principal</div>
+    <?php
   }
   ?>
-  </div>
+</div>
 <?php include "footer.php"; ?>
 </html>
