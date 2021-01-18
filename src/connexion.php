@@ -7,12 +7,13 @@ try {
   $username = $url["user"];
   $password = $url["pass"];
   $db = substr($url["path"], 1);
-  $db = new mysqli($server, $username, $password, $db);
+  $db = new PDO('mysql:host=' . $server . ';dbname=' . $db, $username, $password);
+  $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 catch (PDOException $e) {
     die('Erreur sql : ' . $e->getMessage());
 }
-$tmp_path = '.';
+$tmp_path = '/tmp';
 if (file_exists($tmp_path)) {
   if (!is_writable($tmp_path)) {
     die("Dossier des fichiers temporaires non-accessible en écriture.");
