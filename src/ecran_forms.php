@@ -1,5 +1,4 @@
 <script src="js/ajax_mj.js"></script>
-<script src="js/events_log.js"></script>
 <div class="wrapper-intro">
   <div class="intro">
     <h2><?php print $settings['adventure_name']; ?></h2>
@@ -51,8 +50,8 @@
   ?>
   <div class="wrapper-left">
     <div id="group-stats">
-      <span>👑 Leader du groupe : <b><?php print "$leader"; ?></b></span>
-      <span>🗡️ Traître du groupe : <b><?php print "$traitre"; ?></b></span>
+      <span>👑 Leader du groupe : <b class="pj-name"><?php print "$leader"; ?></b></span>
+      <span>🗡️ Traître du groupe : <b class="pj-name"><?php print "$traitre"; ?></b></span>
       <span>💛 Joueurs encore en vie : <b><?php print $nb_alive . ' / ' . count($players); ?></b></span>
     </div>
     <div id="group">

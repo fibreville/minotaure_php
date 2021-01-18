@@ -1,4 +1,12 @@
 <?php
+/**
+ * Contient les fonctions utiles pour répondre aux appels AJAX des écrans MJ et PJ.
+ * Pour le MJ : réception des sondages.
+ * Pour les PJ : réception des modifications de leurs fichiers
+ * Le fonctionnement actuel est basé sur un fichier qui contient le timestamp de la dernière action du MJ.
+ * L'appel ajax des PJ est directement renvoyé si ce timestamp n'a pas changé depuis le dernier appel.
+ */
+
 session_start();
 include "connexion.php";
 include "variables.php";
