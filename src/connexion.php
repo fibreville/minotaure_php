@@ -12,7 +12,7 @@ try {
 catch (PDOException $e) {
     die('Erreur sql : ' . $e->getMessage());
 }
-$tmp_path = '/tmp';
+$tmp_path = '.';
 if (file_exists($tmp_path)) {
   if (!is_writable($tmp_path)) {
     die("Dossier des fichiers temporaires non-accessible en écriture.");
