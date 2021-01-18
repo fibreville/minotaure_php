@@ -1,16 +1,17 @@
 <?php
 session_start();
-include "admin_tools.php";
+require_once "admin_tools.php";
+require_once "connexion.php";
 
 admin_only();
-
 $page_id = 'page-mj';
-include "header.php";
+
 file_put_contents($tmp_path . '/game_timestamp.txt', time());
 unset($_SESSION['sanction']);
 unset($_SESSION['designe']);
 
 if (isset($_GET['action'])) {
+  require "variables.php";
   $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);;
 
   // TRAITEMENT DE LA SUPPRESSION DE L'AVENTURE
@@ -56,5 +57,6 @@ if (isset($_GET['action'])) {
   }
 }
 
-include "ecran_forms.php";
-include "footer.php";
+require "header.php";
+require "ecran_forms.php";
+require "footer.php";

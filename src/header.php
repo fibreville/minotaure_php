@@ -1,6 +1,6 @@
 <?php
-include "connexion.php";
-include "variables.php";
+require_once "connexion.php";
+require "variables.php";
 ?>
 <html<?php if (isset($page_id)){ echo ' id="'.$page_id.'"'; } ?>>
   <head>
