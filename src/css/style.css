@@ -10,9 +10,13 @@
   --tab-active: #acc7cd;
   --tab-hover: #98a7a9;
   --fail-background: #ffbfbf;
+  --fail-color: #000;
   --success-background: #b1ffb1;
+  --success-color: #000;
   --warning-background: #f1a14c;
+  --disabled-color: #000;
   --disabled-background: #a4a4a4;
+  --disabled--color: #000;
   --disabled-background-secondary: #989898;
 }
 [data-theme="dark"] {
@@ -317,9 +321,11 @@ body .index-wrapper a {
 }
 .looser {
   background: var(--fail-background);
+  color: var(--fail-color);
 }
 .winner {
   background: var(--success-background);
+  color: var(--success-color);
 }
 .not-alive.looser {
   background: var(--disabled-background);
@@ -328,6 +334,7 @@ body .index-wrapper a {
   animation-name: clignoter;
   animation-iteration-count: 4;
   transition: none;
+  color: var(--disabled-color);
 }
 
 @keyframes clignoter {
