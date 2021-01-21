@@ -140,7 +140,7 @@
           <fieldset>
             <legend>🎲 Désigner au hasard</legend>
             <label for="random_choice">Parmi</label>
-            <select id="random_choice" name="random_choice" required>
+            <select id="random_choice" name="random_choice">
               <option value="" selected disabled>Choisir</option>
               <option value="random">Un personnage</option>
               <option value="random_carac1">Un personnage <?php print $settings['carac1_group']; ?></option>
