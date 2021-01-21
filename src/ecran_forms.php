@@ -131,7 +131,7 @@
         <form method="post" action="ecran.php?action=election">
           <fieldset>
             <legend>👇 Nommer</legend>
-            <select name="election" required>
+            <select name="election">
               <option value="" selected disabled>Choisir</option>
               <option value="leader">👑 Nommer un nouveau leader</option>
               <option value="traitre">🗡️ Nommer un nouveau traitre</option>
@@ -269,7 +269,7 @@
           </fieldset>
 
           <label for="qui">À qui</label>
-          <select name="qui" id="qui" required>
+          <select name="qui" id="qui">
             <option value="" selected disabled>Choisir</option>
             <option value="*">⭐ Tout le monde</option>
             <option value="carac1">Chaque personnage <?php print $settings['carac1_group'] ?></option>
