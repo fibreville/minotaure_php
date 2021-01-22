@@ -87,8 +87,7 @@ include 'header.php'; ?>
     $_SESSION['nom'] = $nom;
     ?>
     <?php if ($id != 1): ?>
-      <div><span class="pj-name"><?php print $nom; ?></span> entre en scène.
-      </div>
+      <div><span class="pj-name"><?php print $nom; ?></span> entre en scène.</div>
       <div>Bienvenue dans notre grande aventure.</div>
       <div><a href="main.php">C'est parti.</a></div>
     <?php else: ?>
@@ -102,11 +101,9 @@ include 'header.php'; ?>
     ?>
     <div>Impossible de créer votre personnage 😢.</div>
     <div><?php print $probleme; ?></div>
-    <div><a href=new.php>Réessayez</a> ou retournez <a href=index.php>au menu
-        principal</div>
+    <div><a href=new.php>Réessayez</a> ou retournez <a href=index.php>au menu principal</a></div>
     <?php
   }
   ?>
 </div>
 <?php include "footer.php"; ?>
-</html>

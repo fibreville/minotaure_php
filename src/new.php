@@ -15,8 +15,8 @@ if ($text == "erreur") {
   <h2>Création de personnage</h2>
   <fieldset>
     <legend>La base</legend>
-    <span><label for="nom">Nom</label><input type="text" name="nom" maxlength="15" required></span>
-    <span><label for="pass">Mot de passe</label><input type="password" name="pass" required></span>
+    <span><label for="nom">Nom</label><input type="text" name="nom" id="nom" maxlength="15" required></span>
+    <span><label for="pass">Mot de passe</label><input type="password" name="pass" id="pass" required></span>
   </fieldset>
   <fieldset>
     <legend>Votre type de personnage</legend>

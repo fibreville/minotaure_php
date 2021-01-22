@@ -4,7 +4,7 @@
     <h2><?php print $settings['adventure_name']; ?></h2>
     <?php print $settings['adventure_guide']; ?>
   </div>
-  <div class="intro-image"><img src="<?php print $settings['image_url']; ?>"/></div>
+  <div class="intro-image"><img src="<?php print $settings['image_url']; ?>" alt="intro-image"/></div>
 </div>
 <div class="wrapper-main">
   <?php
@@ -128,11 +128,11 @@
           Nommez des personnages clefs ou
           désignez un personnage pour votre histoire (par exemple avant une épreuve).
         </div>
-        <form method=post action=ecran.php?action=election>
+        <form method="post" action="ecran.php?action=election">
           <fieldset>
             <legend>👇 Nommer</legend>
             <select name="election">
-              <option value="">Choisir</option>
+              <option value="" selected disabled>Choisir</option>
               <option value="leader">👑 Nommer un nouveau leader</option>
               <option value="traitre">🗡️ Nommer un nouveau traitre</option>
             </select>
@@ -140,14 +140,14 @@
           <fieldset>
             <legend>🎲 Désigner au hasard</legend>
             <label for="random_choice">Parmi</label>
-            <select name="random_choice">
-              <option value="">Choisir</option>
+            <select id="random_choice" name="random_choice">
+              <option value="" selected disabled>Choisir</option>
               <option value="random">Un personnage</option>
               <option value="random_carac1">Un personnage <?php print $settings['carac1_group']; ?></option>
               <option value="random_carac2">Un personnage <?php print $settings['carac2_group']; ?></option>
             </select>
             <span>ou ayant le tag :</span>
-            <input type="text" name="random_tag" placeholder="nomdutag" size="15">
+            <input type="text" name="random_tag" placeholder="nomdutag" maxlength="250">
           </fieldset>
           <input type="submit" value="OK">
         </form>
@@ -169,25 +169,25 @@
         if ($choix != "") {
           print "<span class='poll-label'>$choix</span>";
           print "<div id='poll_results'><table><tr><td>En attente des votes.</td></tr></table></div>";
-          print "<a class='submit-button' href=ecran.php?action=clean>Terminer le sondage</a>";
+          print "<a class='submit-button' href='ecran.php?action=clean'>Terminer le sondage</a>";
         }
         else {
           ?>
           <!-- FORMULAIRE DE SONDAGE-->
-          <form method=post action=ecran.php?action=poll#poll>
-            <input type="text" name="choix" size="30" placeholder="Intitulé du sondage">
-            <input type="text" name="c1" size="30">
-            <input type="text" name="c2" size="30">
-            <input type="text" name="c3" size="30">
-            <input type="text" name="c4" size="30">
-            <input type="text" name="c5" size="30">
-            <input type="text" name="c6" size="30">
-            <input type="text" name="c7" size="30">
-            <input type="text" name="c8" size="30">
-            <input type="text" name="c9" size="30">
-            <input type="text" name="c10" size="30">
+          <form method="post" action="ecran.php?action=poll#poll">
+            <input type="text" name="choix" maxlength="250" placeholder="Intitulé du sondage">
+            <input type="text" name="c1" maxlength="250">
+            <input type="text" name="c2" maxlength="250">
+            <input type="text" name="c3" maxlength="250">
+            <input type="text" name="c4" maxlength="250">
+            <input type="text" name="c5" maxlength="250">
+            <input type="text" name="c6" maxlength="250">
+            <input type="text" name="c7" maxlength="250">
+            <input type="text" name="c8" maxlength="250">
+            <input type="text" name="c9" maxlength="250">
+            <input type="text" name="c10" maxlength="250">
             <label for="choixtag">Limiter à : </label>
-            <input type="text" name="choixtag" size="15" placeholder="nomtag">
+            <input type="text" name="choixtag" id="choixtag" maxlength="250" placeholder="nomtag">
             <input type="submit" value="DÉLIBERER">
           </form>
           <?php
@@ -199,17 +199,17 @@
         <h3>Épreuves</h3>
         <div class="instructions">Faites passer un test à tout ou partie de la population.</div>
         <!-- FORMULAIRE DES EPREUVES-->
-        <form method=post action=ecran.php?action=epreuve#epreuve>
+        <form method="post" action="ecran.php?action=epreuve#epreuve">
           <span class="wrapper-penalite">
             <label for="type">Type</label>
-            <select name="type">
+            <select name="type" id="type">
               <option value="carac1"><?php print $settings['carac1_name'] ?></option>
               <option value="carac2"><?php print $settings['carac2_name'] ?></option>
             </select>
           </span>
           <span class="wrapper-penalite">
             <label for="difficulte">Difficulté</label>
-            <select name="difficulte">
+            <select name="difficulte" id="difficulte">
               <option value="-2">Trivial (-2)</option>
               <option value="-1">Facile (-1)</option>
               <option value="0" selected>Normal (0)</option>
@@ -219,17 +219,17 @@
           </span>
           <span class="wrapper-penalite">
             <label for="penalite">Pénalité</label>
-            <select name="penalite_type">
+            <select name="penalite_type" id="penalite">
               <option value="hp">Santé</option>
               <option value="carac1"><?php print $settings['carac1_name'] ?></option>
               <option value="carac2"><?php print $settings['carac2_name'] ?></option>
             </select>
-            <input type="number" name="penalite" size="2">
+            <input type="number" name="penalite">
           </span>
           <fieldset>
             <legend>Qui ?</legend>
             <label for="victime">par groupe de personnages</label>
-            <select class='pj-name' name="victime">
+            <select class='pj-name' name="victime" id="victime">
               <option value="*">⭐ Tout le monde</option>
               <option value="carac1">Chaque personnage <?php print $settings['carac1_group'] ?></option>
               <option value="carac2">Chaque personnage <?php print $settings['carac2_group'] ?></option>
@@ -240,9 +240,9 @@
               ?>
             </select>
             <label for="victime_multiple">ou par id joueur</label>
-            <input placeholder="1,4,9..." type="text" name="victime_multiple" size="10">
+            <input placeholder="1,4,9..." type="text" name="victime_multiple" id="victime_multiple" maxlength="250">
             <label for="victimetag">ou par Tag</label>
-            <input type="text" name="victimetag" size="10">
+            <input type="text" name="victimetag" id="victimetag" maxlength="250">
           </fieldset>
           <input type="submit" value="ÉPROUVER">
         </form>
@@ -251,29 +251,29 @@
 
       <div id="loot">
         <!-- FORMULAIRE DU LOOT-->
-        <form method=post action=ecran.php?action=loot>
+        <form method="post" action="ecran.php?action=loot">
           <h3>Loot</h3>
           <div class="instructions">Attribuez un objet à toute ou partie de la population.</div>
-          <label for="loot">Quoi</label>
-          <input type="text" name="loot" size="30">
+          <label for="loot_input">Quoi</label>
+          <input type="text" name="loot" id="loot_input" maxlength="250">
           <fieldset>
             <legend>Effet</legend>
             <span class="wrapper-penalite">
               <select name="propriete">
-                <option value=hp>💛 Vie</option>
-                <option value=carac1><?php print $settings['carac1_name']; ?></option>
-                <option value=carac2><?php print $settings['carac2_name']; ?></option>
+                <option value="hp">💛 Vie</option>
+                <option value="carac1"><?php print $settings['carac1_name']; ?></option>
+                <option value="carac2"><?php print $settings['carac2_name']; ?></option>
               </select>
-              <input type="number" name="bonus" placeholder="bonus" size="10">
+              <input type="number" name="bonus" placeholder="bonus" min="-999999999" max="999999999">
             </span>
           </fieldset>
 
           <label for="qui">À qui</label>
-          <select name="qui">
-            <option value=>Choisir</option>
-            <option value=*>⭐ Tout le monde</option>
-            <option value=carac1>Chaque personnage <?php print $settings['carac1_group'] ?></option>
-            <option value=carac2>Chaque personnage <?php print $settings['carac2_group'] ?></option>
+          <select name="qui" id="qui">
+            <option value="" selected disabled>Choisir</option>
+            <option value="*">⭐ Tout le monde</option>
+            <option value="carac1">Chaque personnage <?php print $settings['carac1_group'] ?></option>
+            <option value="carac2">Chaque personnage <?php print $settings['carac2_group'] ?></option>
             <?php
             foreach ($list_players as $key_player => $player) {
               print "<option value='$key_player'>$player</option>";
@@ -281,7 +281,7 @@
             ?>
           </select>
           <label for="qui_multiple">Plusieurs personnages</label>
-          <input type="text" name="qui_multiple" size="10" placeholder="1,4,9...">
+          <input type="text" name="qui_multiple" id="qui_multiple" maxlength="250" placeholder="1,4,9...">
           <input type="submit" value="DONNER">
         </form>
       </div>
@@ -292,10 +292,10 @@
         <div class="instructions">Entrez une liste de tags dans une des 3 cases pour les attributer aléatoirement à la
           population.
         </div>
-        <form method=post action=ecran.php?action=tags>
-          <input type="text" name="tag1" size="30" placeholder="tag1,tag2,tag3...">
-          <input type="text" name="tag2" size="30" placeholder="tag1,tag2,tag3...">
-          <input type="text" name="tag3" size="30" placeholder="tag1,tag2,tag3...">
+        <form method="post" action="ecran.php?action=tags">
+          <input type="text" name="tag1" maxlength="250" placeholder="tag1,tag2,tag3...">
+          <input type="text" name="tag2" maxlength="250" placeholder="tag1,tag2,tag3...">
+          <input type="text" name="tag3" maxlength="250" placeholder="tag1,tag2,tag3...">
           <input type="submit" value="Attribuer">
         </form>
       </div>
@@ -307,26 +307,25 @@
           <fieldset>
             <legend>Intro</legend>
             <label for="adventure_name">Nom de l'aventure</label>
-            <input type="text" name="adventure_name" size="10" value="<?php print $settings['adventure_name']; ?>">
+            <input type="text" name="adventure_name" id="adventure_name" maxlength="250" value="<?php print $settings['adventure_name']; ?>">
             <label for="adventure_guide">Adresse ip ou url pour rejoindre</label>
-            <input type="text" name="adventure_guide" size="10" value="<?php print $settings['adventure_guide']; ?>">
-            <label for="adventure_guide">Image url</label>
-            <input type="text" name="image_url" size="10" value="<?php print $settings['image_url']; ?>">
+            <input type="text" name="adventure_guide" id="adventure_guide" maxlength="250" value="<?php print $settings['adventure_guide']; ?>">
+            <label for="image_url">Image url</label>
+            <input type="text" name="image_url" id="image_url" maxlength="250" value="<?php print $settings['image_url']; ?>">
           </fieldset>
           <fieldset>
             <legend>1ère caractéristique</legend>
             <label for="carac1_name">Nom</label>
-            <input type="text" placeholder="esprit" name="carac1_name" value="<?php print $settings['carac1_name']; ?>">
+            <input type="text" placeholder="esprit" name="carac1_name" id="carac1_name" value="<?php print $settings['carac1_name']; ?>">
             <label for="carac1_group">Un personnage fort dans cette carac est :</label>
-            <input type="text" placeholder="malin" name="carac1_group"
-                   value="<?php print $settings['carac1_group']; ?>">
+            <input type="text" placeholder="malin" name="carac1_group" id="carac1_group" value="<?php print $settings['carac1_group']; ?>">
           </fieldset>
           <fieldset>
             <legend>2ème caractéristique</legend>
             <label for="carac2_name">Nom</label>
-            <input type="text" placeholder="corps" name="carac2_name" value="<?php print $settings['carac2_name']; ?>">
+            <input type="text" placeholder="corps" name="carac2_name" id="carac2_name" value="<?php print $settings['carac2_name']; ?>">
             <label for="carac2_group">Un personnage fort dans cette carac est :</label>
-            <input type="text" placeholder="fort" name="carac2_group" value="<?php print $settings['carac2_group']; ?>">
+            <input type="text" placeholder="fort" name="carac2_group" id="carac2_group" value="<?php print $settings['carac2_group']; ?>">
           </fieldset>
           <input type="submit" value="Enregistrer">
 
@@ -353,3 +352,4 @@
       <div><a class='no-color' href="ecran.php">Recharger</a></div>
     </div>
   </div>
+</div>

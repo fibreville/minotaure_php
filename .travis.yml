@@ -1,0 +1,14 @@
+language: php
+php:
+  - '7.4'
+services:
+  - mysql
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS hrpg;'
+  - mysql -u root --default-character-set=utf8 hrpg < db/database.sql
+  - cp src/connexion_example.php src/connexion.php
+  - touch /tmp/settings.txt
+  - sed "s/nombase;', 'login', 'mdp'/hrpg;', 'root', ''/" -i src/connexion_example.php
+  - ./scripts/init_tests.sh
+script:
+  - ./phpunit tests/
