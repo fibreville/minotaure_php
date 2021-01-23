@@ -1,3 +1,4 @@
+[https://travis-ci.com/fibreville/atrpg.svg](https://travis-ci.com/github/fibreville/atrpg)
 # atrpg
 
 ## 🇫🇷 Version française
