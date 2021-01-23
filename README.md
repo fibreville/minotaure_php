@@ -14,13 +14,6 @@ Ce programme permet de récréer sur votre serveur le JDR « AT RPG » (Asynchro
 
 L'idée et le code d'origine ont été fournies par [FibreTigre](https://www.twitch.tv/fibretigre) le 31/12/20. Rejoignez le discord de la communauté ici : [https://discord.gg/RAhph7z]
 
-### Installation sur un hébergeur gratuit en 10 min
-
-Attention, nous ne conseillons pas d'utiliser un hébergeur gratuit si vous voulez jouer à plus de 100 personnes.
-Quelque soit le nombre de personnes, avec ce genre d'héberger, utilisez la version 2.3 de ATRPG minimum.
-
-[Regarder le tutoriel sur youtube](https://youtu.be/mqaFfTHbFcw).
-
 ### Installation locale sans Docker
 
 1. Il vous faut un serveur avec PHP et une base SQL
@@ -73,14 +66,6 @@ This program lets you create the "AT RPG" (Asynchronous Tactical Role-Playing Ga
 
 The original source was provided by [FibreTigre](https://www.twitch.tv/fibretigre) on 12/31/2020.
 Join his community's Discord (in French + 1 English channel): [https://discord.gg/RAhph7z]
-
-
-### Install on an online free host in 10 minutes
-
-Warning: we strongly advise not to use ATRPG for more than 100 people on a free host.
-If you use a free host, install the 2.3 version or higher of ATRPG.
-
-[Watch the tutorial on youtube](https://youtu.be/mqaFfTHbFcw).
 
 ### Install without Docker
 
