@@ -103,29 +103,52 @@ function update_events($db, $post) {
   );
   $loosers = $winners = $failures = [];
   foreach ($users->fetchAll(PDO::FETCH_ASSOC) as $key => $user) {
+    // On tire un D20. 1 = échec systématique, 20 = réussite systématique.
+    $critical_die = rand(1, 20);
     // On tire un D6 + la difficulté allant de -2 à +2.
-    if ($user[$post['type']] <= ($post['difficulte'] + rand(1, 6))) {
+    if ($critical_die == 1 || ($critical_die != 20 && $user[$post['type']] <= ($post['difficulte'] + rand(1, 6)))) {
       // Défaite.
       $failures[] = 'pj-' . $user['id'];
       $loosers[] = $user['id'];
     }
     else {
       // Réussite.
-      $winners[] = 'pj-' . $user['id'];
+      $success[] = 'pj-' . $user['id'];
+      $winners[] = $user['id'];
     }
   }
 
-  if (!empty($loosers) && !empty($post['penalite']) && !empty($post['penalite_type'])) {
-    $log = 'Vous avez raté l\'épreuve et perdu ' . $post['penalite'] . ' '
-      . ($post['penalite_type'] == 'hp' ? 'pv' : ($settings[$post['penalite_type'] . '_name'])) . '.';
+  if (!empty($loosers)) {
+    $log = 'Vous avez raté l\'épreuve';
+    if (!empty($post['reward'])) {
+      $log .= ' et perdu ' . $post['penalite'] . ' '
+        . ($post['penalite_type'] == 'hp' ? 'pv' : ($settings[$post['penalite_type'] . '_name']));
+    }
+
     $db->query(
       'UPDATE hrpg'
       . ' SET '
       . $post['penalite_type'] . '=GREATEST(' . $post['penalite_type'] . '-' . $post['penalite'] . ',0),'
-      . 'lastlog="' . time() . '",log="' . $log . '"'
+      . 'lastlog="' . time() . '",log="' . $log . '."'
       . ' WHERE id IN (' . implode(',', $loosers) . ')'
     );
   }
+  if (!empty($winners)) {
+    $log = 'Vous avez réussi l\'épreuve';
+    if (!empty($post['reward'])) {
+      $log .= ' et gagné ' . $post['reward'] . ' '
+      . ($post['reward_type'] == 'hp' ? 'pv' : ($settings[$post['reward_type'] . '_name']));
+    }
+
+    $db->query(
+      'UPDATE hrpg'
+      . ' SET '
+      . $post['reward_type'] . '=GREATEST(' . $post['reward_type'] . '+' . $post['reward'] . ',0),'
+      . 'lastlog="' . time() . '",log="' . $log . '."'
+      . ' WHERE id IN (' . implode(',', $winners) . ')'
+    );
+  }
+
   // On renvoie deux tableaux d'ids de PJ ayant échoué / réussi, à exploiter par le front.
   $sanction = '<span class=epreuve-header><b>' . count($winners) . '</b> victoire(s) pour <b>' . count($loosers) . '</b> défaite(s)';
   if (!empty($post['victimetag'])) {
@@ -133,8 +156,8 @@ function update_events($db, $post) {
   }
   $sanction .= '</span>';
   $_SESSION['sanction'] = $sanction;
-
-  return '<script>data_failures = ' . json_encode($failures) . ', data_wins = ' . json_encode($winners) . ';</script>';
+  _opale_core_mp_validate
+  return '<script>data_failures = ' . json_encode($failures) . ', data_wins = ' . json_encode($success) . ';</script>';
 }
 
 function gen_loot_query_part($post) {

@@ -217,15 +217,27 @@
               <option value="2">Ardu (+2)</option>
             </select>
           </span>
-          <span class="wrapper-penalite">
-            <label for="penalite">Pénalité</label>
-            <select name="penalite_type" id="penalite">
-              <option value="hp">Santé</option>
-              <option value="carac1"><?php print $settings['carac1_name'] ?></option>
-              <option value="carac2"><?php print $settings['carac2_name'] ?></option>
-            </select>
-            <input type="number" name="penalite">
-          </span>
+          <fieldset>
+            <legend>Conséquences</legend>
+            <label for="penalite">😞 Pénalité en cas d'échec</label>
+            <span class="wrapper-penalite">
+              <select name="penalite_type" id="penalite">
+                <option value="hp">Santé</option>
+                <option value="carac1"><?php print $settings['carac1_name'] ?></option>
+                <option value="carac2"><?php print $settings['carac2_name'] ?></option>
+              </select>
+              <input type="number" name="penalite" value="0" min="0" max="999999999">
+            </span>
+            <label for="reward_type">🏆 Récompense en cas de réussite</label>
+            <span class="wrapper-penalite">
+              <select name="reward_type" id="reward_type">
+                <option value="hp">Santé</option>
+                <option value="carac1"><?php print $settings['carac1_name'] ?></option>
+                <option value="carac2"><?php print $settings['carac2_name'] ?></option>
+              </select>
+              <input type="number" name="reward" value="0" min="0" max="999999999">
+            </span>
+          </fieldset>
           <fieldset>
             <legend>Qui ?</legend>
             <label for="victime">par groupe de personnages</label>
