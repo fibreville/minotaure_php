@@ -1,4 +1,4 @@
-[https://travis-ci.com/fibreville/atrpg.svg](https://travis-ci.com/github/fibreville/atrpg)
+[![Build Status](https://travis-ci.org/fibreville/atrpg.svg?branch=main)](https://travis-ci.org/fibreville/atrpg)
 # atrpg
 
 ## 🇫🇷 Version française
