@@ -61,8 +61,9 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
     SELECT vote, COUNT(id) c
     FROM hrpg
     WHERE vote > 0
+    AND id > 1
     GROUP BY vote
-    ORDER BY c DESC");
+    ORDER BY c DESC, vote ASC");
   $query->execute();
   $votes = $query->fetchAll(PDO::FETCH_ASSOC);
   $max_vote = $votes[0]['c'];
@@ -81,7 +82,7 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
   foreach ($votes as $key => $vote) {
     $nb_votants = $vote['c'];
     $pc = round(($nb_votants * 100 / $nb_total), 2);
-    $pctot += $pc;
+    $pctot += $nb_votants;
     $tmp_result = '';
     $classes = [];
     if ($nb_votants == $max_vote) {
@@ -102,7 +103,7 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
     }
   }
   print "</table>";
-  print "<div>Total votants : $pctot %</div>";
+  print "<div>Total votants :" . round(($pctot * 100 / $nb_total), 2) . "%</div>";
   if ($pctot == 100) {
     $_SESSION['current_poll'] = FALSE;
   }
