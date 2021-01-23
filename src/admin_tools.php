@@ -156,7 +156,6 @@ function update_events($db, $post) {
   }
   $sanction .= '</span>';
   $_SESSION['sanction'] = $sanction;
-  _opale_core_mp_validate
   return '<script>data_failures = ' . json_encode($failures) . ', data_wins = ' . json_encode($success) . ';</script>';
 }
 
