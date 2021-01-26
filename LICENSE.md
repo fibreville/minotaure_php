@@ -1,4 +1,4 @@
-# CC BY-NC-SA
+# CC BY-NC-SA + twicht streaming
 
 ## Français
 
@@ -10,6 +10,12 @@ their new creations under the identical terms.
 Voir le [Résumé Explicatif](https://creativecommons.org/licenses/by-nc-sa/4.0) | Voir
 le [Code Juridique](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode)
 
+### Extention
+
+> Il (ATRPG) est non commercial mais pensé pour être utilisé sur Twitch. À ce titre, les revenus perçus par Twitch constituent l'unique exception à la licence.
+
+[source](https://twitter.com/FibreTigre/status/1354039058918473729)
+
 ## English
 
 Attribution-NonCommercial-ShareAlike
@@ -19,6 +25,13 @@ their new creations under the identical terms.
 
 View [License Deed](https://creativecommons.org/licenses/by-nc-sa/4.0) |
 View [Legal Code](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode)
+
+### Extention
+
+> ATRPG is non-commercial but it has been thought to be used on Twitch. Thus, the earnings from Twitch are the only exception accepted in this license.
+
+[source](https://twitter.com/FibreTigre/status/1354039058918473729)
+
 
 # Addition
 
