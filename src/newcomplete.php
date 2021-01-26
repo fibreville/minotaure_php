@@ -15,8 +15,7 @@ elseif (preg_match('/^[A-Za-z0-9-]+$/D', $nom) === 0) {
 }
 else {
   $nom = strtolower($nom);
-  $pass = $pass . substr($nom, 0, 3) . substr($nom, -1);
-  $pass = md5($pass);
+  $pass = password_hash($pass, PASSWORD_DEFAULT);
   $stmt = $db->prepare("SELECT id FROM hrpg WHERE nom=:nom");
   $stmt->execute([
           ':nom' => $nom,

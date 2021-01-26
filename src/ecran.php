@@ -27,10 +27,17 @@ if (isset($_GET['action'])) {
     add_new_tags($db, $_POST);
   }
   elseif ($_GET['action'] == "create_user") {
+    $chars = "0123456789abcdef";
+    $rand_string = "";
+    for ($i = 0; $i < 32; $i++) {
+        $rand_string .= $chars[rand(0, strlen($chars) - 1)];
+    }
+    $hash = password_hash($rand_string, PASSWORD_DEFAULT);
+
     $db->query(
       "INSERT INTO `hrpg`"
       . " (`nom`, `mdp`, `carac2`, `carac1`, `hp`, `leader`, `traitre`, `vote`, `tag1`, `tag2`, `tag3`, `log`, `lastlog`)"
-      . " VALUES ('" . substr(md5(microtime()), rand(0, 26), 5) . "', '', '1', '1', '1', '0', '0', '0', '', '', '', NULL, NULL)"
+      . " VALUES ('" . $hash . "', '', '1', '1', '1', '0', '0', '0', '', '', '', NULL, NULL)"
     );
   }
   // TRAITEMENT DES EPREUVES.
