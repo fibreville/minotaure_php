@@ -44,9 +44,52 @@ $(document).ready(function() {
     }
 
     init = true;
+    var inputs = document.querySelectorAll('#tags input[type="text"]');
+    for (i = 0; i < inputs.length; ++i) {
+      if (default_tags_per_category) {
+        inputs[i].setAttribute('readonly', 'readonly');
+        inputs[i].setAttribute('disabled', 'disabled');
+        tagify = new Tagify(inputs[i]);
+        var tagsToAdd = default_tags_per_category[i+1];
+        tagify.addTags(tagsToAdd)
+      }
+      else {
+        tagify = new Tagify(inputs[i]);
+      }
+    }
+
+    var inputs_tags = document.querySelectorAll('input.tag-whitelist');
+    for (i = 0; i < inputs_tags.length; ++i) {
+      if (typeof default_tags != 'undefined') {
+        new Tagify(inputs_tags[i], {
+          enforceWhitelist: true,
+          whitelist: default_tags,
+          dropdown: {
+            closeOnSelect: true,
+            enabled: 0,
+            classname: 'users-list',
+          },
+        });
+      }
+    }
+
+    var inputs_players = document.querySelectorAll('input.player-whitelist');
+    for (i = 0; i < inputs_players.length; ++i) {
+      if (typeof tags_players != 'undefined') {
+        new Tagify(inputs_players[i], {
+          enforceWhitelist: true,
+          whitelist: tags_players,
+          dropdown: {
+            closeOnSelect: true,
+            enabled: 0,
+            classname: 'users-list',
+          },
+        });
+      }
+    }
   }
 
-  // Empêche la soumission d'une nouvelle
+  // Empêche la soumission d'une nouvelle requête.
   if (window.history.replaceState) {
     window.history.replaceState(null, null, window.location.href.split(/[?#]/)[0])
   }

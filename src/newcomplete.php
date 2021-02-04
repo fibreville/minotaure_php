@@ -41,44 +41,39 @@ include 'header.php'; ?>
       $carac1 = $stat[0];
     }
     $hp = 5 + rand(0, 5);
-    $stmt = $db->prepare("SELECT tag1 FROM hrpg WHERE hp > 0 AND id > 1 ORDER BY RAND()");
+    $stmt = $db->prepare("SELECT id FROM tag WHERE category = 1 ORDER BY RAND()");
     $stmt->execute();
     $row = $stmt->fetch();
-    $tag1 = $row[0];
+    $tags[] = $row[0];
 
-    $stmt = $db->prepare("SELECT tag2 FROM hrpg WHERE hp > 0 AND id > 1 ORDER BY RAND()");
+    $stmt = $db->prepare("SELECT id FROM tag WHERE category = 2 ORDER BY RAND()");
     $stmt->execute();
     $row = $stmt->fetch();
-    $tag2 = $row[0];
+    $tags[] = $row[0];
 
-    $stmt = $db->prepare("SELECT tag3 FROM hrpg WHERE hp > 0 AND id > 1 ORDER BY RAND()");
+    $stmt = $db->prepare("SELECT id FROM tag WHERE category = 3 ORDER BY RAND()");
     $stmt->execute();
     $row = $stmt->fetch();
-    $tag3 = $row[0];
+    $tags[] = $row[0];
 
-    if ($tag1 == "") {
-      $tag1 = " ";
-    }
-    if ($tag2 == "") {
-      $tag2 = " ";
-    }
-    if ($tag3 == "") {
-      $tag3 = " ";
-    }
     try {
-      $stmt = $db->prepare("INSERT INTO hrpg (nom,mdp,carac2,carac1,hp,tag1,tag2,tag3) VALUES(:nom,:pass,:carac2,:carac1,:hp,:tag1,:tag2,:tag3)");
+      $stmt = $db->prepare("INSERT INTO hrpg (nom,mdp,carac2,carac1,hp) VALUES(:nom,:pass,:carac2,:carac1,:hp)");
       $stmt->execute([
-              ':nom' => $nom,
-              ':pass' => $pass,
-              ':carac2' => $carac2,
-              ':carac1' => $carac1,
-              ':hp' => $hp,
-              ':tag1' => $tag1,
-              ':tag2' => $tag2,
-              ':tag3' => $tag3,
+        ':nom' => $nom,
+        ':pass' => $pass,
+        ':carac2' => $carac2,
+        ':carac1' => $carac1,
+        ':hp' => $hp,
       ]);
-
       $id = $db->lastInsertId();
+
+      foreach($tags as $tag) {
+        if (!empty($tag)) {
+          $stmt = $db->prepare("INSERT INTO character_tag (id_player,id_tag) VALUES(:id_player,:id_tag)");
+          $stmt->execute([':id_player' => $id, ':id_tag' => $tag]);
+        }
+      }
+
     } catch (Exception $e) {
       die($e->getMessage());
     }

@@ -40,10 +40,13 @@
   }
 
   $query = $db->prepare("
-  SELECT id,nom,carac2,carac1,hp,tag1,tag2,tag3
-  FROM hrpg
-  WHERE id > 1
-  ORDER BY hp <= 0, nom");
+    SELECT hrpg.id,nom,carac2,carac1,hp,GROUP_CONCAT(t.name) tags
+    FROM hrpg
+    LEFT JOIN character_tag ct ON ct.id_player = hrpg.id
+    LEFT JOIN tag t ON ct.id_tag = t.id
+    WHERE hrpg.id > 1
+    GROUP BY hrpg.id
+    ORDER BY hp <= 0, nom");
   $query->execute();
   $players = $query->fetchAll(PDO::FETCH_ASSOC);
   $nb_alive = $db->query("SELECT COUNT(*) FROM hrpg WHERE hp > 0 AND id > 1")->fetchColumn();
@@ -60,13 +63,14 @@
       $taken_colors = [];
 
       $list_players = [];
+      $list_players_for_js = [];
       foreach ($players as $key => $row) {
         $id_joueur = $row['id'];
         $nom = $row['nom'];
         $carac2 = $row['carac2'];
         $carac1 = $row['carac1'];
         $hp = $row['hp'];
-        $tags = [$row['tag1'], $row['tag2'], $row['tag3']];
+        $tags = explode(',', $row['tags']);
         $str_tags = '';
         foreach ($tags as $tag) {
           if ($tag != '' && $tag != ' ') {
@@ -82,10 +86,14 @@
         $alive = ($hp <= 0 ? 'not-' : '') . 'alive';
         if ($hp <= 0) {
           $list_players[$id_joueur] = $nom . ' (☠️)';
+          $list_players_for_js[] = ['value' => $nom . ' (☠️)', 'code' => $id_joueur];
         }
         else {
           $list_players[$id_joueur] = $nom;
+          $list_players_for_js[] = ['value' => $nom, 'code' => $id_joueur];
         }
+
+        print '<script>tags_players = ' . json_encode($list_players_for_js) . '</script>';
 
         $aptitude = '';
         if ($carac2 > 3 && $carac1 > 3) {
@@ -111,7 +119,6 @@
             <span>" . $settings['carac1_name'] . ": $carac1</span>
             <span>" . $settings['carac2_name'] . ": $carac2</span>
             <span>Vie: $hp</span>
-            <span>Joueur #$id_joueur</span>
             </div>";
         }
         print '</div>';
@@ -147,7 +154,7 @@
               <option value="random_carac2">Un personnage <?php print $settings['carac2_group']; ?></option>
             </select>
             <span>ou ayant le tag :</span>
-            <input type="text" name="random_tag" placeholder="nomdutag" maxlength="250">
+            <input class="tag-whitelist" type="text" name="random_tag" placeholder="nomdutag" maxlength="250">
           </fieldset>
           <input type="submit" value="OK">
         </form>
@@ -175,7 +182,7 @@
           ?>
           <!-- FORMULAIRE DE SONDAGE-->
           <form method="post" action="ecran.php?action=poll#poll">
-            <input type="text" name="choix" maxlength="250" placeholder="Intitulé du sondage">
+            <input required type="text" name="choix" maxlength="250" placeholder="Intitulé du sondage">
             <input type="text" name="c1" maxlength="250">
             <input type="text" name="c2" maxlength="250">
             <input type="text" name="c3" maxlength="250">
@@ -187,7 +194,7 @@
             <input type="text" name="c9" maxlength="250">
             <input type="text" name="c10" maxlength="250">
             <label for="choixtag">Limiter à : </label>
-            <input type="text" name="choixtag" id="choixtag" maxlength="250" placeholder="nomtag">
+            <input class="tag-whitelist" type="text" name="choixtag" id="choixtag" maxlength="250" placeholder="nomtag">
             <input type="submit" value="DÉLIBERER">
           </form>
           <?php
@@ -219,7 +226,7 @@
           </span>
           <fieldset>
             <legend>Conséquences</legend>
-            <label for="penalite">😞 Pénalité en cas d'échec</label>
+            <label for="penalite">En cas d'échec (-)</label>
             <span class="wrapper-penalite">
               <select name="penalite_type" id="penalite">
                 <option value="hp">Santé</option>
@@ -228,7 +235,7 @@
               </select>
               <input type="number" name="penalite" value="0" min="0" max="999999999">
             </span>
-            <label for="reward_type">🏆 Récompense en cas de réussite</label>
+            <label for="reward_type">En cas de réussite (+)</label>
             <span class="wrapper-penalite">
               <select name="reward_type" id="reward_type">
                 <option value="hp">Santé</option>
@@ -242,19 +249,14 @@
             <legend>Qui ?</legend>
             <label for="victime">par groupe de personnages</label>
             <select class='pj-name' name="victime" id="victime">
-              <option value="*">⭐ Tout le monde</option>
+              <option value="all">⭐ Tout le monde</option>
               <option value="carac1">Chaque personnage <?php print $settings['carac1_group'] ?></option>
               <option value="carac2">Chaque personnage <?php print $settings['carac2_group'] ?></option>
-              <?php
-              foreach ($list_players as $key_player => $player) {
-                print '<option value="'.$key_player.'">'.ucfirst($player).'</option>';
-              }
-              ?>
             </select>
-            <label for="victime_multiple">ou par id joueur</label>
-            <input placeholder="1,4,9..." type="text" name="victime_multiple" id="victime_multiple" maxlength="250">
+            <label for="victime_multiple">ou par personnage</label>
+            <input class="player-whitelist" placeholder="nom du personnage" type="text" name="victime_multiple" id="victime_multiple" maxlength="250">
             <label for="victimetag">ou par Tag</label>
-            <input type="text" name="victimetag" id="victimetag" maxlength="250">
+            <input class="tag-whitelist" type="text" name="victimetag" id="victimetag" maxlength="250">
           </fieldset>
           <input type="submit" value="ÉPROUVER">
         </form>
@@ -283,7 +285,7 @@
           <label for="qui">À qui</label>
           <select name="qui" id="qui">
             <option value="" selected disabled>Choisir</option>
-            <option value="*">⭐ Tout le monde</option>
+            <option value="all">⭐ Tout le monde</option>
             <option value="carac1">Chaque personnage <?php print $settings['carac1_group'] ?></option>
             <option value="carac2">Chaque personnage <?php print $settings['carac2_group'] ?></option>
             <?php
@@ -305,9 +307,12 @@
           population.
         </div>
         <form method="post" action="ecran.php?action=tags">
-          <input type="text" name="tag1" maxlength="250" placeholder="tag1,tag2,tag3...">
-          <input type="text" name="tag2" maxlength="250" placeholder="tag1,tag2,tag3...">
-          <input type="text" name="tag3" maxlength="250" placeholder="tag1,tag2,tag3...">
+          <span><label for="tag1">Catégorie 1</label><a href="ecran.php?action=delete_tags&category=1">Supprimer</a></span>
+          <input type="text" id="tag1" name="tag1" maxlength="250" placeholder="Entrez des mots-clefs">
+          <span><label for="tag2">Catégorie 2</label><a href="ecran.php?action=delete_tags&category=2">Supprimer</a></span>
+          <input type="text" id="tag2" name="tag2" maxlength="250" placeholder="Entrez des mots-clefs">
+          <span><label for="tag3">Catégorie 3</label><a href="ecran.php?action=delete_tags&category=3">Supprimer</a></span>
+          <input type="text" id="tag3" name="tag3" maxlength="250" placeholder="Entrez des mots-clefs">
           <input type="submit" value="Attribuer">
         </form>
       </div>
@@ -354,7 +359,7 @@
   </div>
   <div class="wrapper-right">
     <div id="tabs">
-      <div data-target="elections">Tirage au sort</div>
+      <div data-target="elections" class="active">Tirage au sort</div>
       <div data-target="poll">Sondage</div>
       <div data-target="epreuve">Épreuve</div>
       <div data-target="loot">Loot</div>

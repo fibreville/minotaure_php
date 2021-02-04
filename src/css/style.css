@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Libre+Baskerville&display=swap');
+@import './tagify.css';
+
 :root {
   --font-color: #000;
   --link-color: #73a8a3;
@@ -18,6 +20,7 @@
   --disabled-background: #a4a4a4;
   --disabled--color: #000;
   --disabled-background-secondary: #989898;
+  --main-font: 'Libre Baskerville', serif;
 }
 [data-theme="dark"] {
   --font-color: #FFF;
@@ -36,7 +39,7 @@ html, body {
   background-color: var(--background-color);
 }
 body {
-  font-family: 'Libre Baskerville', serif;
+  font-family: var(--main-font);
   color: var(--font-color);
   padding: 0;
   text-align: center;
@@ -125,7 +128,7 @@ h3 {
 .page-wrapper > form > fieldset {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-items: center;
 }
 .page-wrapper > div {
@@ -134,7 +137,6 @@ h3 {
 html:not(#page-new) select,
 html:not(#page-new) input[type=text],
 html:not(#page-new) input[type=password] {
-  width: 100%;
   padding: 5px 10px;
   margin-bottom: 10px;
   box-sizing: border-box;
@@ -185,7 +187,7 @@ input[type=submit],
   cursor: pointer;
   text-transform: uppercase;
   font-size: 16px;
-  font-family: 'Libre Baskerville', serif;
+  font-family: var(--main-font);
 }
 .submit-button {
   margin-top: 20px;
@@ -239,6 +241,36 @@ body .index-wrapper a {
 .stats, .tags {
   margin-top: 5px;
 }
+#tags form > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#tags a {
+  border-radius: 5px;
+  background: #e35959;
+  font-size: 0.8em;
+  padding: 2px 5px;
+  margin-bottom: 5px;
+  color: black;
+}
+tags {
+  margin-bottom: 10px;
+  text-align: left;
+}
+tag + .tagify__input:before {
+  content: '';
+}
+.tagify__dropdown__item:first-letter {
+  text-transform: uppercase;
+}
+.tagify__input:before,
+tag {
+  font-size: 0.9em;
+}
+.tagify__tag-text:first-letter {
+  text-transform: uppercase;
+}
 .stats > span:first-letter, .tags > span:first-letter {
   text-transform: uppercase;
 }
@@ -262,6 +294,7 @@ body .index-wrapper a {
   justify-content: center;
   flex-direction: column;
   margin-left: 1%;
+  min-height: 300px;
 }
 .wrapper-center form input[type=submit] {
   margin-top: auto;
@@ -416,6 +449,8 @@ body .index-wrapper a {
 .wrapper-center fieldset {
   background: var(--content-background);
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 .wrapper-penalite {
   display: flex;

@@ -10,8 +10,8 @@ final class AdminTest extends TestCase {
   public function generateUser($db): void {
     $db->query(
       "INSERT INTO `hrpg`"
-      . " (`nom`, `mdp`, `carac2`, `carac1`, `hp`, `leader`, `traitre`, `vote`, `tag1`, `tag2`, `tag3`, `log`, `lastlog`)"
-      . " VALUES ('" . substr(md5(microtime()), rand(0, 26), 5) . "', '', '1', '1', '1', '0', '0', '0', '', '', '', NULL, NULL)"
+      . " (`nom`, `mdp`, `carac2`, `carac1`, `hp`, `leader`, `traitre`, `vote`, `log`, `lastlog`)"
+      . " VALUES ('" . substr(md5(microtime()), rand(0, 26), 5) . "', '', '1', '1', '1', '0', '0', '0', NULL, NULL)"
     );
   }
 
@@ -36,7 +36,7 @@ final class AdminTest extends TestCase {
     $this->assertEquals($this->getSQLCount($db, 'hrpg WHERE leader=1'), 1);
   }
 
-  public function testUpdateAdventureSurvey(): void {
+  public function testUpdateAdventurePoll(): void {
     $_SESSION = [];
     include 'src/connexion.php';
 
@@ -54,7 +54,7 @@ final class AdminTest extends TestCase {
       'c10' => '',
       'choixtag' => '',
     ];
-    survey_update($db, $post);
+    poll_update($db, $post);
 
     $r = $db->query('SELECT * FROM sondage LIMIT 1');
     $lines = $r->fetchAll();
