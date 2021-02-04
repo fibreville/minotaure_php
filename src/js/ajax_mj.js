@@ -19,6 +19,6 @@ $(document).ready(function() {
         });
     };
 
-    var interval = 4000;
+    var interval = 5000;
     setInterval(poll_results, interval);
 });
