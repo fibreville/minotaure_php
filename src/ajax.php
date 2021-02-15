@@ -42,34 +42,39 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
   $choix = $row['choix'];
   $choixtag = $row['choixtag'];
 
-  $sql_poll_count = "
-    SELECT COUNT(*)
-    FROM hrpg
-    WHERE hp > 0
-    AND id > 1";
-
+  $sql_count_part1 = "SELECT id FROM hrpg";
+  $sql_count_part2 = " WHERE hrpg.hp > 0 AND hrpg.id > 1 AND active = 1";
   if (!empty($choixtag)) {
-    $choixtag_sql = '("' . implode('", "', explode(',', $choixtag)) . '")';
-    $sql_poll_count .= " AND (tag1 IN $choixtag_sql OR tag2 IN $choixtag_sql OR tag3 IN $choixtag_sql)";
+    $sql_count_part1 .= " LEFT JOIN character_tag ct ON ct.id_player = hrpg.id";
+    $data = $_SESSION['raw_default_tags'];
+    $keys = explode(',', $choixtag);
+    foreach ($keys as $key) {
+      $choixtag_data[$key] = $data[$key];
+    }
+    $choixtag_sql = '("' . implode('", "', $keys) . '")';
+    $sql_count_part2 .= " AND (ct.id_tag IN $choixtag_sql)";
   }
-  $stmt = $db->prepare($sql_poll_count);
+  $sql_count_part2 .= ' GROUP BY id';
+  $stmt = $db->prepare($sql_count_part1 . $sql_count_part2);
   $stmt->execute();
-  $nb_total = $stmt->fetchColumn();
+  $nb_total = $stmt->rowCount();
 
   print "<table>";
   $query = $db->prepare("
     SELECT vote, COUNT(id) c
     FROM hrpg
     WHERE vote > 0
+    AND id > 1
+    AND active = 1
     GROUP BY vote
-    ORDER BY c DESC");
+    ORDER BY c DESC, vote ASC");
   $query->execute();
   $votes = $query->fetchAll(PDO::FETCH_ASSOC);
   $max_vote = $votes[0]['c'];
   $pctot = 0;
 
   if ($choixtag != "") {
-    print "Vote limité au groupe : $choixtag";
+    print "Vote limité au groupe : " . implode(', ', $choixtag_data);
   }
   if ($leadvalue == 2) {
     print "<div class='poll-action leader-action'>👑 Le leader $leader a utilisé son pouvoir et choisi : " . $options['c' . $leadvote] . "!</div>";
@@ -81,7 +86,7 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
   foreach ($votes as $key => $vote) {
     $nb_votants = $vote['c'];
     $pc = round(($nb_votants * 100 / $nb_total), 2);
-    $pctot += $pc;
+    $pctot += $nb_votants;
     $tmp_result = '';
     $classes = [];
     if ($nb_votants == $max_vote) {
@@ -102,7 +107,7 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
     }
   }
   print "</table>";
-  print "<div>Total votants : $pctot %</div>";
+  print "<div>Total votants : " . round(($pctot * 100 / $nb_total), 2) . "%</div>";
   if ($pctot == 100) {
     $_SESSION['current_poll'] = FALSE;
   }
@@ -110,9 +115,13 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
 elseif ($_GET['role'] == 'pj') {
   $_SESSION['current_timestamp'] = time();
   $id = $_SESSION['id'];
-  $stmt = $db->prepare("SELECT * FROM hrpg WHERE id=:id");
-  $stmt->execute([':id' => $id]);
-  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+  $query_player = $db->prepare("
+    SELECT hrpg.*
+    FROM hrpg
+    WHERE hrpg.id=:id
+  ");
+  $query_player->execute([':id' => $id]);
+  $row = $query_player->fetch(PDO::FETCH_ASSOC);
   $id = $row['id'];
   $nom = $row['nom'];
   $carac2 = $row['carac2'];
@@ -120,12 +129,20 @@ elseif ($_GET['role'] == 'pj') {
   $hp = $row['hp'];
   $leader = $row['leader'];
   $vote = $row['vote'];
-  $tags = [$row['tag1'], $row['tag2'], $row['tag3']];
   $traitre = $row['traitre'];
   if (!isset($_SESSION['lastlog']) || $row['lastlog'] == NULL || $_SESSION['lastlog'] < $row['lastlog']) {
     $log = $row['log'];
     $_SESSION['lastlog'] = $row['lastlog'];
   }
+
+  $query_tags = $db->prepare("
+    SELECT tag.id, tag.name
+    FROM tag
+    LEFT JOIN character_tag ct ON ct.id_tag = tag.id
+    WHERE ct.id_player=:id
+  ");
+  $query_tags->execute([':id' => $id]);
+  $results_tags = $query_tags->fetchAll(PDO::FETCH_KEY_PAIR);
 ?>
 
 <h2>Votre aventurier</h2>
@@ -135,10 +152,8 @@ if ($hp > 0) { ?>
     <div class="character-name"><?php print $nom; ?></div>
     <div class="character-tags">
       <?php
-      foreach ($tags as $tag) {
-        if ($tag != "" && $tag != " ") {
-          print '<div>' . $tag . '</div>';
-        }
+      foreach ($results_tags as $tag) {
+        print '<div>' . $tag . '</div>';
       }
       ?>
     </div>
@@ -164,43 +179,45 @@ if ($hp > 0) { ?>
   ?>
   <div class="poll-choice">
     <?php
-    if ($choix != "" && $vote == 0 && ($row['choixtag'] == "" || array_intersect($choixtag, $tags))) {
+    if ($choix != "" && $vote == 0 && ($row['choixtag'] == "" || array_intersect($choixtag, array_keys($results_tags)))) {
     ?>
-    <div>Décision en cours : <b><?php print $choix; ?></b></div>
-    <form action=main.php method=post>
+      <div>Décision en cours : <b><?php print $choix; ?></b></div>
+      <form action=main.php method=post>
+        <?php
+        $key = 1;
+        foreach ($cX as $c) {
+          if ($c != "") {
+            print "<div><input type=radio name=choix value=\"$key\"><label>" . $c . "</label></div>";
+          }
+          $key++;
+        }
+
+        if ($leader == 1 || $traitre == 1) {
+          print '<div class="powers">';
+          if ($leader == 1) {
+            print "<div><input type=checkbox name=lead value=1><label for=lead>👑 Utiliser mon pouvoir de leader</label></div>";
+          }
+          if ($traitre == 1) {
+            print "<div><input type=checkbox name=traitre value=1><label for=traitre>🗡️ Utiliser mon pouvoir de traitre et annuler le vote choisi<label></div>";
+          }
+          print '</div>';
+        }
+        ?>
+        <input type="submit" value="Votre choix est irrévocable">
+      </form>
       <?php
-      $key = 1;
-      foreach ($cX as $c) {
-        if ($c != "") {
-          print "<div><input type=\"radio\" name=\"choix\" value=\"$key\"><label>" . $c . "</label></div>";
-        }
-        $key++;
-      }
-
-      if ($leader == 1 || $traitre == 1) {
-        print '<div class="powers">';
-        if ($leader == 1) {
-          print "<div><input type=checkbox name=lead value=1><label for=lead>👑 Utiliser mon pouvoir de leader</label></div>";
-        }
-        if ($traitre == 1) {
-          print "<div><input type=checkbox name=traitre value=1><label for=traitre>🗡️ Utiliser mon pouvoir de traitre et annuler le vote choisi<label></div>";
-        }
-        print '</div>';
-      }
-
-      print '<input type="submit" value="Votre choix est irrévocable"></form>';
-      }
-      elseif ($vote != 0) {
-        ?>
-        <div>Votre vote a bien été pris en compte</div>
-        <?php
-      }
-      else {
-        ?>
-        <div>Pas de décision en cours</div>
-        <?php
-      }
+    }
+    elseif ($vote != 0) {
       ?>
+      <div>Votre vote a bien été pris en compte</div>
+      <?php
+    }
+    else {
+      ?>
+      <div>Pas de décision en cours</div>
+      <?php
+    }
+    ?>
   </div>
   <?php if (isset($log) && !empty($log)): ?>
   <div class="log">

@@ -15,8 +15,7 @@ elseif (preg_match('/^[A-Za-z0-9-]+$/D', $nom) === 0) {
 }
 else {
   $nom = strtolower($nom);
-  $pass = $pass . substr($nom, 0, 3) . substr($nom, -1);
-  $pass = md5($pass);
+  $pass = password_hash($pass, PASSWORD_DEFAULT);
   $stmt = $db->prepare("SELECT id FROM hrpg WHERE nom=:nom");
   $stmt->execute([
           ':nom' => $nom,
@@ -41,44 +40,40 @@ include 'header.php'; ?>
       $carac1 = $stat[0];
     }
     $hp = 5 + rand(0, 5);
-    $stmt = $db->prepare("SELECT tag1 FROM hrpg WHERE hp > 0 AND id > 1 ORDER BY RAND()");
+    $stmt = $db->prepare("SELECT id FROM tag WHERE category = 1 ORDER BY RAND()");
     $stmt->execute();
     $row = $stmt->fetch();
-    $tag1 = $row[0];
+    $tags[] = $row[0];
 
-    $stmt = $db->prepare("SELECT tag2 FROM hrpg WHERE hp > 0 AND id > 1 ORDER BY RAND()");
+    $stmt = $db->prepare("SELECT id FROM tag WHERE category = 2 ORDER BY RAND()");
     $stmt->execute();
     $row = $stmt->fetch();
-    $tag2 = $row[0];
+    $tags[] = $row[0];
 
-    $stmt = $db->prepare("SELECT tag3 FROM hrpg WHERE hp > 0 AND id > 1 ORDER BY RAND()");
+    $stmt = $db->prepare("SELECT id FROM tag WHERE category = 3 ORDER BY RAND()");
     $stmt->execute();
     $row = $stmt->fetch();
-    $tag3 = $row[0];
+    $tags[] = $row[0];
 
-    if ($tag1 == "") {
-      $tag1 = " ";
-    }
-    if ($tag2 == "") {
-      $tag2 = " ";
-    }
-    if ($tag3 == "") {
-      $tag3 = " ";
-    }
     try {
-      $stmt = $db->prepare("INSERT INTO hrpg (nom,mdp,carac2,carac1,hp,tag1,tag2,tag3) VALUES(:nom,:pass,:carac2,:carac1,:hp,:tag1,:tag2,:tag3)");
+      $stmt = $db->prepare("INSERT INTO hrpg (nom,mdp,carac2,carac1,hp,active) VALUES(:nom,:pass,:carac2,:carac1,:hp,:active)");
       $stmt->execute([
-              ':nom' => $nom,
-              ':pass' => $pass,
-              ':carac2' => $carac2,
-              ':carac1' => $carac1,
-              ':hp' => $hp,
-              ':tag1' => $tag1,
-              ':tag2' => $tag2,
-              ':tag3' => $tag3,
+        ':nom' => $nom,
+        ':pass' => $pass,
+        ':carac2' => $carac2,
+        ':carac1' => $carac1,
+        ':hp' => $hp,
+        ':active' => 1
       ]);
-
       $id = $db->lastInsertId();
+
+      foreach($tags as $tag) {
+        if (!empty($tag)) {
+          $stmt = $db->prepare("INSERT INTO character_tag (id_player,id_tag) VALUES(:id_player,:id_tag)");
+          $stmt->execute([':id_player' => $id, ':id_tag' => $tag]);
+        }
+      }
+
     } catch (Exception $e) {
       die($e->getMessage());
     }
@@ -87,8 +82,7 @@ include 'header.php'; ?>
     $_SESSION['nom'] = $nom;
     ?>
     <?php if ($id != 1): ?>
-      <div><span class="pj-name"><?php print $nom; ?></span> entre en scène.
-      </div>
+      <div><span class="pj-name"><?php print $nom; ?></span> entre en scène.</div>
       <div>Bienvenue dans notre grande aventure.</div>
       <div><a href="main.php">C'est parti.</a></div>
     <?php else: ?>
@@ -102,11 +96,9 @@ include 'header.php'; ?>
     ?>
     <div>Impossible de créer votre personnage 😢.</div>
     <div><?php print $probleme; ?></div>
-    <div><a href=new.php>Réessayez</a> ou retournez <a href=index.php>au menu
-        principal</div>
+    <div><a href=new.php>Réessayez</a> ou retournez <a href=index.php>au menu principal</a></div>
     <?php
   }
   ?>
 </div>
 <?php include "footer.php"; ?>
-</html>

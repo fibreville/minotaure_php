@@ -5,28 +5,34 @@ include "header.php";
 
 $cleanPost = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 $nom = strtolower($cleanPost['nom']);
-$pass = $cleanPost['pass'];
-$pass = $pass . substr($nom, 0, 3) . substr($nom, -1);
-$pass = md5($pass);
 
-$stmt = $db->prepare("SELECT id,hp FROM hrpg WHERE nom=:nom AND mdp=:pass");
+$stmt = $db->prepare("SELECT id,hp,mdp FROM hrpg WHERE nom=:nom");
 $stmt->execute([
   ':nom' => $nom,
-  ':pass' => $pass,
 ]);
 $row = $stmt->fetch();
 $id = $row[0];
 $hp = $row[1];
+$mdp_hash = $row[2];
+
+$pass = $cleanPost['pass'];
+if (!password_verify($pass, $mdp_hash)) {
+    $id = "";
+    $hp = "";
+}
 
 if ($id != "") {
   $_SESSION['id'] = $id;
   $_SESSION['nom'] = $nom;
   if ($id == 1) {
+    $stmt = $db->prepare("UPDATE hrpg SET active=0");
     $text = 'Votre grande aventure continue';
     $link = 'Accédez à l\'écran du MJ en cliquant <a href=ecran.php>ici</a>';
   }
   else {
     if ($hp > 0) {
+      $stmt = $db->prepare("UPDATE hrpg SET active=1 WHERE id = :id");
+      $stmt->execute([':id' => $id]);
       $text = 'Votre grande aventure continue';
       $link = 'Cliquez <a href=main.php>ici</a>';
     }

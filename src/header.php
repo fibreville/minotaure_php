@@ -2,15 +2,16 @@
 require_once "connexion.php";
 require "variables.php";
 ?>
-<html<?php if (isset($page_id)){ echo ' id="'.$page_id.'"'; } ?>>
+<!DOCTYPE html>
+<html<?php if (isset($page_id)){ echo ' id="'.$page_id.'"'; } ?> lang="fr">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta charset="UTF-8">
     <title><?php print $settings['adventure_name']; ?></title>
-    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/jQuery.tagify.min.js"></script>
   </head>
   <body>
     <nav id="account_actions">

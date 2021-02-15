@@ -8,11 +8,19 @@ include 'src/admin_tools.php';
 final class AdminTest extends TestCase {
 
   public function generateUser($db): void {
+    $chars = "0123456789abcdef";
+    $rand_string = "";
+    for ($i = 0; $i < 32; $i++) {
+        $rand_string .= $chars[rand(0, strlen($chars) - 1)];
+    }
+    $hash = password_hash($rand_string, PASSWORD_DEFAULT);
+
     $db->query(
       "INSERT INTO `hrpg`"
-      . " (`nom`, `mdp`, `carac2`, `carac1`, `hp`, `leader`, `traitre`, `vote`, `tag1`, `tag2`, `tag3`, `log`, `lastlog`)"
-      . " VALUES ('" . substr(md5(microtime()), rand(0, 26), 5) . "', '', '1', '1', '1', '0', '0', '0', '', '', '', NULL, NULL)"
+      . " (`nom`, `mdp`, `carac2`, `carac1`, `hp`, `leader`, `traitre`, `vote`, `log`, `lastlog`, `active`)"
+      . " VALUES ('" . $hash . "', '', '1', '1', '1', '0', '0', '0', NULL, NULL, 1)"
     );
+
   }
 
   public static function getSQLCount($db, $of) {
@@ -22,21 +30,33 @@ final class AdminTest extends TestCase {
     return $lines[0]['total'];
   }
 
-  public function testMakeElection(): void {
+  public function testMakeElectionLeader(): void {
     $_SESSION = [];
     include 'src/connexion.php';
     $this->generateUser($db);
 
     $post = [
-      'election' => 'leader',
-      'random_choice' => 'random',
+      'name' => 'leader',
     ];
     make_election($db, $post);
 
     $this->assertEquals($this->getSQLCount($db, 'hrpg WHERE leader=1'), 1);
   }
 
-  public function testUpdateAdventureSurvey(): void {
+  public function testMakeElectionTraitor(): void {
+    $_SESSION = [];
+    include 'src/connexion.php';
+    $this->generateUser($db);
+
+    $post = [
+      'name' => 'traitre',
+    ];
+    make_election($db, $post);
+
+    $this->assertEquals($this->getSQLCount($db, 'hrpg WHERE traitre=1'), 1);
+  }
+
+  public function testUpdateAdventurePoll(): void {
     $_SESSION = [];
     include 'src/connexion.php';
 
@@ -54,7 +74,7 @@ final class AdminTest extends TestCase {
       'c10' => '',
       'choixtag' => '',
     ];
-    survey_update($db, $post);
+    poll_update($db, $post);
 
     $r = $db->query('SELECT * FROM sondage LIMIT 1');
     $lines = $r->fetchAll();
@@ -75,7 +95,7 @@ final class AdminTest extends TestCase {
       'loot' => 'srtjhrth',
       'propriete' => 'hp',
       'bonus' => 2,
-      'qui' => '*',
+      'qui' => 'all',
       'qui_multiple' => '',
     ];
     update_loot($db, $post);
@@ -96,7 +116,7 @@ final class AdminTest extends TestCase {
       'difficulte' => 0,
       'penalite_type' => 'hp',
       'penalite' => '',
-      'victime' => '*',
+      'victime' => 'all',
       'victime_multiple' => '',
       'victimetag' => '',
     ];
@@ -114,9 +134,8 @@ final class AdminTest extends TestCase {
     $previous_add_count = $this->getSQLCount($db, 'hrpg WHERE log <> ""');
 
     $post = [
-      'tag1' => 'azegerg,sre,sr',
-      'tag2' => 'azegerg,srt,tdy,dty,u',
-      'tag3' => 'azegerg',
+      'tag1' => '[{"value":"tagA1"},{"value":"tagA2"}]',
+      'tag3' => '[{"value":"tagB1"},{"value":"tagB2"},{"value":"tagB3"}]',
     ];
     add_new_tags($db, $post);
 
@@ -131,7 +150,6 @@ final class AdminTest extends TestCase {
     $post = [
       'adventure_name' => 'azegerg',
       'adventure_guide' => 'azegerg',
-      'image_url' => 'azegerg',
       'carac1_name' => 'azegerg',
       'carac1_group' => 'azegerg',
       'carac2_name' => 'azegerg',
@@ -142,7 +160,7 @@ final class AdminTest extends TestCase {
     $this->assertTrue(file_exists($tmp_path . '/settings_timestamp.txt'));
   }
 
-  public function testDeleteAdventureInitSondage(): void {
+  public function testDeleteAdventureInitPoll(): void {
     $_SESSION = [];
     include 'src/connexion.php';
     delete_adventure($db, $tmp_path);
@@ -150,9 +168,9 @@ final class AdminTest extends TestCase {
     $r = $db->query('SELECT * FROM sondage');
     $lines = $r->fetchAll();
     $r->closeCursor();
-    $this->assertEquals(count($lines), 1, 'Not exactly one sondage found after delete adventure');
+    $this->assertEquals(count($lines), 1, 'Not exactly one poll found after delete adventure');
     foreach ($lines[0] as $field => $value) {
-      $this->assertEquals($value, '', 'Not empty field found in default sondage after delete adventure (field=' . $field . ', value=' . $value . ')');
+      $this->assertEquals($value, '', 'Not empty field found in default poll after delete adventure (field=' . $field . ', value=' . $value . ')');
     }
   }
 
@@ -181,7 +199,7 @@ final class AdminTest extends TestCase {
     $this->assertEquals($this->getSQLCount($db, 'loot'), 0, 'Loot table not empty');
   }
 
-  public function testCleanAdventureInitLoot(): void {
+  public function testCleanAdventureVotes(): void {
     $_SESSION = [];
     include 'src/connexion.php';
     clean_adventure($db, $tmp_path);
