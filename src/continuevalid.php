@@ -22,6 +22,7 @@ if ($id != "") {
   $_SESSION['id'] = $id;
   $_SESSION['nom'] = $nom;
   if ($id == 1) {
+    $stmt = $db->prepare("UPDATE hrpg SET active=0");
     $text = 'Votre grande aventure continue';
     $link = 'Accédez à l\'écran du MJ en cliquant <a href=ecran.php>ici</a>';
   }
