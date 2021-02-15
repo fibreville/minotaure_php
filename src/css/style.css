@@ -3,14 +3,15 @@
 
 :root {
   --font-color: #000;
+  --input-font-color: #000;
   --link-color: #73a8a3;
   --link-hover-color: #73a8a3;
   --background-color: #FFF;
+  --background-color-secondary: #eef2ff;
   --content-background: rgba(0,0,0,0.1);
   --border-color: #333;
   --border-color-secondary: #000;
   --tab-active: #acc7cd;
-  --tab-hover: #98a7a9;
   --fail-background: #ffbfbf;
   --fail-color: #000;
   --success-background: #b1ffb1;
@@ -23,11 +24,15 @@
   --main-font: 'Libre Baskerville', serif;
 }
 [data-theme="dark"] {
-  --font-color: #FFF;
+  --font-color: #CCC;
+  --input-font-color: #000;
   --background-color: #000;
+  --background-color-secondary: #2c393e;
   --content-background: rgba(0,0,0,0.1);
   --border-color: #777;
   --border-color-secondary: #333;
+  --tab-active: #4d4d4d;
+  --warning-background: #804200;
 }
 .debug {
   display: none !important;
@@ -43,6 +48,9 @@ body {
   color: var(--font-color);
   padding: 0;
   text-align: center;
+}
+body * {
+  font-family: var(--main-font);
 }
 body a:hover{
   color: var(--link-hover-color);
@@ -134,12 +142,13 @@ h3 {
 .page-wrapper > div {
   margin-bottom: 20px;
 }
+html:not(#page-new) textarea,
 html:not(#page-new) select,
-html:not(#page-new) input[type=text],
-html:not(#page-new) input[type=password] {
+html:not(#page-new) input {
   padding: 5px 10px;
   margin-bottom: 10px;
   box-sizing: border-box;
+  font-size: 1em;
 }
 html:not(#page-new) label {
   margin-bottom: 5px;
@@ -175,22 +184,19 @@ form {
 
 
 input[type=submit],
+#elections button,
 .submit-button {
-  border-top: 2px solid var(--border-color);
-  border-left: 2px solid var(--border-color);
-  border-right: 2px solid var(--border-color-secondary);
-  border-bottom: 2px solid var(--border-color-secondary);
-  padding: 10px 20px;
-  background-color: var(--background-color);
-  font-weight: bold;
-  color: var(--font-color);
-  cursor: pointer;
-  text-transform: uppercase;
   font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  transition: all linear 0.2s;
+  color: var(--font-color);
   font-family: var(--main-font);
-}
-.submit-button {
-  margin-top: 20px;
 }
 
 body .index-wrapper a {
@@ -232,14 +238,27 @@ body .index-wrapper a {
 .wrapper-main {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  flex-direction: column;
 }
-.instructions {
-  font-size: 10px;
-  margin-bottom: 10px;
+.stats {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.stats > .life {
+  margin-top: auto;
 }
 .stats, .tags {
   margin-top: 5px;
+}
+.tags > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#tags form {
+  flex-wrap: nowrap;
+  flex-direction: column;
 }
 #tags form > span {
   display: flex;
@@ -261,6 +280,9 @@ tags {
 tag + .tagify__input:before {
   content: '';
 }
+.tagify__dropdown__item {
+  color: var(--input-font-color);
+}
 .tagify__dropdown__item:first-letter {
   text-transform: uppercase;
 }
@@ -274,14 +296,13 @@ tag {
 .stats > span:first-letter, .tags > span:first-letter {
   text-transform: uppercase;
 }
-#elections > *,
-.stats > span,
-.tags > span {
+.stats > span {
   display: block;
 }
 .wrapper-left {
   flex: 5;
   border: 1px solid var(--border-color);
+  background: var(--tab-active);
   padding: 15px;
   display: flex;
   flex-direction: column;
@@ -299,46 +320,51 @@ tag {
 .wrapper-center form input[type=submit] {
   margin-top: auto;
 }
-.wrapper-right {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
 #poll_results {
   margin-bottom: 15px;
 }
 #poll_results table {
   margin: 20px 0;
 }
+#tabs {
+  display: flex;
+}
 #tabs > div {
   border: 1px solid var(--border-color);
   padding: 5px;
-  border-radius: 0 5px 5px 0;
   cursor: pointer;
-  margin-bottom: 5px;
-  border-left: 0;
+  margin-right: 5px;
+  border-bottom: 0;
+  text-align: center;
+  transition: all linear 0.2s;
 }
+#tabs > div:hover,
 #tabs > div.active{
   background: var(--tab-active);
 }
-#tabs > div:hover {
-  background: var(--tab-hover);
+#tabs .last-item {
+  margin-left: auto;
+  margin-right: 0;
 }
+#tabs .first-item {
+  margin-right: auto;
+}
+#choices > div#group.active,
 #group {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
   grid-gap: 3px;
   grid-auto-rows: minmax(100px, auto);
   font-size: 11px;
-  border-top: 1px dotted;
-  padding-top: 15px;
   word-break: break-word;
+  margin-top: 0px;
+  padding: 15px 0;
 }
 #group > div {
   display: flex;
   flex-direction: column;
   border: 1px solid var(--border-color);
+  background: var(--background-color);
   padding: 5px 10px;
   border-radius: 8px;
 }
@@ -346,31 +372,44 @@ tag {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  text-align: left;
+  text-align: right;
   margin: 0 auto;
 }
 #group-stats > span {
   margin-bottom: 10px;
 }
-.looser {
+#group > div.looser {
   background: var(--fail-background);
   color: var(--fail-color);
 }
-.winner {
+#group > div.winner {
   background: var(--success-background);
   color: var(--success-color);
 }
-.not-alive {
-  color: var(--disabled-color);
-}
-.not-alive.looser {
+#group > div.not-alive {
   background: var(--disabled-background);
+  color: var(--disabled--color);
+}
+#group > div.inactive {
+  opacity: 0.3;
+}
+#group > div.not-alive.looser,
+#group > div.chosen {
   order: -1;
   animation-duration: .6s;
   animation-name: clignoter;
   animation-iteration-count: 4;
   transition: none;
+}
+#group > div.not-alive.looser {
+  background: var(--disabled-background);
   color: var(--disabled-color);
+}
+#group > div.chosen {
+  background: var(--warning-background);
+}
+.warning {
+  color: red;
 }
 
 @keyframes clignoter {
@@ -410,8 +449,8 @@ tag {
   margin-right: 2px;
 }
 #choices {
-  width: 100%;
-  height: 100%;
+  background: var(--background-color-secondary);
+  border: 1px solid var(--border-color);
 }
 #choices > div {
   display: none;
@@ -420,25 +459,37 @@ tag {
   display: flex;
   height: 100%;
   flex-direction: column;
+  padding: 15px;
 }
 #choices > div > form {
   display: flex;
-  flex-direction: column;
-  height: 100%;
+  flex-wrap: wrap;
+}
+#choices > div > form > fieldset {
+  flex: 1;
+}
+#choices > div > form > input {
+  flex-basis: 100%;
 }
 #choices > div > form select,
-#choices > div > form input {
+#choices > div > form input:not([type=submit]) {
   margin-bottom: 5px;
+  border-radius: 0;
 }
 #poll > a {
   margin-top: auto;
 }
-.epreuve-cr {
-  display: flex;
-  flex-direction: column-reverse;
+#elections form {
+  justify-content: space-evenly;
 }
-.epreuve-header {
-  margin-bottom: 5px;
+#elections button:hover {
+  background: var(--tab-active);
+}
+.epreuve-cr {
+  background: #ffec84;
+  padding: 15px;
+  border-radius: 0 0 4px 4px;
+  border: 1px solid var(--border-color);
 }
 .success {
   color: green;
@@ -446,20 +497,40 @@ tag {
 .fail {
   color: red;
 }
-.wrapper-center fieldset {
+#choices fieldset {
   background: var(--content-background);
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
+  padding: 15px;
+}
+#choices fieldset legend {
+  font-weight: bold;
+  font-size: 1.1em;
 }
 .wrapper-penalite {
   display: flex;
-  flex-direction: row;
+  flex: 1;
+  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+  align-content: baseline;
   text-align: left;
 }
+.wrapper-penalite > label {
+  flex-basis: 100%;
+}
 .wrapper-penalite > * {
+  flex: 1;
+}
+.wrapper-between {
+  align-self: center;
+  padding: 15px;
+}
+#choices input[type=number] {
+  text-align: center;
+}
+
+.delete-game {
   flex: 1;
 }
 #delete-game {
@@ -487,8 +558,25 @@ tag {
   color: #04c804;
   font-weight: bold;
 }
-.poll-action {
+#poll .poll-action {
   margin-bottom: 5px;
+}
+#poll input.poll-label {
+  padding: 6px 10px !important;
+}
+.poll-plus {
+  border: 1px solid var(--border-color);
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+  background: var(--background-color);
+  cursor: pointer;
+}
+.last-visible ~ input {
+  display: none;
+}
+.last-visible + .poll-plus {
+  display: none;
 }
 
 /* ECRAN PJ */
@@ -521,10 +609,17 @@ tag {
   transition: none;
 }
 
-.poll-choice > form {
-  display: flex;
-  flex-direction: column;
+#choices > #poll > form {
+  flex-direction: row;
+  flex-wrap: wrap;
 }
+#poll > form > input {
+  flex-basis: 100%;
+}
+#choices .poll-choices {
+  flex: 2;
+}
+
 .character-tags > div {
   text-transform: capitalize;
 }

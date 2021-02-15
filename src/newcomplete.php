@@ -57,13 +57,14 @@ include 'header.php'; ?>
     $tags[] = $row[0];
 
     try {
-      $stmt = $db->prepare("INSERT INTO hrpg (nom,mdp,carac2,carac1,hp) VALUES(:nom,:pass,:carac2,:carac1,:hp)");
+      $stmt = $db->prepare("INSERT INTO hrpg (nom,mdp,carac2,carac1,hp,active) VALUES(:nom,:pass,:carac2,:carac1,:hp,:active)");
       $stmt->execute([
         ':nom' => $nom,
         ':pass' => $pass,
         ':carac2' => $carac2,
         ':carac1' => $carac1,
         ':hp' => $hp,
+        ':active' => 1
       ]);
       $id = $db->lastInsertId();
 

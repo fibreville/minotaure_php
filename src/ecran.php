@@ -56,12 +56,16 @@ if (isset($_GET['action'])) {
   elseif ($_GET['action'] == 'election') {
     make_election($db, $_POST);
   }
+  // TRAITEMENT DES NOMINATIONS.
+  elseif ($_GET['action'] == 'target') {
+    print random_player($db, $_POST);
+  }
   else {
     die('Unknown action');
   }
 }
 
-if (!isset($_SESSION['raw_default_tags'])) {
+if (!isset($_SESSION['default_tags'])) {
   $raw_tags = get_default_tags($db);
   $default_tags = $default_tags_per_category = $raw_default_tags = [];
   foreach ($raw_tags as $tag) {

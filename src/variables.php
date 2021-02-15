@@ -20,7 +20,11 @@ $default_settings_set = [
   'image_url' => './img/logo.png'
 ];
 
-if (!isset($_SESSION['current_timestamp']) || $settings_timestamp > $_SESSION['current_timestamp']) {
+if (
+  !isset($settings) ||
+  !isset($_SESSION['current_timestamp']) ||
+  $settings_timestamp > $_SESSION['current_timestamp']
+) {
   $settings_data = file_get_contents($tmp_path . '/settings.txt');
   $settings = unserialize($settings_data);
 

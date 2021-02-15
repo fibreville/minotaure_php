@@ -27,6 +27,8 @@ if ($id != "") {
   }
   else {
     if ($hp > 0) {
+      $stmt = $db->prepare("UPDATE hrpg SET active=1 WHERE id = :id");
+      $stmt->execute([':id' => $id]);
       $text = 'Votre grande aventure continue';
       $link = 'Cliquez <a href=main.php>ici</a>';
     }

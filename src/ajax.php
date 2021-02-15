@@ -42,25 +42,22 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
   $choix = $row['choix'];
   $choixtag = $row['choixtag'];
 
-  $sql_poll_count = "
-    SELECT COUNT(*)
-    FROM hrpg
-    LEFT JOIN character_tag ct ON ct.id_player = hrpg.id
-    WHERE hrpg.hp > 0
-    AND hrpg.id > 1";
-
+  $sql_count_part1 = "SELECT id FROM hrpg";
+  $sql_count_part2 = " WHERE hrpg.hp > 0 AND hrpg.id > 1 AND active = 1";
   if (!empty($choixtag)) {
+    $sql_count_part1 .= " LEFT JOIN character_tag ct ON ct.id_player = hrpg.id";
     $data = $_SESSION['raw_default_tags'];
     $keys = explode(',', $choixtag);
     foreach ($keys as $key) {
       $choixtag_data[$key] = $data[$key];
     }
     $choixtag_sql = '("' . implode('", "', $keys) . '")';
-    $sql_poll_count .= " AND (ct.id_tag IN $choixtag_sql)";
+    $sql_count_part2 .= " AND (ct.id_tag IN $choixtag_sql)";
   }
-  $stmt = $db->prepare($sql_poll_count);
+  $sql_count_part2 .= ' GROUP BY id';
+  $stmt = $db->prepare($sql_count_part1 . $sql_count_part2);
   $stmt->execute();
-  $nb_total = $stmt->fetchColumn();
+  $nb_total = $stmt->rowCount();
 
   print "<table>";
   $query = $db->prepare("
@@ -68,6 +65,7 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
     FROM hrpg
     WHERE vote > 0
     AND id > 1
+    AND active = 1
     GROUP BY vote
     ORDER BY c DESC, vote ASC");
   $query->execute();

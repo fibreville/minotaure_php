@@ -30,7 +30,6 @@ function delete_adventure($db, $tmp_path) {
   $db->query("TRUNCATE TABLE loot");
   unset($_SESSION['traitre']);
   unset($_SESSION['leader']);
-  unset($_SESSION['leader']);
   unset($_SESSION['default_raw_tags']);
   unset($_SESSION['default_tags_per_category']);
   unset($_SESSION['default_tags']);
@@ -51,7 +50,6 @@ function clean_adventure($db) {
 function save_new_settings($post, $tmp_path) {
   $_SESSION['settings']['adventure_name'] = $post['adventure_name'];
   $_SESSION['settings']['adventure_guide'] = $post['adventure_guide'];
-  $_SESSION['settings']['image_url'] = $post['image_url'];
   $_SESSION['settings']['carac1_name'] = $post['carac1_name'];
   $_SESSION['settings']['carac1_group'] = $post['carac1_group'];
   $_SESSION['settings']['carac2_name'] = $post['carac2_name'];
@@ -78,6 +76,14 @@ function delete_tag_category($db, $category_id) {
     unset($_SESSION['default_tags']);
   }
 }
+
+/**
+ * @param $db : the database active connection
+ * @param $post : submitted post data. This array should contains zero to three
+ * entries with the following keys : tag1, tag2, tag3.
+ * Each entry should contain a JSON array following this structure :
+ * [{"value":"taglabel"},{"value","taglabel3"},...]
+ */
 function add_new_tags($db, $post) {
   unset($_SESSION['default_raw_tags']);
   unset($_SESSION['default_tags_per_category']);
@@ -105,29 +111,30 @@ function add_new_tags($db, $post) {
       $results_players = $query->fetchAll(PDO::FETCH_COLUMN);
 
       // Récupération des tags de la catégorie.
-      $query = $db->prepare("
-        SELECT id
-        FROM tag
-        WHERE category = :id
-      ");
-      $query->execute([':id' => $i]);
-      $results_tags = $query->fetchAll(PDO::FETCH_COLUMN);
-      $size = count($results_tags);
+      if (!empty($results_players)) {
+        $query = $db->prepare("
+          SELECT id
+          FROM tag
+          WHERE category = :id
+        ");
+        $query->execute([':id' => $i]);
+        $results_tags = $query->fetchAll(PDO::FETCH_COLUMN);
+        $size = count($results_tags);
 
-      // Assignation aléatoire d'un tag de la catégorie par personnage.
-      $insertions = [];
-      foreach ($results_players as $id_character) {
-        $insertions[] = "('". $id_character ."','" . $results_tags[rand(0, $size - 1)] . "')";
-      }
-      $db->query("INSERT INTO character_tag (id_player,id_tag) VALUES " . implode(',', $insertions));
-
-      // Mise à jour du log des joueurs concernés.
-      $query = $db->prepare("
+        // Assignation aléatoire d'un tag de la catégorie par personnage.
+        $insertions = [];
+        foreach ($results_players as $id_character) {
+          $insertions[] = "('". $id_character ."','" . $results_tags[rand(0, $size - 1)] . "')";
+        }
+        $db->query("INSERT INTO character_tag (id_player,id_tag) VALUES " . implode(',', $insertions));
+        // Mise à jour du log des joueurs concernés.
+        $query = $db->prepare("
         UPDATE hrpg
         SET lastlog=:time,log='Vous avez un nouveau tag'
         WHERE id IN (" . implode(',', $results_players) . ")"
-      );
-      $query->execute([':time' => time()]);
+        );
+        $query->execute([':time' => time()]);
+      }
     }
   }
 }
@@ -164,7 +171,6 @@ function generate_target_query_part($type = 'all', $data) {
 }
 
 function update_events($db, $post) {
-  $type_target = 'all';
   $data = [];
   if (!empty($post['victimetag'])) {
     $data = decode_tags($post['victimetag']);
@@ -204,7 +210,7 @@ function update_events($db, $post) {
     $log = 'Vous avez raté l\'épreuve';
     if (!empty($post['reward'])) {
       $log .= ' et perdu ' . $post['penalite'] . ' '
-        . ($post['penalite_type'] == 'hp' ? 'pv' : ($settings[$post['penalite_type'] . '_name']));
+        . ($post['penalite_type'] == 'hp' ? 'pv' : ($_SESSION['settings'][$post['penalite_type'] . '_name']));
     }
 
     $db->query(
@@ -219,7 +225,7 @@ function update_events($db, $post) {
     $log = 'Vous avez réussi l\'épreuve';
     if (!empty($post['reward'])) {
       $log .= ' et gagné ' . $post['reward'] . ' '
-      . ($post['reward_type'] == 'hp' ? 'pv' : ($settings[$post['reward_type'] . '_name']));
+      . ($post['reward_type'] == 'hp' ? 'pv' : ($_SESSION['settings'][$post['reward_type'] . '_name']));
     }
 
     $db->query(
@@ -232,31 +238,39 @@ function update_events($db, $post) {
   }
 
   // On renvoie deux tableaux d'ids de PJ ayant échoué / réussi, à exploiter par le front.
-  $sanction = '<span class=epreuve-header><b>' . count($winners) . '</b> victoire(s) pour <b>' . count($loosers) . '</b> défaite(s)';
+  $sanction = '<div class=epreuve-cr><b>' . count($winners) . '</b> victoire(s) pour <b>' . count($loosers) . '</b> défaite(s)';
   if (isset($tags)) {
-    $sanction .= ' pour le groupe ' . implode(', ', $tags) . '</span>';
+    $sanction .= ' pour le groupe ' . implode(', ', $tags);
   }
-  $sanction .= '</span>';
+  $sanction .= '</div>';
   $_SESSION['sanction'] = $sanction;
   return '<script>data_failures = ' . json_encode($failures) . ', data_wins = ' . json_encode($success) . ';</script>';
 }
 
 function gen_loot_query_part($post) {
   if (!empty($post['qui_multiple'])) {
-    return 'id IN (' . $post['qui_multiple'] . ')';
+    $data = decode_tags($post['qui_multiple']);
+    $keys = implode(',', array_keys($data));
+    $str =  'WHERE id IN (' . $keys . ')';
   }
-  if ($post['qui'] == '*') {
-    return 'hp > 0 AND id > 1';
+  else {
+    if (!empty($post['qui_tags'])) {
+      $tags = decode_tags($post['qui_tags']);
+      $str = 'LEFT JOIN character_tag ct ON ct.id_player = hrpg.id';
+      $str .= ' WHERE ct.id_tag IN (' . implode(',', array_keys($tags)) . ')';
+    }
+
+    if ($post['qui'] == 'all') {
+      $str .= ' AND hp > 0 AND id > 1';
+    }
+    elseif ($post['qui'] == 'carac1') {
+      $str .= ' AND hp > 0 AND id > 1 AND carac1 > 3';
+    }
+    elseif ($post['qui'] == 'carac2') {
+      $str .= ' AND hp > 0 AND id > 1 AND carac2 > 3';
+    }
   }
-  if ($post['qui'] == 'carac1') {
-    return 'hp > 0 AND id > 1 AND carac1 > 3';
-  }
-  if ($post['qui'] == 'carac2') {
-    return 'hp > 0 AND id > 1 AND carac2 > 3';
-  }
-  if (!empty($post['qui'])) {
-    return 'id =' . $post['qui'];
-  }
+  return $str;
 }
 
 function update_loot($db, $post) {
@@ -270,7 +284,7 @@ function update_loot($db, $post) {
   }
 
   // Selection des PJS à qui donner le loot.
-  $query_select = $db->query('SELECT id FROM hrpg WHERE ' . $condition_sql);
+  $query_select = $db->query('SELECT id FROM hrpg ' . $condition_sql);
   $ids = $query_select->fetchAll(PDO::FETCH_COLUMN);
   if (empty($ids)) {
     return;
@@ -281,9 +295,9 @@ function update_loot($db, $post) {
       'UPDATE hrpg'
       . ' SET lastlog="' . time() . '",'
       . 'log="Vous avez reçu un nouvel objet.",'
-      . $post['propriete'] . '=' . $post['propriete'] . $post['bonus'] . ' WHERE ' . $condition_sql
+      . $post['propriete'] . '=' . $post['propriete'] . $post['bonus'] . ' WHERE id IN (' . implode(',', $ids) . ')'
     );
-    $property = $post['bonus'] . ' ' . ($post['propriete'] == 'hp' ? 'pv' : $settings[$post['propriete'] . '_name']);
+    $property = $post['bonus'] . ' ' . ($post['propriete'] == 'hp' ? 'pv' : $_SESSION['settings'][$post['propriete'] . '_name']);
   }
   else {
     $property = 'aucun effet';
@@ -336,45 +350,50 @@ function poll_update($db, $post) {
 
 function elect_player($db, $role) {
   $db->query('UPDATE hrpg SET ' . $role . ' = 0,lastlog="' . time() . '",log="Vous n\'êtes plus ' . $role . '." WHERE ' . $role . '=1');
-  $query = $db->query("SELECT id, nom FROM hrpg WHERE hp > 0 AND id > 1 AND '.$role.' = 0 ORDER BY RAND() LIMIT 1");
+  $query = $db->query("SELECT id, nom FROM hrpg WHERE hp > 0 AND id > 1 AND active = 1 AND '.$role.' = 0 ORDER BY RAND() LIMIT 1");
   $elected = $query->fetch(PDO::FETCH_ASSOC);
   $db->query('UPDATE hrpg SET ' . $role . '=1,lastlog="' . time() . '",log="Vous êtes le nouveau ' . $role . '." WHERE id="' . $elected['id'] . '"');
   $_SESSION[$role] = $elected['nom'];
 }
 
 function make_election($db, $post) {
-  if (empty($post['election']) && empty($post['random_choice']) && empty($post['random_tag'])) {
+  if (empty($post['name'])) {
     return;
   }
 
-  if ($post['election'] == 'leader') {
+  if ($post['name'] == 'leader') {
     elect_player($db, 'leader');
   }
-  elseif ($post['election'] == 'traitre') {
+  elseif ($post['name'] == 'traitre') {
     elect_player($db, 'traitre');
   }
+}
 
-  if ($post['random_choice'] == 'random') {
-    $where_add = 'WHERE';
+function random_player($db, $post) {
+  $query_str = 'SELECT id FROM hrpg ';
+  $where_add = '';
+  if (!empty($post['random_tag'])) {
+    $tags = decode_tags($post['random_tag']);
+    $query_str .= 'LEFT JOIN character_tag ct ON ct.id_player = hrpg.id';
+    $where_add =  ' AND ct.id_tag IN (' . implode(',', array_keys($tags)) . ')';
   }
-  elseif ($post['random_choice'] == 'random_carac1') {
-    $where_add = 'WHERE carac1 >= carac2 AND';
+
+  if ($post['random_choice'] == 'random_carac1') {
+    $where_add .= ' AND carac1 > 3';
   }
   elseif ($post['random_choice'] == 'random_carac2') {
-    $where_add = 'WHERE carac1 < carac2 AND';
+    $where_add .= ' AND carac2 > 3';
   }
-  elseif (!empty($post['random_tag'])) {
-    $tags = decode_tags($post['random_tag']);
-    $where_add = 'LEFT JOIN character_tag ct ON ct.id_player = hrpg.id WHERE ct.id_tag IN (' . implode(',', array_keys($tags)) . ') AND';
+  $limit = (is_numeric($post['limit']) && !empty($post['limit'])) ? $post['limit'] : 1;
+
+  $query = $db->query($query_str . ' WHERE hp > 0 AND id > 1 AND active = 1' . $where_add . ' ORDER BY RAND() LIMIT ' . $limit);
+  $rows = $query->fetchAll(PDO::FETCH_COLUMN);
+  if (empty($rows)) {
+    return '<script>players_chosen = false;</script>';
   }
   else {
-    return;
+    return '<script>players_chosen = ' . json_encode($rows) . ';</script>';
   }
-
-  $row = $db->query('SELECT nom,id FROM hrpg ' . $where_add . ' hp > 0 AND id > 1 ORDER BY RAND() LIMIT 1')
-    ->fetch();
-
-  $_SESSION['designe'] = $row[0] . ' (#' . $row[1] . ')';
 }
 
 function get_default_tags($db) {
