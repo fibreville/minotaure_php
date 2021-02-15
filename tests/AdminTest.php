@@ -8,11 +8,19 @@ include 'src/admin_tools.php';
 final class AdminTest extends TestCase {
 
   public function generateUser($db): void {
+    $chars = "0123456789abcdef";
+    $rand_string = "";
+    for ($i = 0; $i < 32; $i++) {
+        $rand_string .= $chars[rand(0, strlen($chars) - 1)];
+    }
+    $hash = password_hash($rand_string, PASSWORD_DEFAULT);
+
     $db->query(
       "INSERT INTO `hrpg`"
       . " (`nom`, `mdp`, `carac2`, `carac1`, `hp`, `leader`, `traitre`, `vote`, `log`, `lastlog`, `active`)"
-      . " VALUES ('" . substr(md5(microtime()), rand(0, 26), 5) . "', '', '1', '1', '1', '0', '0', '0', NULL, NULL, 1)"
+      . " VALUES ('" . $hash . "', '', '1', '1', '1', '0', '0', '0', NULL, NULL, 1)"
     );
+
   }
 
   public static function getSQLCount($db, $of) {
