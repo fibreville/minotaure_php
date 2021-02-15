@@ -14,17 +14,21 @@ if (isset($_GET['action'])) {
   require "variables.php";
   $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);;
 
-  // TRAITEMENT DE LA SUPPRESSION DE L'AVENTURE
+  // SUPPRESSION DE L'AVENTURE
   if ($_GET['action'] == "delete") {
     delete_adventure($db, $tmp_path);
   }
-  // PARAMETRES AVENTURE.
+  // PARAMETRES DE L'AVENTURE
   elseif ($_GET['action'] == 'settings') {
     save_new_settings($_POST, $tmp_path);
   }
-  // TRAITEMENT DE L'AJOUT DE TAGS.
+  // AJOUT DE TAGS.
   elseif ($_GET['action'] == "tags") {
     add_new_tags($db, $_POST);
+  }
+  // SUPPRESSION DE TAGS.
+  elseif ($_GET['action'] == "delete_tags" && isset($_GET['category'])) {
+    delete_tag_category($db, $_GET['category']);
   }
   elseif ($_GET['action'] == "create_user") {
     $chars = "0123456789abcdef";
@@ -36,8 +40,8 @@ if (isset($_GET['action'])) {
 
     $db->query(
       "INSERT INTO `hrpg`"
-      . " (`nom`, `mdp`, `carac2`, `carac1`, `hp`, `leader`, `traitre`, `vote`, `tag1`, `tag2`, `tag3`, `log`, `lastlog`)"
-      . " VALUES ('" . $hash . "', '', '1', '1', '1', '0', '0', '0', '', '', '', NULL, NULL)"
+      . " (`nom`, `mdp`, `carac2`, `carac1`, `hp`, `leader`, `traitre`, `vote`, `log`, `lastlog`, `status`)"
+      . " VALUES ('" . $hash . "', '', '1', '1', '1', '0', '0', '0', '', '', '', NULL, NULL, 1)"
     );
   }
   // TRAITEMENT DES EPREUVES.
@@ -53,16 +57,36 @@ if (isset($_GET['action'])) {
   }
   // TRAITEMENT DU SONDAGE.
   elseif ($_GET['action'] == "poll") {
-    survey_update($db, $_POST);
+    poll_update($db, $_POST);
   }
   // TRAITEMENT DES NOMINATIONS.
   elseif ($_GET['action'] == 'election') {
     make_election($db, $_POST);
   }
+  // TRAITEMENT DES NOMINATIONS.
+  elseif ($_GET['action'] == 'target') {
+    print random_player($db, $_POST);
+  }
   else {
     die('Unknown action');
   }
 }
+
+if (!isset($_SESSION['default_tags'])) {
+  $raw_tags = get_default_tags($db);
+  $default_tags = $default_tags_per_category = $raw_default_tags = [];
+  foreach ($raw_tags as $tag) {
+    $raw_default_tags[$tag['id']] = $tag['name'];
+    $default_tags_per_category[$tag['category']][] = $default_tags[] = ['value' => $tag['name'], 'code' => $tag['id']];
+  }
+  $_SESSION['raw_default_tags'] = $raw_default_tags;
+  $_SESSION['default_tags'] = $default_tags;
+  $_SESSION['default_tags_per_category'] = $default_tags_per_category;
+}
+print '<script>
+var default_tags_per_category = ' . json_encode($_SESSION['default_tags_per_category']) . ';
+var default_tags = ' . json_encode($_SESSION['default_tags']) . ';
+</script>';
 
 require "header.php";
 require "ecran_forms.php";

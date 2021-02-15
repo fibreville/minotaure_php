@@ -11,10 +11,11 @@ $traitre = $cleanPost['traitre'];
 
 $id = $_SESSION['id'];
 if ($choix != "") {
-  $stmt = $db->prepare("UPDATE hrpg SET vote=:choix WHERE id=:id");
+  $stmt = $db->prepare("UPDATE hrpg SET vote=:choix,active=:active WHERE id=:id");
   $stmt->execute([
     ':choix' => $choix,
     ':id' => $id,
+    ':active' => 1
   ]);
 }
 
