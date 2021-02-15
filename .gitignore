@@ -3,5 +3,3 @@
 data
 .phpunit.result.cache
 phpunit
-src/generate.php
-src/generate.txt
