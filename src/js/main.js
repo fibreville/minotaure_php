@@ -66,6 +66,9 @@ $(document).ready(function() {
       }
       else {
         tagify = new Tagify(inputs[i]);
+        tagify
+          .on('input', e => console.log(e.detail))
+          .on('edit:input edit:updated edit:start edit:keydown', e => console.log(e.type, e.detail))
       }
     }
 
