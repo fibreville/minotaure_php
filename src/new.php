@@ -20,10 +20,11 @@ if ($text == "erreur") {
   </fieldset>
   <fieldset>
     <legend>Votre type de personnage</legend>
-    <span><input type="radio" name="stat" value="51"><?php print 'très ' . $settings['carac1_group'] . ' mais pas ' . $settings['carac2_group']; ?></span>
-    <span><input type="radio" name="stat" value="42"><?php print 'plutôt ' . $settings['carac1_group'] . ' mais peu ' . $settings['carac2_group']; ?></span>
-    <span><input type="radio" name="stat" value="24"><?php print 'peu ' . $settings['carac1_group'] . ' mais plutôt ' . $settings['carac2_group']; ?></span>
-    <span><input type="radio" name="stat" value="15"><?php print 'pas ' . $settings['carac1_group'] . ' mais très ' . $settings['carac2_group']; ?></span>
+    <span><input type="radio" name="stat" value="15_5"><?php print 'très ' . $settings['carac1_group'] . ' mais pas ' . $settings['carac2_group']; ?></span>
+    <span><input type="radio" name="stat" value="12_8"><?php print 'plutôt ' . $settings['carac1_group'] . ' mais peu ' . $settings['carac2_group']; ?></span>
+    <span><input type="radio" name="stat" value="10_10"><?php print 'équilibré'; ?></span>
+    <span><input type="radio" name="stat" value="8_12"><?php print 'peu ' . $settings['carac1_group'] . ' mais plutôt ' . $settings['carac2_group']; ?></span>
+    <span><input type="radio" name="stat" value="5_15"><?php print 'pas ' . $settings['carac1_group'] . ' mais très ' . $settings['carac2_group']; ?></span>
   </fieldset>
   <input class="submit-button" type="submit" value="Partir à l'aventure">
 </form>
