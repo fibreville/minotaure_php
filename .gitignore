@@ -5,3 +5,4 @@ data
 phpunit
 src/generate.php
 src/generate.txt
+src/connexion.php
