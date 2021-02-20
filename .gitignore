@@ -1,8 +1,9 @@
 *.idea
 *.DS_store
 data
-*connexion.php
 .phpunit.result.cache
 phpunit
 src/generate.php
 src/generate.txt
+src/connexion.php
+deploy.php

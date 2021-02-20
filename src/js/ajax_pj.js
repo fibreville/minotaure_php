@@ -23,5 +23,5 @@ var update_screen = function() {
 };
 
 update_screen();
-var interval = 4000;
+var interval = 8000;
 setInterval(update_screen, interval);

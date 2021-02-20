@@ -31,15 +31,11 @@ include 'header.php'; ?>
 <div>
   <?php
   if (empty($probleme)) {
-    if (empty($stat)) {
-      $carac2 = array_rand([1, 2, 4, 5], 1);
-      $carac1 = 6 - $carac2;
-    }
-    else {
-      $carac2 = $stat[1];
-      $carac1 = $stat[0];
-    }
-    $hp = 5 + rand(0, 5);
+    $caracs = explode('_', $stat);
+    $carac1 = $caracs[0];
+    $carac2 = $caracs[1];
+
+    $hp = 10 + rand(-2, 2);
     $stmt = $db->prepare("SELECT id FROM tag WHERE category = 1 ORDER BY RAND()");
     $stmt->execute();
     $row = $stmt->fetch();

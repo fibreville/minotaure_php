@@ -16,7 +16,15 @@ $hp = $row[1];
 $mdp_hash = $row[2];
 
 $pass = $cleanPost['pass'];
-if (!password_verify($pass, $mdp_hash)) {
+if ($mdp_hash == '') {
+  $pass = password_hash($pass, PASSWORD_DEFAULT);
+  $stmt = $db->prepare("UPDATE hrpg SET mdp=:pass WHERE id=:id");
+  $stmt->execute([
+    ':id' => $id,
+    ':pass' => $pass,
+  ]);
+}
+elseif (!password_verify($pass, $mdp_hash)) {
     $id = "";
     $hp = "";
 }

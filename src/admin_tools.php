@@ -162,10 +162,10 @@ function generate_target_query_part($type = 'all', $data) {
     return 'WHERE id > 1 AND hp > 0';
   }
   elseif ($type == 'carac1') {
-    return 'WHERE id > 1 AND hp > 0 AND carac1 > 3';
+    return 'WHERE id > 1 AND hp > 0 AND carac1 > 14';
   }
   elseif ($type == 'carac2') {
-    return 'WHERE id > 1 AND hp > 0 AND carac2 > 3';
+    return 'WHERE id > 1 AND hp > 0 AND carac2 > 14';
   }
   return FALSE;
 }
@@ -193,8 +193,8 @@ function update_events($db, $post) {
   foreach ($users->fetchAll(PDO::FETCH_ASSOC) as $key => $user) {
     // On tire un D20. 1 = échec systématique, 20 = réussite systématique.
     $critical_die = rand(1, 20);
-    // On tire un D6 + la difficulté allant de -2 à +2.
-    if ($critical_die == 1 || ($critical_die != 20 && $user[$post['type']] <= ($post['difficulte'] + rand(1, 6)))) {
+    // On tire un D20 + la difficulté allant de -10 à +10.
+    if ($critical_die == 1 || ($critical_die != 20 && $user[$post['type']] <= ($post['difficulte'] + rand(1, 20)))) {
       // Défaite.
       $failures[] = 'pj-' . $user['id'];
       $loosers[] = $user['id'];
@@ -264,10 +264,10 @@ function gen_loot_query_part($post) {
       $str .= ' AND hp > 0 AND id > 1';
     }
     elseif ($post['qui'] == 'carac1') {
-      $str .= ' AND hp > 0 AND id > 1 AND carac1 > 3';
+      $str .= ' AND hp > 0 AND id > 1 AND carac1 > 14';
     }
     elseif ($post['qui'] == 'carac2') {
-      $str .= ' AND hp > 0 AND id > 1 AND carac2 > 3';
+      $str .= ' AND hp > 0 AND id > 1 AND carac2 > 14';
     }
   }
   return $str;
@@ -379,10 +379,10 @@ function random_player($db, $post) {
   }
 
   if ($post['random_choice'] == 'random_carac1') {
-    $where_add .= ' AND carac1 > 3';
+    $where_add .= ' AND carac1 > 14';
   }
   elseif ($post['random_choice'] == 'random_carac2') {
-    $where_add .= ' AND carac2 > 3';
+    $where_add .= ' AND carac2 > 14';
   }
   $limit = (is_numeric($post['limit']) && !empty($post['limit'])) ? $post['limit'] : 1;
 
