@@ -162,10 +162,10 @@ function generate_target_query_part($type = 'all', $data) {
     return 'WHERE id > 1 AND hp > 0';
   }
   elseif ($type == 'carac1') {
-    return 'WHERE id > 1 AND hp > 0 AND carac1 > 12';
+    return 'WHERE id > 1 AND hp > 0 AND carac1 > 14';
   }
   elseif ($type == 'carac2') {
-    return 'WHERE id > 1 AND hp > 0 AND carac2 > 12';
+    return 'WHERE id > 1 AND hp > 0 AND carac2 > 14';
   }
   return FALSE;
 }
@@ -264,10 +264,10 @@ function gen_loot_query_part($post) {
       $str .= ' AND hp > 0 AND id > 1';
     }
     elseif ($post['qui'] == 'carac1') {
-      $str .= ' AND hp > 0 AND id > 1 AND carac1 > 12';
+      $str .= ' AND hp > 0 AND id > 1 AND carac1 > 14';
     }
     elseif ($post['qui'] == 'carac2') {
-      $str .= ' AND hp > 0 AND id > 1 AND carac2 > 12';
+      $str .= ' AND hp > 0 AND id > 1 AND carac2 > 14';
     }
   }
   return $str;
@@ -379,10 +379,10 @@ function random_player($db, $post) {
   }
 
   if ($post['random_choice'] == 'random_carac1') {
-    $where_add .= ' AND carac1 > 12';
+    $where_add .= ' AND carac1 > 14';
   }
   elseif ($post['random_choice'] == 'random_carac2') {
-    $where_add .= ' AND carac2 > 12';
+    $where_add .= ' AND carac2 > 14';
   }
   $limit = (is_numeric($post['limit']) && !empty($post['limit'])) ? $post['limit'] : 1;
 
