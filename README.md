@@ -6,7 +6,7 @@
 
 ### AVERTISSEMENT
 
-⚠️ Ce logiciel contient plusieurs failles de sécurité et les mots de passe ne sont pas secrets du tout ! Utilisation à vos risques et périls.
+⚠️ Malgré leur vigilance, les contributeurs du code de ATRPG ne garantissent pas l'absence de failles de sécurité. Utilisation à vos risques et périls.
 
 ### À quoi ça sert ?
 
@@ -58,7 +58,7 @@ et [make](https://fr.wikipedia.org/wiki/Make).
 
 ### WARNING
 
-⚠️ This software contains several vulnerabilities and the passwords are not secret at all! Use at your own risk.
+⚠️ This software may contain vulnerabilities. Use at your own risk.
 
 ### Purpose
 
