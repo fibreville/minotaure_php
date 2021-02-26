@@ -248,6 +248,7 @@ function update_events($db, $post) {
 }
 
 function gen_loot_query_part($post) {
+  $str = '';
   if (!empty($post['qui_multiple'])) {
     $data = decode_tags($post['qui_multiple']);
     $keys = implode(',', array_keys($data));
@@ -260,14 +261,20 @@ function gen_loot_query_part($post) {
       $str .= ' WHERE ct.id_tag IN (' . implode(',', array_keys($tags)) . ')';
     }
 
+    if (!empty($str)) {
+      $str .= ' AND ';
+    }
+    else {
+      $str = ' WHERE ';
+    }
     if ($post['qui'] == 'all') {
-      $str .= ' AND hp > 0 AND id > 1';
+      $str .= 'hp > 0 AND id > 1';
     }
     elseif ($post['qui'] == 'carac1') {
-      $str .= ' AND hp > 0 AND id > 1 AND carac1 > 14';
+      $str .= 'hp > 0 AND id > 1 AND carac1 > 14';
     }
     elseif ($post['qui'] == 'carac2') {
-      $str .= ' AND hp > 0 AND id > 1 AND carac2 > 14';
+      $str .= 'hp > 0 AND id > 1 AND carac2 > 14';
     }
   }
   return $str;
