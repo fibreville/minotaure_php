@@ -13,7 +13,9 @@
 Ce programme, installé sur un serveur, permet à des centaines de joueurs de participer à la même aventure en votant notamment pour la prochaine action à faire.
 
 L'idée et le code d'origine ont été fournies par [FibreTigre](https://www.twitch.tv/fibretigre) le 31/12/2020 sous le nom de ATRPG. Il a ensuite été repris et amélioré ici par les bénévoles. Il a été renommé "MINOTAURE" officiellement le 28/03/2021.
+
 Découvrez des streams utilisant MINOTAURE sur le site [https://minotau.re].
+
 Rejoignez le [discord](https://discord.gg/RAhph7z) de la communauté FibreTigre.
 
 ### Installation locale sans Docker
@@ -67,7 +69,9 @@ et [make](https://fr.wikipedia.org/wiki/Make).
 This program, installed on a server, allow several hundred players to live the same adventure by voting on the next action to do for the group, among other things.
 
 The original code was publicly delivered by [FibreTigre](https://www.twitch.tv/fibretigre) on the 31/12/2020 under the name ATRPG. It has been developed here since by volunteers. It was officially renamed "MINOTAURE" on the 28/03/2021.
+
 Discover streams that use Minotaure on the official website [minotau.re].
+
 Join the FibreTigre [discord](https://discord.gg/RAhph7z) community (in French + 1 English channel).
 
 ### Install without Docker
