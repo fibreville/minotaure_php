@@ -1,18 +1,20 @@
 [![Build Status](https://travis-ci.org/fibreville/atrpg.svg?branch=main)](https://travis-ci.org/fibreville/atrpg)
-# atrpg
+# Minotaure
 
 ## 🇫🇷 Version française
 *English below.*
 
 ### AVERTISSEMENT
 
-⚠️ Malgré leur vigilance, les contributeurs du code de ATRPG ne garantissent pas l'absence de failles de sécurité. Utilisation à vos risques et périls.
+⚠️ Malgré leur vigilance, les contributeurs du code de Minotaure ne garantissent pas l'absence de failles de sécurité. Utilisation à vos risques et périls.
 
 ### À quoi ça sert ?
 
-Ce programme permet de récréer sur votre serveur le JDR « AT RPG » (Asynchronous Tactical Role-Playing Game), qui permet à des centaines de joueurs de participer à la même aventure en votant pour la prochaine action à faire.
+Ce programme, installé sur un serveur, permet à des centaines de joueurs de participer à la même aventure en votant notamment pour la prochaine action à faire.
 
-L'idée et le code d'origine ont été fournies par [FibreTigre](https://www.twitch.tv/fibretigre) le 31/12/20. Rejoignez le discord de la communauté ici : [https://discord.gg/RAhph7z]
+L'idée et le code d'origine ont été fournies par [FibreTigre](https://www.twitch.tv/fibretigre) le 31/12/2020 sous le nom de ATRPG. Il a ensuite été repris et amélioré ici par les bénévoles. Il a été renommé "MINOTAURE" officiellement le 28/03/2021.
+Découvrez des streams utilisant MINOTAURE sur le site [minotau.re].
+Rejoignez le discord de la communauté FibreTigre ici : [https://discord.gg/RAhph7z].
 
 ### Installation locale sans Docker
 
@@ -62,10 +64,11 @@ et [make](https://fr.wikipedia.org/wiki/Make).
 
 ### Purpose
 
-This program lets you create the "AT RPG" (Asynchronous Tactical Role-Playing Game) on your own server where hundreds of players can take decisions collectively by voting. It was designed to be used on Twitch.
+This program, installed on a server, allow several hundred players to live the same adventure by voting on the next action to do for the group, among other things.
 
-The original source was provided by [FibreTigre](https://www.twitch.tv/fibretigre) on 12/31/2020.
-Join his community's Discord (in French + 1 English channel): [https://discord.gg/RAhph7z]
+The original code was publicly delivered by [FibreTigre](https://www.twitch.tv/fibretigre) on the 31/12/2020 under the name ATRPG. It has been developed here since by volunteers. It was officially renamed "MINOTAURE" on the 28/03/2021.
+Discover streams that use Minotaure on the official website [minotau.re].
+Join the FibreTigre Discord community (in French + 1 English channel) : [https://discord.gg/RAhph7z].
 
 ### Install without Docker
 
