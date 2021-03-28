@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/fibreville/atrpg.svg?branch=main)](https://travis-ci.org/fibreville/atrpg)
 # Minotaure
-![logo minotaure](https://repository-images.githubusercontent.com/325598559/a579d180-9011-11eb-86df-7336076a45ca)
+![logo minotaure](https://repository-images.githubusercontent.com/325598559/76b02b00-9012-11eb-916f-10ab81850d6b)
 ## 🇫🇷 Version française
 *English below.*
 
