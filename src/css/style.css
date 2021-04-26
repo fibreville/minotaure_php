@@ -378,6 +378,9 @@ tag {
 #group-stats > span {
   margin-bottom: 10px;
 }
+#group-stats > span:first-letter {
+  text-transform: uppercase;
+}
 #group > div.looser {
   background: var(--fail-background);
   color: var(--fail-color);
@@ -560,6 +563,9 @@ tag {
 }
 #poll .poll-action {
   margin-bottom: 5px;
+}
+#poll .poll-action:first-letter {
+  text-transform: capitalize;
 }
 #poll input.poll-label {
   padding: 6px 10px !important;

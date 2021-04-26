@@ -51,9 +51,9 @@ $settings = $_SESSION['settings'];
     <?php print $settings['adventure_guide']; ?>
   </div>
   <div id="group-stats">
-    <span>👑 Leader du groupe : <b class="pj-name"><?php print "$leader"; ?></b></span>
-    <span>🗡️ Traître du groupe : <b class="pj-name"><?php print "$traitre"; ?></b></span>
-    <span>💛 Joueurs encore en vie : <b><?php print $nb_alive . ' / ' . count($players); ?></b></span>
+    <span><?php print $settings['role_leader']; ?> : <b class="pj-name"><?php print "$leader"; ?></b></span>
+    <span><?php print $settings['role_traitre']; ?> : <b class="pj-name"><?php print "$traitre"; ?></b></span>
+    <span>💛 Personnages encore en vie : <b><?php print $nb_alive . ' / ' . count($players); ?></b></span>
   </div>
 </div>
 <div class="wrapper-main">
@@ -73,8 +73,8 @@ $settings = $_SESSION['settings'];
     <div id="elections" class="active">
       <h3>Nommer des personnages clefs.</h3>
       <form method="post" action="ecran.php?action=election">
-        <button name="name" value="leader" type="submit">👑 Nommer un nouveau leader</button>
-        <button name="name" value="traitre" type="submit">🗡️ Nommer un nouveau traitre</button>
+        <button name="name" value="leader" type="submit">Nommer <?php print $settings['role_leader']; ?></button>
+        <button name="name" value="traitre" type="submit">Nommer <?php print $settings['role_traitre']; ?></button>
       </form>
     </div>
     <!-- FORMULAIRE DESIGNATION -->
@@ -291,6 +291,10 @@ $settings = $_SESSION['settings'];
           <input type="text" name="adventure_name" id="adventure_name" maxlength="250" value="<?php print $settings['adventure_name']; ?>">
           <label for="adventure_guide">Adresse ip ou url pour rejoindre</label>
           <textarea type="textarea" name="adventure_guide" size=5 id="adventure_guide" maxlength="250"><?php print $settings['adventure_guide']; ?></textarea>
+          <label for="same_stats_all">Mêmes stats pour tout le monde</label>
+          <input type="checkbox" name="same_stats_all" id="same_stats_all" <?php print ($settings['same_stats_all'] ? 'checked' : ''); ?>>
+          <label for="random_tags">Tags distribués aléatoirement</label>
+          <input type="checkbox" name="random_tags" id="random_tags" <?php print ($settings['random_tags'] ? 'checked' : ''); ?>>
         </fieldset>
         <fieldset>
           <legend>1ère caractéristique</legend>
@@ -305,6 +309,13 @@ $settings = $_SESSION['settings'];
           <input type="text" placeholder="corps" name="carac2_name" id="carac2_name" value="<?php print $settings['carac2_name']; ?>">
           <label for="carac2_group">Un personnage fort dans cette carac est :</label>
           <input type="text" placeholder="fort" name="carac2_group" id="carac2_group" value="<?php print $settings['carac2_group']; ?>">
+        </fieldset>
+        <fieldset>
+          <legend>Rôles</legend>
+          <label for="role_leader">Nom de rôle de leader</label>
+          <input type="text" name="role_leader" id="role_leader" maxlength="250" value="<?php print $settings['role_leader']; ?>">
+          <label for="role_traitre">Nom de rôle de traître</label>
+          <input type="text" name="role_traitre" id="role_traitre" maxlength="250" value="<?php print $settings['role_traitre']; ?>">
         </fieldset>
         <input type="submit" value="Enregistrer">
 

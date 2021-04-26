@@ -54,8 +54,13 @@ function save_new_settings($post, $tmp_path) {
   $_SESSION['settings']['carac1_group'] = $post['carac1_group'];
   $_SESSION['settings']['carac2_name'] = $post['carac2_name'];
   $_SESSION['settings']['carac2_group'] = $post['carac2_group'];
+  $_SESSION['settings']['role_leader'] = $post['role_leader'];
+  $_SESSION['settings']['role_traitre'] = $post['role_traitre'];
+  $_SESSION['settings']['same_stats_all'] = isset($post['same_stats_all']);
+  $_SESSION['settings']['random_tags'] = isset($post['random_tags']);
   save_in_file($tmp_path . '/settings.txt', serialize($_SESSION['settings']));
   save_in_file($tmp_path . '/settings_timestamp.txt', time());
+  save_in_file($tmp_path . '/game_timestamp.txt', time());
 }
 
 function delete_tag_category($db, $category_id) {
@@ -66,7 +71,7 @@ function delete_tag_category($db, $category_id) {
     FROM character_tag
     LEFT JOIN tag ON tag.id = character_tag.id_tag
     WHERE tag.category = :id_category
-  ");
+    ");
     $query->execute([':id_category' => $category_id]);
     // Suppression des tags.
     $query = $db->prepare("DELETE FROM tag WHERE category = :id_category");
@@ -123,8 +128,18 @@ function add_new_tags($db, $post) {
 
         // Assignation aléatoire d'un tag de la catégorie par personnage.
         $insertions = [];
+        $index = rand(0, $size - 1);
         foreach ($results_players as $id_character) {
-          $insertions[] = "('". $id_character ."','" . $results_tags[rand(0, $size - 1)] . "')";
+          if ($_SESSION['settings']['random_tags']) {
+            $insertions[] = "('". $id_character ."','" . $results_tags[rand(0, $size - 1)] . "')";
+          }
+          else {
+            if ($index == $size) {
+              $index = 0;
+            }
+            $insertions[] = "('". $id_character ."','" . $results_tags[$index] . "')";
+            $index++;
+          }
         }
         $db->query("INSERT INTO character_tag (id_player,id_tag) VALUES " . implode(',', $insertions));
         // Mise à jour du log des joueurs concernés.
@@ -356,10 +371,11 @@ function poll_update($db, $post) {
 }
 
 function elect_player($db, $role) {
-  $db->query('UPDATE hrpg SET ' . $role . ' = 0,lastlog="' . time() . '",log="Vous n\'êtes plus ' . $role . '." WHERE ' . $role . '=1');
+  $role_name = $_SESSION['settings']['role_' . $role];
+  $db->query('UPDATE hrpg SET ' . $role . ' = 0,lastlog="' . time() . '",log="Vous n\'êtes plus ' . $role_name . '." WHERE ' . $role . '=1');
   $query = $db->query("SELECT id, nom FROM hrpg WHERE hp > 0 AND id > 1 AND active = 1 AND '.$role.' = 0 ORDER BY RAND() LIMIT 1");
   $elected = $query->fetch(PDO::FETCH_ASSOC);
-  $db->query('UPDATE hrpg SET ' . $role . '=1,lastlog="' . time() . '",log="Vous êtes le nouveau ' . $role . '." WHERE id="' . $elected['id'] . '"');
+  $db->query('UPDATE hrpg SET ' . $role . '=1,lastlog="' . time() . '",log="Vous êtes ' . $role_name . '." WHERE id="' . $elected['id'] . '"');
   $_SESSION[$role] = $elected['nom'];
 }
 

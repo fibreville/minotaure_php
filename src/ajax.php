@@ -17,7 +17,7 @@ if ($_GET['role'] == 'heartbeat') {
     print isset($_SESSION['current_poll']) ? json_encode($_SESSION['current_poll']) : '[]';
   }
   else {
-    print json_encode(!isset($_SESSION['current_timestamp']) || $_SESSION['current_timestamp'] < $game_timestamp);
+    print json_encode($_SESSION['current_timestamp'] == 0 || !isset($_SESSION['current_timestamp']) || $_SESSION['current_timestamp'] < $game_timestamp);
   }
 }
 elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
@@ -77,10 +77,10 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
     print "Vote limité au groupe : " . implode(', ', $choixtag_data);
   }
   if ($leadvalue == 2) {
-    print "<div class='poll-action leader-action'>👑 Le leader $leader a utilisé son pouvoir et choisi : " . $options['c' . $leadvote] . "!</div>";
+    print "<div class='poll-action leader-action'>" . $settings['role_leader'] . " $leader a utilisé son pouvoir et choisi : " . $options['c' . $leadvote] . "!</div>";
   }
   if ($traitrevalue == 2) {
-    print "<div class='poll-action traitor-action'>🗡️ Le traitre $traitre a utilisé son pouvoir et annule un choix.</div>";
+    print "<div class='poll-action traitor-action'>" . $settings['role_traitre'] . " $traitre a utilisé son pouvoir et annule un choix.</div>";
   }
 
   foreach ($votes as $key => $vote) {
@@ -163,10 +163,10 @@ if ($hp > 0) { ?>
       <div>💛 Points de vie : <b><?php print $hp; ?></b></div>
     </div>
     <?php if ($leader > 0) { ?>
-      <div class="pj-role">Vous êtes actuellement <b>Leader</b> 👑 !</div>
+      <div class="pj-role">Vous êtes actuellement <b><?php print $settings['role_leader']; ?></b> !</div>
     <?php } ?>
     <?php if ($traitre > 0) { ?>
-      <div class="pj-role">Vous êtes actuellement <b>Traitre</b> 🗡️!</div>
+      <div class="pj-role">Vous êtes actuellement <b><?php print $settings['role_traitre']; ?></b> !</div>
     <?php } ?>
   </div>
   <?php
@@ -195,10 +195,10 @@ if ($hp > 0) { ?>
         if ($leader == 1 || $traitre == 1) {
           print '<div class="powers">';
           if ($leader == 1) {
-            print "<div><input type=checkbox name=lead value=1><label for=lead>👑 Utiliser mon pouvoir de leader</label></div>";
+            print "<div><input type=checkbox name=lead value=1><label for=lead>👑 Utiliser mon pouvoir de " . $settings['role_leader'] . "</b></label></div>";
           }
           if ($traitre == 1) {
-            print "<div><input type=checkbox name=traitre value=1><label for=traitre>🗡️ Utiliser mon pouvoir de traitre et annuler le vote choisi<label></div>";
+            print "<div><input type=checkbox name=traitre value=1><label for=traitre>🗡️ Utiliser mon pouvoir de " . $settings['role_traitre'] . " et annuler le vote choisi<label></div>";
           }
           print '</div>';
         }
