@@ -31,25 +31,69 @@ include 'header.php'; ?>
 <div>
   <?php
   if (empty($probleme)) {
-    $caracs = explode('_', $stat);
-    $carac1 = $caracs[0];
-    $carac2 = $caracs[1];
+    if ($settings['same_stats_all']) {
+      $carac1 = $carac2 = $hp = 10;
+    }
+    else {
+      $caracs = explode('_', $stat);
+      $carac1 = $caracs[0];
+      $carac2 = $caracs[1];
+      if (($carac1 + $carac2) > 20) {
+        $carac1 = $carac2 = 10;
+      }
+      $hp = 10 + rand(-2, 2);
+    }
 
-    $hp = 10 + rand(-2, 2);
-    $stmt = $db->prepare("SELECT id FROM tag WHERE category = 1 ORDER BY RAND()");
-    $stmt->execute();
-    $row = $stmt->fetch();
-    $tags[] = $row[0];
+    if ($settings['random_tags']) {
+      $stmt = $db->prepare("SELECT id FROM tag WHERE category = 1 ORDER BY RAND()");
+      $stmt->execute();
+      $row = $stmt->fetch();
+      $tags[] = $row[0];
 
-    $stmt = $db->prepare("SELECT id FROM tag WHERE category = 2 ORDER BY RAND()");
-    $stmt->execute();
-    $row = $stmt->fetch();
-    $tags[] = $row[0];
+      $stmt = $db->prepare("SELECT id FROM tag WHERE category = 2 ORDER BY RAND()");
+      $stmt->execute();
+      $row = $stmt->fetch();
+      $tags[] = $row[0];
 
-    $stmt = $db->prepare("SELECT id FROM tag WHERE category = 3 ORDER BY RAND()");
-    $stmt->execute();
-    $row = $stmt->fetch();
-    $tags[] = $row[0];
+      $stmt = $db->prepare("SELECT id FROM tag WHERE category = 3 ORDER BY RAND()");
+      $stmt->execute();
+      $row = $stmt->fetch();
+      $tags[] = $row[0];
+    }
+    else {
+      $stmt = $db->prepare("
+      SELECT id, count(*) c FROM tag
+      RIGHT JOIN character_tag c ON c.`id_tag` = tag.id
+      WHERE tag.category = 1 
+      GROUP BY tag.id
+      ORDER BY c ASC
+      LIMIT 0,1");
+      $stmt->execute();
+      $row = $stmt->fetch();
+      $tags[] = $row[0];
+
+      $stmt = $db->prepare("
+      SELECT id, count(*) c FROM tag
+      LEFT JOIN character_tag c ON c.`id_tag` = tag.id
+      WHERE tag.category = 2
+      GROUP BY tag.id
+      ORDER BY c ASC
+      LIMIT 0,1");
+      $stmt->execute();
+      $row = $stmt->fetch();
+      $tags[] = $row[0];
+
+      $stmt = $db->prepare("
+      SELECT id, count(*) c FROM tag
+      LEFT JOIN character_tag c ON c.`id_tag` = tag.id
+      WHERE tag.category = 3
+      GROUP BY tag.id
+      ORDER BY c ASC
+      LIMIT 0,1");
+      $stmt->execute();
+      $row = $stmt->fetch();
+      $tags[] = $row[0];
+    }
 
     try {
       $stmt = $db->prepare("INSERT INTO hrpg (nom,mdp,carac2,carac1,hp,active) VALUES(:nom,:pass,:carac2,:carac1,:hp,:active)");
