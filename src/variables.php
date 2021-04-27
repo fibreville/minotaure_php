@@ -42,7 +42,7 @@ if (
     }
   }
   $_SESSION['settings'] = $settings;
-  if ($_SESSION['id'] == 1) {
+  if (isset($_SESSION['id']) && $_SESSION['id'] == 1) {
     $_SESSION['current_timestamp'] = $settings_timestamp;
   }
 }
