@@ -3,8 +3,9 @@ session_start();
 $page_id = 'page-new';
 $_SESSION['current_timestamp'] = 0;
 include 'header.php';
-$text = $_GET['text'];
+isset($_GET['text']) ? $text = $_GET['text'] : $text = "";
 
+$erreur = "";
 if ($text == "erreur") {
   $erreur = "<div>Ce héros existe déjà ! Merci d'utiliser « Reprendre une partie ».<br>
   Si malheureusement vous êtes mort, nous vous invitons à créer un nouveau personnage.</div>";
