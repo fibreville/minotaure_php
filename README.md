@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/fibreville/atrpg.svg?branch=main)](https://travis-ci.org/fibreville/atrpg)
+[![Build Status](https://travis-ci.org/fibreville/atrpg.svg?branch=main)](https://travis-ci.org/fibreville/minotaure)
 # Minotaure
 ![logo minotaure](https://repository-images.githubusercontent.com/325598559/76b02b00-9012-11eb-916f-10ab81850d6b)
 ## 🇫🇷 Version française
@@ -16,7 +16,7 @@ L'idée et le code d'origine ont été fournies par [FibreTigre](https://www.twi
 
 Découvrez des streams utilisant MINOTAURE sur le site [minotau.re](https://minotau.re).
 
-Rejoignez le [discord](https://discord.gg/RAhph7z) de la communauté FibreTigre.
+Rejoignez le [discord](https://discord.gg/RAhph7z) de la communauté FibreTigre ou bien le discord dédié [ici](https://discord.gg/zgRfSEC2).
 
 ### Installation locale sans Docker
 

@@ -18,6 +18,7 @@ if ($text == "erreur") {
     <span><label for="nom">Nom</label><input type="text" name="nom" id="nom" maxlength="15" required></span>
     <span><label for="pass">Mot de passe</label><input type="password" name="pass" id="pass" required></span>
   </fieldset>
+  <?php if ($settings['same_stats_all'] == FALSE) : ?>
   <fieldset>
     <legend>Votre type de personnage</legend>
     <span><input type="radio" name="stat" value="15_5"><?php print 'très ' . $settings['carac1_group'] . ' mais pas ' . $settings['carac2_group']; ?></span>
@@ -26,6 +27,7 @@ if ($text == "erreur") {
     <span><input type="radio" name="stat" value="8_12"><?php print 'peu ' . $settings['carac1_group'] . ' mais plutôt ' . $settings['carac2_group']; ?></span>
     <span><input type="radio" name="stat" value="5_15"><?php print 'pas ' . $settings['carac1_group'] . ' mais très ' . $settings['carac2_group']; ?></span>
   </fieldset>
+  <?php endif ?>
   <input class="submit-button" type="submit" value="Partir à l'aventure">
 </form>
 <?php
