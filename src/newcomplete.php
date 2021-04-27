@@ -42,7 +42,7 @@ include 'header.php'; ?>
       $hp = 10 + rand(-2, 2);
     }
 
-    $tags[] = null;
+    $tags = [];
     if ($settings['random_tags']) {
       $stmt = $db->prepare("SELECT id FROM tag WHERE category = 1 ORDER BY RAND()");
       $stmt->execute();
