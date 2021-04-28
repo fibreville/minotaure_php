@@ -296,7 +296,7 @@ $settings = $_SESSION['settings'];
             </select>
             <label for="qui_tags"><strong>ayant</strong> au moins un des tags</label>
             <input class="tag-whitelist" type="text" name="qui_tags" placeholder="Entrez un tag"  id="qui_tags" maxlength="250">
-            Limiter aux personnages actifs :
+            <label for="restrict_active">Limiter aux personnages actifs :</label>
             <input type="checkbox" name="restrict_active" id="restrict_active" <?php print ($settings['restrict_active'] ? 'checked' : ''); ?>>
           </span>
         </fieldset>
@@ -365,19 +365,27 @@ $settings = $_SESSION['settings'];
         </fieldset>
         
         
-        <fieldset>
+        <fieldset style="text-align: left">
           <legend>Autres paramètres</legend>
-          <label for="same_stats_all">Mêmes stats pour tout le monde</label>
-          <input type="checkbox" name="same_stats_all" id="same_stats_all" <?php print ($settings['same_stats_all'] ? 'checked' : ''); ?>>
-          
-          <label for="random_tags">Tags distribués aléatoirement</label>
-          <input type="checkbox" name="random_tags" id="random_tags" <?php print ($settings['random_tags'] ? 'checked' : ''); ?>>
-          
-          <label for="willpower_on">Jauge de volonté</label>
-          <input type="checkbox" name="willpower_on" id="willpower_on" <?php print ($settings['willpower_on'] ? 'checked' : ''); ?>>
-          
-          <label for="restrict_active">Restreindre aux personnages actifs par défaut</label>
-          <input type="checkbox" name="restrict_active" id="restrict_active" <?php print ($settings['restrict_active'] ? 'checked' : ''); ?>>
+          <div>
+            <label for="same_stats_all">Mêmes stats pour tout le monde</label>
+            <input type="checkbox" name="same_stats_all" id="same_stats_all" <?php print ($settings['same_stats_all'] ? 'checked' : ''); ?>>
+          </div>
+          <br />
+          <div>
+            <label for="random_tags">Tags distribués aléatoirement</label>
+            <input type="checkbox" name="random_tags" id="random_tags" <?php print ($settings['random_tags'] ? 'checked' : ''); ?>>
+          </div>
+          <br />
+          <div>
+            <label for="willpower_on">Jauge de volonté</label>
+            <input type="checkbox" name="willpower_on" id="willpower_on" <?php print ($settings['willpower_on'] ? 'checked' : ''); ?>>
+          </div>
+          <br />
+          <div>
+            <label for="restrict_active">Restreindre aux actifs par défaut</label>
+            <input type="checkbox" name="restrict_active" id="restrict_active" <?php print ($settings['restrict_active'] ? 'checked' : ''); ?>>
+          </div>
         </fieldset>
         
         <input type="submit" value="Enregistrer">
