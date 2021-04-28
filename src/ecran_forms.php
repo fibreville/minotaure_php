@@ -76,6 +76,10 @@ $settings = $_SESSION['settings'];
         <button name="name" value="leader" type="submit">Nommer <?php print $settings['role_leader']; ?></button>
         <button name="name" value="traitre" type="submit">Nommer <?php print $settings['role_traitre']; ?></button>
       </form>
+      <form method="post" action="ecran.php?action=destitution" style="margin-top: 10px">
+        <button name="name" value="leader" type="submit">Destituer <?php print $settings['role_leader']; ?></button>
+        <button name="name" value="traitre" type="submit">Destituer <?php print $settings['role_traitre']; ?></button>
+      </form>
     </div>
     <!-- FORMULAIRE DESIGNATION -->
     <div id="target" class="active">

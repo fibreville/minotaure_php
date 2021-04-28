@@ -414,11 +414,19 @@ function poll_update($db, $post) {
 
 function elect_player($db, $role) {
   $role_name = $_SESSION['settings']['role_' . $role];
-  $db->query('UPDATE hrpg SET ' . $role . ' = 0,lastlog="' . time() . '",log="Vous n\'êtes plus ' . $role_name . '." WHERE ' . $role . '=1');
-  $query = $db->query("SELECT id, nom FROM hrpg WHERE hp > 0 AND wp > 0 AND id > 1 AND active = 1 AND '.$role.' = 0 ORDER BY RAND() LIMIT 1");
+  
+  // On retire le rôle attribué
+  destitute_player($db, $role);
+  
+  // Attribution à un compte parmi personnages actifs
+  $sql = "SELECT id, nom FROM hrpg WHERE hp > 0 AND wp > 0 AND id > 1 AND active = 1 AND '.$role.' = 0 ORDER BY RAND() LIMIT 1";
+  $query = $db->query($sql);
   $elected = $query->fetch(PDO::FETCH_ASSOC);
-  $db->query('UPDATE hrpg SET ' . $role . '=1,lastlog="' . time() . '",log="Vous êtes ' . $role_name . '." WHERE id="' . $elected['id'] . '"');
-  $_SESSION[$role] = $elected['nom'];
+  if ($query->rowCount() > 0) {
+    $sql = 'UPDATE hrpg SET ' . $role . '=1,lastlog="' . time() . '",log="Vous êtes ' . $role_name . '." WHERE id="' . $elected['id'] . '"';
+    $db->query($sql);
+    $_SESSION[$role] = $elected['nom'];
+  }
 }
 
 function make_election($db, $post) {
@@ -431,6 +439,25 @@ function make_election($db, $post) {
   }
   elseif ($post['name'] == 'traitre') {
     elect_player($db, 'traitre');
+  }
+}
+
+function destitute_player($db, $role) {
+  $role_name = $_SESSION['settings']['role_' . $role];
+  $sql = 'UPDATE hrpg SET ' . $role . ' = 0,lastlog="' . time() . '",log="Vous n\'êtes plus ' . $role_name . '." WHERE ' . $role . '=1';
+  $db->query($sql);
+}
+
+function remove_role($db, $post) {
+  if (empty($post['name'])) {
+    return;
+  }
+
+  if ($post['name'] == 'leader') {
+    destitute_player($db, 'leader');
+  }
+  elseif ($post['name'] == 'traitre') {
+    destitute_player($db, 'traitre');
   }
 }
 
