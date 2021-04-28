@@ -4,10 +4,6 @@
 #
 # http://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
-#
-# Hôte: localhost (MySQL 5.7.26)
-# Base de données: atrpg_bigbase
-# Temps de génération: 2021-02-15 01:59:58 +0000
 # ************************************************************
 
 
@@ -42,9 +38,11 @@ CREATE TABLE `hrpg` (
   `id` int(15) unsigned NOT NULL AUTO_INCREMENT,
   `nom` mediumtext NOT NULL,
   `mdp` mediumtext NOT NULL,
+  `carac3` tinyint(1) NOT NULL,
   `carac2` tinyint(1) NOT NULL,
   `carac1` tinyint(1) NOT NULL,
   `hp` tinyint(1) NOT NULL,
+  `wp` tinyint(1) NOT NULL,
   `leader` tinyint(1) NOT NULL DEFAULT '0',
   `traitre` tinyint(1) NOT NULL DEFAULT '0',
   `vote` tinyint(1) NOT NULL DEFAULT '0',

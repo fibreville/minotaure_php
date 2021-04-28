@@ -106,6 +106,12 @@ h3 {
   box-shadow: 0 0 3px lightgray;
   border: 1px solid lightgray;
 }
+hr {
+    border: 0;
+    border-top: 1px solid #ddd;
+    margin: 0.1em 0;
+    padding: 0;
+}
 .theme-switch {
   margin-right: 10px;
   display: flex;
@@ -244,10 +250,19 @@ body .index-wrapper a {
   display: flex;
   flex-direction: column;
   flex: 1;
+  text-align: center;
+}
+.stats > .aptitude {
+  font-size: small;
+}
+.stats > .caracs {
+  font-size: x-small;
 }
 .stats > .life {
+  font-size: x-small;
   margin-top: auto;
 }
+
 .stats, .tags {
   margin-top: 5px;
 }

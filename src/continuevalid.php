@@ -6,7 +6,7 @@ include "header.php";
 $cleanPost = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 isset($cleanPost['nom']) ? $nom = strtolower($cleanPost['nom']) : $nom = "";
 
-$stmt = $db->prepare("SELECT id,hp,mdp FROM hrpg WHERE nom=:nom");
+$stmt = $db->prepare("SELECT id,hp,wp,mdp FROM hrpg WHERE nom=:nom");
 $stmt->execute([
   ':nom' => $nom,
 ]);
@@ -15,7 +15,8 @@ $id = ""; $hp = ""; $mdp_hash = "";
 if ($stmt->rowCount() > 0) {
   $id = $row[0];
   $hp = $row[1];
-  $mdp_hash = $row[2];
+  $wp = $row[2];
+  $mdp_hash = $row[3];
 }
 
 isset($cleanPost['pass']) ? $pass = $cleanPost['pass'] : $pass = "";
@@ -41,15 +42,20 @@ if ($id != "") {
     $link = 'Accédez à l\'écran du MJ en cliquant <a href=ecran.php>ici</a>';
   }
   else {
-    if ($hp > 0) {
+    if ($hp <= 0) {
+      $text = 'Votre personnage est mort ☠️. On en recrée un nouveau ?';
+      $link = "Retourner au <a href=index.php>menu principal</a>";
+      
+    }
+    elseif ($settings['willpower_on'] && $wp <= 0) {
+      $text = 'Votre personnage a sombré 🌑️. On en recrée un nouveau ?';
+      $link = "Retourner au <a href=index.php>menu principal</a>";
+    }
+    else {
       $stmt = $db->prepare("UPDATE hrpg SET active=1 WHERE id = :id");
       $stmt->execute([':id' => $id]);
       $text = 'Votre grande aventure continue';
       $link = 'Cliquez <a href=main.php>ici</a>';
-    }
-    else {
-      $text = 'Votre personnage est mort ☠️. On en recrée un nouveau ?';
-      $link = "Retourner au <a href=index.php>menu principal</a>";
     }
   }
 }

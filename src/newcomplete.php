@@ -36,10 +36,50 @@ include 'header.php'; ?>
       $caracs = explode('_', $stat);
       $carac1 = $caracs[0];
       $carac2 = $caracs[1];
-      if (($carac1 + $carac2) > 20) {
-        $carac1 = $carac2 = 10;
+      $carac3 = $caracs[2]; // définie à 10 par défaut même si 2 caracs
+      
+      if ($_SESSION['settings']['carac3_name'] != "") {
+        if ($carac3 == 9) {
+          // Personnage équilibré
+          // Chaque carac peut aller de 9 à 11
+          
+          // Protection triche
+          if (($carac1 + $carac2 + $carac3) > 27) {
+            $carac1 = $carac2 = $carac3 = 9;
+          }
+          
+          // Tirage des caracs
+          $tirage_carac = array(0, 1, 1, 2);
+          shuffle($tirage_carac);
+          $carac1 = $carac1 + $tirage_carac[0];
+          $carac2 = $carac2 + $tirage_carac[1];
+          $carac3 = 30 - ( $carac1 + $carac2);
+        }
+        else {
+          // Personnage spécialisé
+          
+          // Protection triche
+          if (($carac1 + $carac2 + $carac3) > 24) {
+            $carac1 = $carac2 = $carac3 = 8;
+          }
+          
+          // Tirage des caracs
+          $tirage_carac = array(0, 1, 1, 2, 2, 2, 3, 3, 4);
+          shuffle($tirage_carac);
+          $carac1 = $carac1 + $tirage_carac[0];
+          $carac2 = $carac2 + $tirage_carac[1];
+          $carac3 = 30 - ( $carac1 + $carac2);
+        }
       }
+      else {
+        // 2 caracs : protection triche
+        if (($carac1 + $carac2) > 20) {
+          $carac1 = $carac2 = $carac3 = 10;
+        }
+      }
+      
       $hp = 10 + rand(-2, 2);
+      $wp = 20 - $hp + rand(-1, 1);
     }
 
     $tags = [];
@@ -107,13 +147,15 @@ include 'header.php'; ?>
     }
 
     try {
-      $stmt = $db->prepare("INSERT INTO hrpg (nom,mdp,carac2,carac1,hp,active) VALUES(:nom,:pass,:carac2,:carac1,:hp,:active)");
+      $stmt = $db->prepare("INSERT INTO hrpg (nom,mdp,carac3,carac2,carac1,hp,wp,active) VALUES(:nom,:pass,:carac3,:carac2,:carac1,:hp,:wp,:active)");
       $stmt->execute([
         ':nom' => $nom,
         ':pass' => $pass,
+        ':carac3' => $carac3,
         ':carac2' => $carac2,
         ':carac1' => $carac1,
         ':hp' => $hp,
+        ':wp' => $wp,
         ':active' => 1
       ]);
       $id = $db->lastInsertId();

@@ -19,14 +19,17 @@ if (
   $default_settings_set = [
     'carac1_name' => 'esprit',
     'carac2_name' => 'corps',
+    'carac3_name' => '',
     'carac1_group' => 'malin',
     'carac2_group' => 'fort',
+    'carac3_group' => '',
     'adventure_name' => 'Notre Aventure',
     'adventure_guide' => "Rejoindre l'Aventure : ...'",
     'role_leader' => 'leader',
     'role_traitre' => 'traître',
     'same_stats_all' => 0,
-    'random_tags' => 1
+    'random_tags' => 1,
+    'willpower_on' => 0
   ];
   if (file_exists($tmp_path . '/settings.txt')) {
     $settings_data = file_get_contents($tmp_path . '/settings.txt');
