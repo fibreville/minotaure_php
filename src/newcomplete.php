@@ -30,7 +30,7 @@ include 'header.php'; ?>
   <?php
   if (empty($probleme)) {
     if ($settings['same_stats_all']) {
-      $carac1 = $carac2 = $hp = 10;
+      $carac1 = $carac2 = $carac3 = $hp = $wp = 10;
     }
     else {
       $caracs = explode('_', $stat);
@@ -189,7 +189,7 @@ include 'header.php'; ?>
     ?>
     <div>Impossible de créer votre personnage 😢.</div>
     <div><?php print $probleme; ?></div>
-    <div><a href=new.php>Réessayez</a> ou retournez <a href=index.php>au menu principal</a></div>
+    <div><a href=new.php>Réessayez</a> ou retournez <a href=index.php>au menu principal.</a></div>
     <?php
   }
   ?>
