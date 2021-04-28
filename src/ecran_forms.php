@@ -238,6 +238,10 @@ $settings = $_SESSION['settings'];
             <label for="victimetag"><strong>Ou</strong> par Tag</label>
             <input class="tag-whitelist" type="text" name="victimetag" placeholder="Entrez un tag"  id="victimetag" maxlength="250">
           </span>
+          <span class="wrapper-penalite">
+            Limiter aux personnages actifs :
+            <input type="checkbox" name="restrict_active" id="restrict_active" <?php print ($settings['restrict_active'] ? 'checked' : ''); ?>>
+          </span>
         </fieldset>
         <input type="submit" value="ÉPROUVER">
       </form>
@@ -292,6 +296,8 @@ $settings = $_SESSION['settings'];
             </select>
             <label for="qui_tags"><strong>ayant</strong> au moins un des tags</label>
             <input class="tag-whitelist" type="text" name="qui_tags" placeholder="Entrez un tag"  id="qui_tags" maxlength="250">
+            Limiter aux personnages actifs :
+            <input type="checkbox" name="restrict_active" id="restrict_active" <?php print ($settings['restrict_active'] ? 'checked' : ''); ?>>
           </span>
         </fieldset>
         <fieldset>
@@ -369,6 +375,9 @@ $settings = $_SESSION['settings'];
           
           <label for="willpower_on">Jauge de volonté</label>
           <input type="checkbox" name="willpower_on" id="willpower_on" <?php print ($settings['willpower_on'] ? 'checked' : ''); ?>>
+          
+          <label for="restrict_active">Restreindre aux personnages actifs par défaut</label>
+          <input type="checkbox" name="restrict_active" id="restrict_active" <?php print ($settings['restrict_active'] ? 'checked' : ''); ?>>
         </fieldset>
         
         <input type="submit" value="Enregistrer">
