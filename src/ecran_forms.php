@@ -147,6 +147,10 @@ $settings = $_SESSION['settings'];
             <input class="tag-whitelist" type="text" name="choixtag" id="choixtag" maxlength="250" placeholder="Entrez un tag">
           </fieldset>
           <input type="submit" value="Délibérer">
+          <fieldset>
+            <legend>Rappel du dernier sondage</legend>
+            <?php print $_SESSION['last_vote']; ?>
+          </fieldset>
         </form>
         <?php
       }

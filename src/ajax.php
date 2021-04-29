@@ -89,6 +89,7 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
     print "<div class='poll-action traitor-action'>" . $settings['role_traitre'] . " $traitre a utilisé son pouvoir et annule un choix.</div>";
   }
 
+  $vote_results_total = '<table>';
   foreach ($votes as $key => $vote) {
     $nb_votants = $vote['c'];
     
@@ -106,7 +107,9 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
     if (isset($traitrevalue) && $traitrevalue == 2 && $vote['vote'] == $traitrevote) {
        $classes[] = 'traitor-vote';
     }
-    print "<tr class=\"" . implode(' ', $classes) . "\"><td>" . $options['c' . $vote['vote']] . " : </td><td>$nb_votants / $nb_total soit $pc %</td></tr>";
+    $vote_results_line = "<tr class=\"" . implode(' ', $classes) . "\"><td>" . $options['c' . $vote['vote']] . " : </td><td>$nb_votants / $nb_total soit $pc %</td></tr>";
+    print $vote_results_line;
+    $vote_results_total .= $vote_results_line;
     unset($options['c' . $vote['vote']]);
   }
   foreach ($options as $option) {
@@ -115,6 +118,7 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
     }
   }
   print "</table>";
+  $_SESSION['last_vote'] = $vote_results_total . '</table>';
   if ($nb_total > 0) {
     print "<div>Total votants : " . round(($pctot * 100 / $nb_total), 2) . "%</div>";
   }
