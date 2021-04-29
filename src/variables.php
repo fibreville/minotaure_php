@@ -30,6 +30,7 @@ if (
     'same_stats_all' => 0,
     'random_tags' => 1,
     'restrict_active' => 0,
+    'lock_new' => 0,
     'willpower_on' => 0
   ];
   if (file_exists($tmp_path . '/settings.txt')) {

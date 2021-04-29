@@ -390,6 +390,11 @@ $settings = $_SESSION['settings'];
             <label for="restrict_active">Restreindre aux actifs par défaut</label>
             <input type="checkbox" name="restrict_active" id="restrict_active" <?php print ($settings['restrict_active'] ? 'checked' : ''); ?>>
           </div>
+          <br />
+          <div>
+            <label for="lock_new">Verrouiller les créations de personnage</label>
+            <input type="checkbox" name="lock_new" id="lock_new" <?php print ($settings['lock_new'] ? 'checked' : ''); ?>>
+          </div>
         </fieldset>
         
         <input type="submit" value="Enregistrer">

@@ -62,6 +62,7 @@ function save_new_settings($post, $tmp_path) {
   $_SESSION['settings']['random_tags'] = isset($post['random_tags']);
   $_SESSION['settings']['willpower_on'] = isset($post['willpower_on']);
   $_SESSION['settings']['restrict_active'] = isset($post['restrict_active']);
+  $_SESSION['settings']['lock_new'] = isset($post['lock_new']);
   save_in_file($tmp_path . '/settings.txt', serialize($_SESSION['settings']));
   save_in_file($tmp_path . '/settings_timestamp.txt', time());
   save_in_file($tmp_path . '/game_timestamp.txt', time());

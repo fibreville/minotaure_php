@@ -5,4 +5,6 @@
   <label for="nom">Mot de passe :</label><input type="password" name="pass" size=24">
   <input class="submit-button" type="submit" value="Continuer l'Aventure">
 </form>
+<br />
+<a href="index.php">Retour</a>
 <?php include "footer.php"; ?>

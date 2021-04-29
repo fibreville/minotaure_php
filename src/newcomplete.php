@@ -1,13 +1,17 @@
 <?php
 session_start();
 include "connexion.php";
+include "header.php";
 
 isset($_POST['nom']) ? $nom = $_POST['nom'] : $nom = "";
 isset($_POST['pass']) ? $pass = $_POST['pass'] : $pass = "";
 isset($_POST['stat']) ? $stat = $_POST['stat'] : $stat = "";
 $probleme = NULL;
 
-if (empty($nom) || empty($pass)) {
+if ($settings['lock_new']) {
+  $probleme = "L'aventure n'accueille pas de nouveaux personnages pour l'instant !";
+}
+elseif (empty($nom) || empty($pass)) {
   $probleme = 'Veuillez remplir le champ : ' . (empty($nom) ? 'nom' : 'mot de passe') . '.';
 }
 elseif (preg_match('/^[A-Za-z0-9-]+$/D', $nom) === 0) {
@@ -25,7 +29,7 @@ else {
     $probleme = 'Ce nom est déjà utilisé. Veuillez en choisir un autre.';
   }
 }
-include 'header.php'; ?>
+?>
 <div>
   <?php
   if (empty($probleme)) {
