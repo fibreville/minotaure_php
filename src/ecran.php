@@ -40,7 +40,7 @@ if (isset($_GET['action'])) {
 
     $db->query(
       "INSERT INTO `hrpg`"
-      . " (`nom`, `mdp`, `carac2`, `carac1`, `hp`, `leader`, `traitre`, `vote`, `log`, `lastlog`, `status`)"
+      . " (`nom`, `mdp`, `carac3`, `carac2`, `carac1`, `hp`, `wp`, `leader`, `traitre`, `vote`, `log`, `lastlog`, `status`)"
       . " VALUES ('" . $hash . "', '', '1', '1', '1', '0', '0', '0', '', '', '', NULL, NULL, 1)"
     );
   }

@@ -31,7 +31,7 @@ else {
 }
 
 $query = $db->prepare("
-    SELECT hrpg.id,nom,carac2,carac1,hp,GROUP_CONCAT(t.name) tags,active
+    SELECT hrpg.id,nom,carac3,carac2,carac1,hp,wp,GROUP_CONCAT(t.name) tags,active
     FROM hrpg
     LEFT JOIN character_tag ct ON ct.id_player = hrpg.id
     LEFT JOIN tag t ON ct.id_tag = t.id
@@ -40,7 +40,7 @@ $query = $db->prepare("
     ORDER BY active DESC, hp <= 0 ASC, nom ASC");
 $query->execute();
 $players = $query->fetchAll(PDO::FETCH_ASSOC);
-$nb_alive = $db->query("SELECT COUNT(*) FROM hrpg WHERE hp > 0 AND id > 1")->fetchColumn();
+$nb_alive = $db->query("SELECT COUNT(*) FROM hrpg WHERE hp > 0 AND wp > 0 AND id > 1")->fetchColumn();
 $settings = $_SESSION['settings'];
 ?>
 
@@ -53,7 +53,7 @@ $settings = $_SESSION['settings'];
   <div id="group-stats">
     <span><?php print $settings['role_leader']; ?> : <b class="pj-name"><?php print "$leader"; ?></b></span>
     <span><?php print $settings['role_traitre']; ?> : <b class="pj-name"><?php print "$traitre"; ?></b></span>
-    <span>💛 Personnages encore en vie : <b><?php print $nb_alive . ' / ' . count($players); ?></b></span>
+    <span>Personnages encore en jeu : <b><?php print $nb_alive . ' / ' . count($players); ?></b></span>
   </div>
 </div>
 <div class="wrapper-main">
@@ -89,8 +89,11 @@ $settings = $_SESSION['settings'];
           <label for="random_choice">Parmi un groupe</label>
           <select id="random_choice" name="random_choice">
             <option value="random">Tout le monde</option>
-            <option value="random_carac1"><?php print $settings['carac1_group']; ?></option>
-            <option value="random_carac2"><?php print $settings['carac2_group']; ?></option>
+            <option value="random_carac1"><?php print ucfirst($settings['carac1_group']); ?></option>
+            <option value="random_carac2"><?php print ucfirst($settings['carac2_group']); ?></option>
+            <?php if ($settings['carac3_name'] != "") {
+              print "<option value=\"random_carac3\">" . ucfirst($settings['carac3_group']) . "</option>";
+            } ?>
           </select>
         </span>
         <span class="wrapper-between">
@@ -153,10 +156,13 @@ $settings = $_SESSION['settings'];
         <fieldset>
           <legend>Test</legend>
           <span class="wrapper-penalite">
-            <label for="type">Type</label>
+            <label for="type">Caractéristique testée</label>
             <select name="type" id="type">
-              <option value="carac1"><?php print $settings['carac1_name'] ?></option>
-              <option value="carac2"><?php print $settings['carac2_name'] ?></option>
+              <option value="carac1"><?php print ucfirst($settings['carac1_name']) ?></option>
+              <option value="carac2"><?php print ucfirst($settings['carac2_name']) ?></option>
+              <?php if ($settings['carac3_name'] != "") {
+                print "<option value=\"carac3\">" . ucfirst($settings['carac3_name']) . "</option>";
+              } ?>
             </select>
           </span>
         <span class="wrapper-penalite">
@@ -179,18 +185,30 @@ $settings = $_SESSION['settings'];
           <span class="wrapper-penalite">
             <label for="penalite">En cas d'échec (-)</label>
             <select name="penalite_type" id="penalite">
-              <option value="hp">Santé</option>
-              <option value="carac1"><?php print $settings['carac1_name'] ?></option>
-              <option value="carac2"><?php print $settings['carac2_name'] ?></option>
+              <option value="hp">💛 Santé</option>
+              <?php if ($settings['willpower_on']) {
+                print "<option value=\"wp\">🌟 Volonté</option>\r\n";
+              } ?>
+              <option value="carac1"><?php print ucfirst($settings['carac1_name']) ?></option>
+              <option value="carac2"><?php print ucfirst($settings['carac2_name']) ?></option>
+              <?php if ($settings['carac3_name'] != "") {
+                print "<option value=\"carac3\">" . ucfirst($settings['carac3_name']) . "</option>";
+              } ?>
             </select>
             <input type="number" name="penalite" value="0" min="0" max="999999999">
           </span>
           <span class="wrapper-penalite">
             <label for="reward_type">En cas de réussite (+)</label>
             <select name="reward_type" id="reward_type">
-              <option value="hp">Santé</option>
-              <option value="carac1"><?php print $settings['carac1_name'] ?></option>
-              <option value="carac2"><?php print $settings['carac2_name'] ?></option>
+              <option value="hp">💛 Santé</option>
+              <?php if ($settings['willpower_on']) {
+                print "<option value=\"wp\">🌟 Volonté</option>\r\n";
+              } ?>
+              <option value="carac1"><?php print ucfirst($settings['carac1_name']) ?></option>
+              <option value="carac2"><?php print ucfirst($settings['carac2_name']) ?></option>
+              <?php if ($settings['carac3_name'] != "") {
+                print "<option value=\"carac3\">" . ucfirst($settings['carac3_name']) . "</option>";
+              } ?>
             </select>
             <input type="number" name="reward" value="0" min="0" max="999999999">
           </span>
@@ -203,6 +221,9 @@ $settings = $_SESSION['settings'];
               <option value="all">Tout le monde</option>
               <option value="carac1">Chaque personnage <?php print $settings['carac1_group'] ?></option>
               <option value="carac2">Chaque personnage <?php print $settings['carac2_group'] ?></option>
+              <?php if ($settings['carac3_name'] != "") {
+                print "<option value=\"carac3\">Chaque personnage " . $settings['carac3_group'] . "</option>";
+              } ?>
             </select>
           </span>
           <span class="wrapper-penalite">
@@ -233,8 +254,14 @@ $settings = $_SESSION['settings'];
             <select name="propriete" id="propriete">
               <option value="" selected>Choisir</option>
               <option value="hp">💛 Vie</option>
-              <option value="carac1"><?php print $settings['carac1_name']; ?></option>
-              <option value="carac2"><?php print $settings['carac2_name']; ?></option>
+              <?php if ($settings['willpower_on']) {
+                print "<option value=\"wp\">🌟 Volonté</option>\r\n";
+              } ?>
+              <option value="carac1"><?php print ucfirst($settings['carac1_name']); ?></option>
+              <option value="carac2"><?php print ucfirst($settings['carac2_name']); ?></option>
+              <?php if ($settings['carac3_name'] != "") {
+                print "<option value=\"carac3\">" . ucfirst($settings['carac3_name']) . "</option>";
+              } ?>
             </select>
             <input type="number" value="0" name="bonus" placeholder="bonus" min="-999999999" max="999999999">
           </span>
@@ -247,9 +274,15 @@ $settings = $_SESSION['settings'];
               <option value="all">Tout le monde</option>
               <option value="carac1">Chaque personnage <?php print $settings['carac1_group'] ?></option>
               <option value="carac2">Chaque personnage <?php print $settings['carac2_group'] ?></option>
+              <?php if ($settings['carac3_name'] != "") {
+                print "<option value=\"carac3\">Chaque personnage " . $settings['carac3_group'] . "</option>";
+              } ?>
               <?php
-              foreach ($list_players as $key_player => $player) {
-                print "<option value='$key_player'>$player</option>";
+              if (isset($list_players)) {
+                // TODO : vérifier pertinence de cette section
+                foreach ($list_players as $key_player => $player) {
+                  print "<option value='$key_player'>$player</option>";
+                }
               }
               ?>
             </select>
@@ -291,10 +324,6 @@ $settings = $_SESSION['settings'];
           <input type="text" name="adventure_name" id="adventure_name" maxlength="250" value="<?php print $settings['adventure_name']; ?>">
           <label for="adventure_guide">Adresse ip ou url pour rejoindre</label>
           <textarea type="textarea" name="adventure_guide" size=5 id="adventure_guide" maxlength="250"><?php print $settings['adventure_guide']; ?></textarea>
-          <label for="same_stats_all">Mêmes stats pour tout le monde</label>
-          <input type="checkbox" name="same_stats_all" id="same_stats_all" <?php print ($settings['same_stats_all'] ? 'checked' : ''); ?>>
-          <label for="random_tags">Tags distribués aléatoirement</label>
-          <input type="checkbox" name="random_tags" id="random_tags" <?php print ($settings['random_tags'] ? 'checked' : ''); ?>>
         </fieldset>
         <fieldset>
           <legend>1ère caractéristique</legend>
@@ -311,12 +340,33 @@ $settings = $_SESSION['settings'];
           <input type="text" placeholder="fort" name="carac2_group" id="carac2_group" value="<?php print $settings['carac2_group']; ?>">
         </fieldset>
         <fieldset>
+          <legend>3ème caractéristique</legend>
+          <label for="carac3_name">Nom</label>
+          <input type="text" placeholder="" name="carac3_name" id="carac3_name" value="<?php print $settings['carac3_name']; ?>">
+          <label for="carac3_group">Un personnage fort dans cette carac est :</label>
+          <input type="text" placeholder="" name="carac3_group" id="carac3_group" value="<?php print $settings['carac3_group']; ?>">
+        </fieldset>
+        <fieldset>
           <legend>Rôles</legend>
           <label for="role_leader">Nom de rôle de leader</label>
           <input type="text" name="role_leader" id="role_leader" maxlength="250" value="<?php print $settings['role_leader']; ?>">
           <label for="role_traitre">Nom de rôle de traître</label>
           <input type="text" name="role_traitre" id="role_traitre" maxlength="250" value="<?php print $settings['role_traitre']; ?>">
         </fieldset>
+        
+        
+        <fieldset>
+          <legend>Autres paramètres</legend>
+          <label for="same_stats_all">Mêmes stats pour tout le monde</label>
+          <input type="checkbox" name="same_stats_all" id="same_stats_all" <?php print ($settings['same_stats_all'] ? 'checked' : ''); ?>>
+          
+          <label for="random_tags">Tags distribués aléatoirement</label>
+          <input type="checkbox" name="random_tags" id="random_tags" <?php print ($settings['random_tags'] ? 'checked' : ''); ?>>
+          
+          <label for="willpower_on">Jauge de volonté</label>
+          <input type="checkbox" name="willpower_on" id="willpower_on" <?php print ($settings['willpower_on'] ? 'checked' : ''); ?>>
+        </fieldset>
+        
         <input type="submit" value="Enregistrer">
 
         <div class="delete-game">
@@ -340,9 +390,11 @@ $settings = $_SESSION['settings'];
     foreach ($players as $key => $row) {
       $id_joueur = $row['id'];
       $nom = $row['nom'];
+      $carac3 = $row['carac3'];
       $carac2 = $row['carac2'];
       $carac1 = $row['carac1'];
       $hp = $row['hp'];
+      $wp = $row['wp'];
       $tags = explode(',', $row['tags']);
       $str_tags = '';
       foreach ($tags as $tag) {
@@ -353,31 +405,41 @@ $settings = $_SESSION['settings'];
           else {
             $color = $taken_colors[$tag] = array_pop($available_colors);
           }
+          $tag = ucfirst($tag);
           $str_tags .= "<span><span class='tag-bullet' style=background-color:$color></span>$tag</span>";
         }
       }
-      $alive = ($hp <= 0 ? 'not-' : '') . 'alive';
+      
+      if ($hp <= 0) {
+        $alive = 'not-alive';
+      }
+      elseif ($settings['willpower_on'] && $wp <= 0) {
+        $alive = 'not-alive'; 
+      }
+      else {
+        $alive = 'alive';
+      }
       $alive .= ($row['active'] == 0) ? ' inactive' : '';
+      
       if ($hp <= 0) {
         $list_players[$id_joueur] = $nom . ' (☠️)';
         $list_players_for_js[] = ['value' => $nom . ' (☠️)', 'code' => $id_joueur];
+      }
+      elseif ($settings['willpower_on'] && $wp <= 0) {
+        $list_players[$id_joueur] = $nom . ' (🌑️)';
+        $list_players_for_js[] = ['value' => $nom . ' (🌑️)', 'code' => $id_joueur];
       }
       else {
         $list_players[$id_joueur] = $nom;
         $list_players_for_js[] = ['value' => $nom, 'code' => $id_joueur];
       }
-
-      print '<script>tags_players = ' . json_encode($list_players_for_js) . '</script>';
-
+      
       $aptitude = '';
-      if ($carac2 > 14 && $carac1 > 14) {
-        $aptitude = $settings['carac1_group'] . ' et ' . $settings['carac2_group'];
-      }
-      elseif ($carac1 > 14) {
-        $aptitude = $settings['carac1_group'];
-      }
-      elseif ($carac2 > 14) {
-        $aptitude = $settings['carac2_group'];
+      
+      if ($carac1 >= 15) $aptitude .= ucfirst($settings['carac1_group']) . "<br />";
+      if ($carac2 >= 15) $aptitude .= ucfirst($settings['carac2_group']) . "<br />";
+      if ($settings['carac3_group'] != "") {
+        if ($carac3 >= 15) $aptitude .= ucfirst($settings['carac3_group']) . "<br />";
       }
 
       print "<div id=pj-$id_joueur class=\"$alive\">
@@ -386,17 +448,29 @@ $settings = $_SESSION['settings'];
           $str_tags
         </div>";
 
-      if ($hp > 0) {
+      if ( ($settings['willpower_on'] && ($hp > 0 && $wp > 0)) || (!$settings['willpower_on'] && ($hp > 0)) ) {
         print "<div class='stats'>";
-        if (!empty($aptitude)) { print "<span>$aptitude</span>"; }
-        print "
-            <span>" . $settings['carac1_name'] . ": $carac1</span>
-            <span>" . $settings['carac2_name'] . ": $carac2</span>
-            <span class='life'>Vie: $hp</span>
-            </div>";
+        if (!empty($aptitude)) {
+          print "  <span class='aptitude'>$aptitude</span>";
+        }
+        print "  <hr />";
+        print "  <span class='caracs'>";
+        print ucfirst($settings['carac1_name']) . " : " . $carac1 . "<br />";
+        print ucfirst($settings['carac2_name']) . " : " . $carac2 . "<br />";
+        if ($settings['carac3_name'] != "") {
+          print ucfirst($settings['carac3_name']) . " : " . $carac3;
+        }
+        print "  </span>";
+        print "  <span class='life'>Vie: $hp";
+        if ($settings['willpower_on']) {
+          print "<br />Volonté: $wp";
+        }
+        print "  </span>";
+        print "</div>";
       }
-      print '</div>';
+      print "</div>";
     }
+    print '<script>tags_players = ' . json_encode($list_players_for_js) . '</script>';
     ?>
   </div>
 </div>

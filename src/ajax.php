@@ -138,9 +138,11 @@ elseif ($_GET['role'] == 'pj') {
   $row = $query_player->fetch(PDO::FETCH_ASSOC);
   $id = $row['id'];
   $nom = $row['nom'];
+  $carac3 = $row['carac3'];
   $carac2 = $row['carac2'];
   $carac1 = $row['carac1'];
   $hp = $row['hp'];
+  $wp = $row['wp'];
   $leader = $row['leader'];
   $vote = $row['vote'];
   $traitre = $row['traitre'];
@@ -159,9 +161,21 @@ elseif ($_GET['role'] == 'pj') {
   $results_tags = $query_tags->fetchAll(PDO::FETCH_KEY_PAIR);
 ?>
 
-<h2>Votre aventurier</h2>
+<h2>Votre personnage</h2>
 <?php
-if ($hp > 0) { ?>
+$still_ok = true;
+if ($hp <= 0) {
+  $still_ok = false;
+  $ko_icon = '☠';
+  $ko_message = "Votre personnage $nom est mort.";
+}
+elseif ($settings['willpower_on'] && $wp <= 0) {
+  $still_ok = false;
+  $ko_icon = '🌑';
+  $ko_message = "Votre personnage $nom a sombré.";
+}
+
+if ($still_ok) { ?>
   <div class="character">
     <div class="character-name"><?php print $nom; ?></div>
     <div class="character-tags">
@@ -174,7 +188,15 @@ if ($hp > 0) { ?>
     <div class="character-stats">
       <div><?php print $settings['carac1_name']; ?> : <b><?php print $carac1; ?></b></div>
       <div><?php print $settings['carac2_name']; ?> : <b><?php print $carac2; ?></b></div>
-      <div>💛 Points de vie : <b><?php print $hp; ?></b></div>
+      <?php if ($settings['carac3_name'] != "") { ?>
+      <div><?php print $settings['carac3_name']; ?> : <b><?php print $carac3; ?></b></div>
+      <?php } ?>
+      <div>💛 Pts de vie : <b><?php print $hp; ?></b></div>
+      <?php
+        if ($settings['willpower_on'] != "") {
+          print "<div>🌟 Pts de volonté : <b>" . $wp ."</b></div>";
+        }
+      ?>
     </div>
     <?php if ($leader > 0) { ?>
       <div class="pj-role">Vous êtes actuellement <b><?php print $settings['role_leader']; ?></b> !</div>
@@ -254,7 +276,7 @@ if ($hp > 0) { ?>
       <?php
       foreach ($loot as $key => $row) {
         $quoi = $row[0];
-        print "<br>- $quoi";
+        print "<br />$quoi";
       }
     }
     ?>
@@ -262,8 +284,8 @@ if ($hp > 0) { ?>
   <?php
   }
   else { ?>
-    <div class="wakeup">☠</div>
-    <div><?php print "Votre personnage $nom est mort"; ?></div>
+    <div class="wakeup"><?php print $ko_icon; ?></div>
+    <div><?php print $ko_message; ?></div>
 <?php
   }
 }
