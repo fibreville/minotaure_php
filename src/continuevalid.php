@@ -4,18 +4,21 @@ $_SESSION['current_timestamp'] = 0;
 include "header.php";
 
 $cleanPost = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-$nom = strtolower($cleanPost['nom']);
+isset($cleanPost['nom']) ? $nom = strtolower($cleanPost['nom']) : $nom = "";
 
 $stmt = $db->prepare("SELECT id,hp,mdp FROM hrpg WHERE nom=:nom");
 $stmt->execute([
   ':nom' => $nom,
 ]);
 $row = $stmt->fetch();
-$id = $row[0];
-$hp = $row[1];
-$mdp_hash = $row[2];
+$id = ""; $hp = ""; $mdp_hash = "";
+if ($stmt->rowCount() > 0) {
+  $id = $row[0];
+  $hp = $row[1];
+  $mdp_hash = $row[2];
+}
 
-$pass = $cleanPost['pass'];
+isset($cleanPost['pass']) ? $pass = $cleanPost['pass'] : $pass = "";
 if ($mdp_hash == '') {
   $pass = password_hash($pass, PASSWORD_DEFAULT);
   $stmt = $db->prepare("UPDATE hrpg SET mdp=:pass WHERE id=:id");

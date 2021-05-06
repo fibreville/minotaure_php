@@ -2,9 +2,9 @@
 session_start();
 include "connexion.php";
 
-$nom = $_POST['nom'];
-$pass = $_POST['pass'];
-$stat = $_POST['stat'];
+isset($_POST['nom']) ? $nom = $_POST['nom'] : $nom = "";
+isset($_POST['pass']) ? $pass = $_POST['pass'] : $pass = "";
+isset($_POST['stat']) ? $stat = $_POST['stat'] : $stat = "";
 $probleme = NULL;
 
 if (empty($nom) || empty($pass)) {
@@ -21,9 +21,7 @@ else {
           ':nom' => $nom,
   ]);
 
-  $row = $stmt->fetch();
-  $id = $row[0];
-  if (!empty($id)) {
+  if ($stmt->rowCount() > 0) {
     $probleme = 'Ce nom est déjà utilisé. Veuillez en choisir un autre.';
   }
 }
@@ -44,21 +42,28 @@ include 'header.php'; ?>
       $hp = 10 + rand(-2, 2);
     }
 
+    $tags = [];
     if ($settings['random_tags']) {
       $stmt = $db->prepare("SELECT id FROM tag WHERE category = 1 ORDER BY RAND()");
       $stmt->execute();
-      $row = $stmt->fetch();
-      $tags[] = $row[0];
+      if ($stmt->rowCount() > 0) {
+        $row = $stmt->fetch();
+        $tags[] = $row[0];
+      }
 
       $stmt = $db->prepare("SELECT id FROM tag WHERE category = 2 ORDER BY RAND()");
       $stmt->execute();
-      $row = $stmt->fetch();
-      $tags[] = $row[0];
+      if ($stmt->rowCount() > 0) {
+        $row = $stmt->fetch();
+        $tags[] = $row[0];
+      }
 
       $stmt = $db->prepare("SELECT id FROM tag WHERE category = 3 ORDER BY RAND()");
       $stmt->execute();
-      $row = $stmt->fetch();
-      $tags[] = $row[0];
+      if ($stmt->rowCount() > 0) {
+        $row = $stmt->fetch();
+        $tags[] = $row[0];
+      }
     }
     else {
       $stmt = $db->prepare("
@@ -69,8 +74,10 @@ include 'header.php'; ?>
       ORDER BY c ASC
       LIMIT 0,1");
       $stmt->execute();
-      $row = $stmt->fetch();
-      $tags[] = $row[0];
+      if ($stmt->rowCount() > 0) {
+        $row = $stmt->fetch();
+        $tags[] = $row[0];
+      }
 
       $stmt = $db->prepare("
       SELECT id, count(*) c FROM tag
@@ -80,8 +87,10 @@ include 'header.php'; ?>
       ORDER BY c ASC
       LIMIT 0,1");
       $stmt->execute();
-      $row = $stmt->fetch();
-      $tags[] = $row[0];
+      if ($stmt->rowCount() > 0) {
+        $row = $stmt->fetch();
+        $tags[] = $row[0];
+      }
 
       $stmt = $db->prepare("
       SELECT id, count(*) c FROM tag
@@ -91,8 +100,10 @@ include 'header.php'; ?>
       ORDER BY c ASC
       LIMIT 0,1");
       $stmt->execute();
-      $row = $stmt->fetch();
-      $tags[] = $row[0];
+      if ($stmt->rowCount() > 0) {
+        $row = $stmt->fetch();
+        $tags[] = $row[0];
+      }
     }
 
     try {

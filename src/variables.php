@@ -28,8 +28,13 @@ if (
     'same_stats_all' => 0,
     'random_tags' => 1
   ];
-  $settings_data = file_get_contents($tmp_path . '/settings.txt');
-  $settings = unserialize($settings_data);
+  if (file_exists($tmp_path . '/settings.txt')) {
+    $settings_data = file_get_contents($tmp_path . '/settings.txt');
+    $settings = unserialize($settings_data);
+  }
+  else {
+    print "<!-- Fichier tmp/settings.txt inexistant -->";
+  }
 
   foreach ($default_settings_set as $setting_key => $setting_value) {
     if (!isset($settings[$setting_key]) || $settings[$setting_key] === "") {
@@ -37,7 +42,7 @@ if (
     }
   }
   $_SESSION['settings'] = $settings;
-  if ($_SESSION['id'] == 1) {
+  if (isset($_SESSION['id']) && $_SESSION['id'] == 1) {
     $_SESSION['current_timestamp'] = $settings_timestamp;
   }
 }

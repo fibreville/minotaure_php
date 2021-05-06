@@ -24,16 +24,20 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
   $stmt = $db->prepare("SELECT nom,leader,vote FROM hrpg WHERE leader > 0 AND hp > 0");
   $stmt->execute();
   $row = $stmt->fetch();
-  $leader = $row[0];
-  $leadvalue = $row[1];
-  $leadvote = $row[2];
+  if ($stmt->rowCount() > 0) {
+    $leader = $row[0];
+    $leadvalue = $row[1];
+    $leadvote = $row[2];
+  }
 
   $stmt = $db->prepare("SELECT nom,traitre,vote FROM hrpg WHERE traitre > 0 AND hp > 0");
   $stmt->execute();
   $row = $stmt->fetch();
-  $traitre = $row[0];
-  $traitrevalue = $row[1];
-  $traitrevote = $row[2];
+  if ($stmt->rowCount() > 0) {
+    $traitre = $row[0];
+    $traitrevalue = $row[1];
+    $traitrevote = $row[2];
+  }
 
   $stmt = $db->prepare("SELECT * FROM sondage");
   $stmt->execute();
@@ -70,32 +74,36 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
     ORDER BY c DESC, vote ASC");
   $query->execute();
   $votes = $query->fetchAll(PDO::FETCH_ASSOC);
-  $max_vote = $votes[0]['c'];
+  if ($query->rowCount() > 0) {
+    $max_vote = $votes[0]['c'];
+  }
   $pctot = 0;
 
   if ($choixtag != "") {
     print "Vote limité au groupe : " . implode(', ', $choixtag_data);
   }
-  if ($leadvalue == 2) {
+  if (isset($leadvalue) && $leadvalue == 2) {
     print "<div class='poll-action leader-action'>" . $settings['role_leader'] . " $leader a utilisé son pouvoir et choisi : " . $options['c' . $leadvote] . "!</div>";
   }
-  if ($traitrevalue == 2) {
+  if (isset($traitrevalue) && $traitrevalue == 2) {
     print "<div class='poll-action traitor-action'>" . $settings['role_traitre'] . " $traitre a utilisé son pouvoir et annule un choix.</div>";
   }
 
   foreach ($votes as $key => $vote) {
     $nb_votants = $vote['c'];
-    $pc = round(($nb_votants * 100 / $nb_total), 2);
+    
+    $pc = 0;
+    if ($nb_total > 0) $pc = round(($nb_votants * 100 / $nb_total), 2);
     $pctot += $nb_votants;
     $tmp_result = '';
     $classes = [];
     if ($nb_votants == $max_vote) {
       $classes[] = 'winner-vote';
     }
-    if ($leadvalue == 2 && $vote['vote'] == $leadvote) {
+    if (isset($leadvalue) && $leadvalue == 2 && $vote['vote'] == $leadvote) {
        $classes[] = 'lead-vote';
     }
-    if ($traitrevalue == 2 && $vote['vote'] == $traitrevote) {
+    if (isset($traitrevalue) && $traitrevalue == 2 && $vote['vote'] == $traitrevote) {
        $classes[] = 'traitor-vote';
     }
     print "<tr class=\"" . implode(' ', $classes) . "\"><td>" . $options['c' . $vote['vote']] . " : </td><td>$nb_votants / $nb_total soit $pc %</td></tr>";
@@ -107,7 +115,9 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
     }
   }
   print "</table>";
-  print "<div>Total votants : " . round(($pctot * 100 / $nb_total), 2) . "%</div>";
+  if ($nb_total > 0) {
+    print "<div>Total votants : " . round(($pctot * 100 / $nb_total), 2) . "%</div>";
+  }
   if ($pctot == 100) {
     $_SESSION['current_poll'] = FALSE;
   }

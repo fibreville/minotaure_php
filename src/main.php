@@ -5,9 +5,9 @@ $_SESSION['current_timestamp'] = 0;
 include 'header.php';
 
 $cleanPost = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-$choix = $cleanPost['choix'];
-$lead = $cleanPost['lead'];
-$traitre = $cleanPost['traitre'];
+isset($cleanPost['choix']) ? $choix = $cleanPost['choix'] : $choix = "";
+isset($cleanPost['lead']) ? $lead = $cleanPost['lead'] : $lead = "";
+isset($cleanPost['traitre']) ? $traitre = $cleanPost['traitre'] : $traitre = "";
 
 $id = $_SESSION['id'];
 if ($choix != "") {
