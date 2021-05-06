@@ -3,7 +3,6 @@ session_start();
 $page_id = 'page-new';
 $_SESSION['current_timestamp'] = 0;
 include 'header.php';
-isset($_GET['text']) ? $text = $_GET['text'] : $text = "";
 
 if ($_SESSION['settings']['lock_new']) {
   print "<h2>Création de personnage</h2>";
