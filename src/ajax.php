@@ -75,6 +75,7 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
   $query->execute();
   $votes = $query->fetchAll(PDO::FETCH_ASSOC);
   if ($query->rowCount() > 0) {
+    // Le nombre de votes de l'option la plus plébiscitée.
     $max_vote = $votes[0]['c'];
   }
   $pctot = 0;
@@ -97,12 +98,15 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
     $pctot += $nb_votants;
     $tmp_result = '';
     $classes = [];
-    if ($nb_votants == $max_vote) {
+    // Cette option est la plus plébiscitée (égalité possible).
+    if (isset($max_vote) && $nb_votants == $max_vote) {
       $classes[] = 'winner-vote';
     }
+    // Cette option a été choisie par le leader.
     if (isset($leadvalue) && $leadvalue == 2 && $vote['vote'] == $leadvote) {
        $classes[] = 'lead-vote';
     }
+    // Cette option a été choisie par le traître.
     if (isset($traitrevalue) && $traitrevalue == 2 && $vote['vote'] == $traitrevote) {
        $classes[] = 'traitor-vote';
     }
