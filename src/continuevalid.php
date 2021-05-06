@@ -11,26 +11,27 @@ $stmt->execute([
   ':nom' => $nom,
 ]);
 $row = $stmt->fetch();
-$id = ""; $hp = ""; $mdp_hash = "";
+$id = $hp = $mdp_hash = "";
 if ($stmt->rowCount() > 0) {
   $id = $row[0];
   $hp = $row[1];
   $wp = $row[2];
   $mdp_hash = $row[3];
-}
 
-isset($cleanPost['pass']) ? $pass = $cleanPost['pass'] : $pass = "";
-if ($mdp_hash == '') {
-  $pass = password_hash($pass, PASSWORD_DEFAULT);
-  $stmt = $db->prepare("UPDATE hrpg SET mdp=:pass WHERE id=:id");
-  $stmt->execute([
-    ':id' => $id,
-    ':pass' => $pass,
-  ]);
-}
-elseif (!password_verify($pass, $mdp_hash)) {
+  // If a user lost his password, you can empty the hash in the database and
+  // tell him to reconnect. Useful for a future "reset password" GM action.
+  if ($mdp_hash == '') {
+    $pass = password_hash($pass, PASSWORD_DEFAULT);
+    $stmt = $db->prepare("UPDATE hrpg SET mdp=:pass WHERE id=:id");
+    $stmt->execute([
+      ':id' => $id,
+      ':pass' => $pass,
+    ]);
+  }
+  elseif (!password_verify($pass, $mdp_hash)) {
     $id = "";
     $hp = "";
+  }
 }
 
 if ($id != "") {

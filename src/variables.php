@@ -36,7 +36,7 @@ if (
     $settings = unserialize($settings_data);
   }
   else {
-    print "<!-- Fichier tmp/settings.txt inexistant -->";
+    $settings = [];
   }
 
   foreach ($default_settings_set as $setting_key => $setting_value) {

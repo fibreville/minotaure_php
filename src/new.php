@@ -3,16 +3,15 @@ session_start();
 $page_id = 'page-new';
 $_SESSION['current_timestamp'] = 0;
 include 'header.php';
-isset($_GET['text']) ? $text = $_GET['text'] : $text = "";
 
-$erreur = "";
+$text = $_GET['text'] ?? '';
 if ($text == "erreur") {
   $erreur = "<div>Ce héros existe déjà ! Merci d'utiliser « Reprendre une partie ».<br>
   Si malheureusement vous êtes mort, nous vous invitons à créer un nouveau personnage.</div>";
 }
 ?>
 <form method="post" action="newcomplete.php">
-  <?php print $erreur; ?>
+  <?php if (isset($erreur)) print $erreur; ?>
   <h2>Création de personnage</h2>
   <fieldset>
     <legend>La base</legend>
