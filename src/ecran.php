@@ -12,7 +12,7 @@ unset($_SESSION['designe']);
 
 if (isset($_GET['action'])) {
   require "variables.php";
-  $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);;
+  $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
   // SUPPRESSION DE L'AVENTURE
   if ($_GET['action'] == "delete") {
@@ -60,8 +60,12 @@ if (isset($_GET['action'])) {
     poll_update($db, $_POST);
   }
   // TRAITEMENT DES NOMINATIONS.
-  elseif ($_GET['action'] == 'election') {
+  elseif ($_GET['action'] == "election") {
     make_election($db, $_POST);
+  }
+  // TRAITEMENT DES DESTITUTIONS.
+  elseif ($_GET['action'] == "destitution") {
+    remove_role($db, $_POST);
   }
   // TRAITEMENT DES NOMINATIONS.
   elseif ($_GET['action'] == 'target') {

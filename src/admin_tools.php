@@ -61,6 +61,8 @@ function save_new_settings($post, $tmp_path) {
   $_SESSION['settings']['same_stats_all'] = isset($post['same_stats_all']);
   $_SESSION['settings']['random_tags'] = isset($post['random_tags']);
   $_SESSION['settings']['willpower_on'] = isset($post['willpower_on']);
+  $_SESSION['settings']['restrict_active'] = isset($post['restrict_active']);
+  $_SESSION['settings']['lock_new'] = isset($post['lock_new']);
   save_in_file($tmp_path . '/settings.txt', serialize($_SESSION['settings']));
   save_in_file($tmp_path . '/settings_timestamp.txt', time());
   save_in_file($tmp_path . '/game_timestamp.txt', time());
@@ -175,30 +177,40 @@ function add_new_tags($db, $post) {
  *
  * @return string
  */
-function generate_target_query_part($type = 'all', $data) {
+function generate_target_query_part($type = 'all', $data, $only_active) {
+  $option_active = '';
+  if ($only_active) {
+    $option_active = ' AND active = 1';
+  }
+  
   if ($type == 'tags' && !empty($data)) {
     return 'LEFT JOIN character_tag ct ON ct.id_player = hrpg.id' .
-      ' WHERE ct.id_tag IN (' . implode(',', array_keys($data)) . ') AND hp > 0 AND wp > 0';
+      ' WHERE ct.id_tag IN (' . implode(',', array_keys($data)) . ') AND hp > 0 AND wp > 0' . $option_active;
   }
   elseif ($type == 'players' && !empty($data)) {
-    return 'WHERE id > 1 AND hp > 0 AND wp > 0 AND id IN(' . implode(',', array_keys($data)) . ')';
+    return 'WHERE id > 1 AND hp > 0 AND wp > 0 AND id IN(' . implode(',', array_keys($data)) . ')' . $option_active;
   }
   elseif ($type == 'all') {
-    return 'WHERE id > 1 AND hp > 0 AND wp > 0';
+    return 'WHERE id > 1 AND hp > 0 AND wp > 0' . $option_active;
   }
   elseif ($type == 'carac1') {
-    return 'WHERE id > 1 AND hp > 0 AND wp > 0 AND carac1 > 14';
+    return 'WHERE id > 1 AND hp > 0 AND wp > 0 AND carac1 > 14' . $option_active;
   }
   elseif ($type == 'carac2') {
-    return 'WHERE id > 1 AND hp > 0 AND wp > 0 AND carac2 > 14';
+    return 'WHERE id > 1 AND hp > 0 AND wp > 0 AND carac2 > 14' . $option_active;
   }
   elseif ($type == 'carac3') {
-    return 'WHERE id > 1 AND hp > 0 AND wp > 0 AND carac3 > 14';
+    return 'WHERE id > 1 AND hp > 0 AND wp > 0 AND carac3 > 14' . $option_active;
   }
   return FALSE;
 }
 
 function update_events($db, $post) {
+  $only_active = 0;
+  if (isset($post['restrict_active'])) {
+    $only_active = 1;
+  }
+
   $data = [];
   if (!empty($post['victimetag'])) {
     $data = decode_tags($post['victimetag']);
@@ -215,7 +227,7 @@ function update_events($db, $post) {
   $users = $db->query(
     'SELECT ' . $post['type'] . ',id,' . $post['penalite_type']
     . ' FROM hrpg '
-    . generate_target_query_part($type_target, $data)
+    . generate_target_query_part($type_target, $data, $only_active)
   );
   $loosers = $winners = $failures = $success = [];
   foreach ($users->fetchAll(PDO::FETCH_ASSOC) as $key => $user) {
@@ -293,6 +305,11 @@ function update_events($db, $post) {
 
 function gen_loot_query_part($post) {
   $str = '';
+  $option_active = '';
+  if (isset($post['restrict_active'])) {
+    $option_active = ' AND active = 1';
+  }
+  
   if (!empty($post['qui_multiple'])) {
     $data = decode_tags($post['qui_multiple']);
     $keys = implode(',', array_keys($data));
@@ -312,16 +329,16 @@ function gen_loot_query_part($post) {
       $str = ' WHERE ';
     }
     if ($post['qui'] == 'all') {
-      $str .= 'hp > 0 AND wp > 0 AND id > 1';
+      $str .= 'hp > 0 AND wp > 0 AND id > 1' . $option_active;
     }
     elseif ($post['qui'] == 'carac1') {
-      $str .= 'hp > 0 AND wp > 0 AND id > 1 AND carac1 > 14';
+      $str .= 'hp > 0 AND wp > 0 AND id > 1 AND carac1 > 14' . $option_active;
     }
     elseif ($post['qui'] == 'carac2') {
-      $str .= 'hp > 0 AND wp > 0 AND id > 1 AND carac2 > 14';
+      $str .= 'hp > 0 AND wp > 0 AND id > 1 AND carac2 > 14' . $option_active;
     }
     elseif ($post['qui'] == 'carac3') {
-      $str .= 'hp > 0 AND wp > 0 AND id > 1 AND carac3 > 14';
+      $str .= 'hp > 0 AND wp > 0 AND id > 1 AND carac3 > 14' . $option_active;
     }
   }
   return $str;
@@ -414,11 +431,19 @@ function poll_update($db, $post) {
 
 function elect_player($db, $role) {
   $role_name = $_SESSION['settings']['role_' . $role];
-  $db->query('UPDATE hrpg SET ' . $role . ' = 0,lastlog="' . time() . '",log="Vous n\'êtes plus ' . $role_name . '." WHERE ' . $role . '=1');
-  $query = $db->query("SELECT id, nom FROM hrpg WHERE hp > 0 AND wp > 0 AND id > 1 AND active = 1 AND '.$role.' = 0 ORDER BY RAND() LIMIT 1");
+  
+  // On retire le rôle attribué
+  destitute_player($db, $role);
+  
+  // Attribution à un compte parmi personnages actifs
+  $sql = "SELECT id, nom FROM hrpg WHERE hp > 0 AND wp > 0 AND id > 1 AND active = 1 AND '.$role.' = 0 ORDER BY RAND() LIMIT 1";
+  $query = $db->query($sql);
   $elected = $query->fetch(PDO::FETCH_ASSOC);
-  $db->query('UPDATE hrpg SET ' . $role . '=1,lastlog="' . time() . '",log="Vous êtes ' . $role_name . '." WHERE id="' . $elected['id'] . '"');
-  $_SESSION[$role] = $elected['nom'];
+  if ($query->rowCount() > 0) {
+    $sql = 'UPDATE hrpg SET ' . $role . '=1,lastlog="' . time() . '",log="Vous êtes ' . $role_name . '." WHERE id="' . $elected['id'] . '"';
+    $db->query($sql);
+    $_SESSION[$role] = $elected['nom'];
+  }
 }
 
 function make_election($db, $post) {
@@ -431,6 +456,25 @@ function make_election($db, $post) {
   }
   elseif ($post['name'] == 'traitre') {
     elect_player($db, 'traitre');
+  }
+}
+
+function destitute_player($db, $role) {
+  $role_name = $_SESSION['settings']['role_' . $role];
+  $sql = 'UPDATE hrpg SET ' . $role . ' = 0,lastlog="' . time() . '",log="Vous n\'êtes plus ' . $role_name . '." WHERE ' . $role . '=1';
+  $db->query($sql);
+}
+
+function remove_role($db, $post) {
+  if (empty($post['name'])) {
+    return;
+  }
+
+  if ($post['name'] == 'leader') {
+    destitute_player($db, 'leader');
+  }
+  elseif ($post['name'] == 'traitre') {
+    destitute_player($db, 'traitre');
   }
 }
 
