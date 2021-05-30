@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Libre+Baskerville&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Libre+Baskerville&display=swap');*/
 @import './tagify.css';
 
 :root {
@@ -252,19 +252,10 @@ body .index-wrapper a {
   flex: 1;
   text-align: center;
 }
-.stats > .aptitude {
-  font-size: small;
-}
-.stats > .caracs {
-  font-size: x-small;
-}
-.stats > .life {
-  font-size: x-small;
-  margin-top: auto;
-}
 
 .stats, .tags {
-  margin-top: 5px;
+  padding: 4px 10px;
+  border-top: 1px solid var(--border-color);
 }
 .tags > span {
   display: flex;
@@ -380,7 +371,6 @@ tag {
   flex-direction: column;
   border: 1px solid var(--border-color);
   background: var(--background-color);
-  padding: 5px 10px;
   border-radius: 8px;
 }
 #group-stats {
@@ -443,6 +433,7 @@ tag {
 
 .pj-name {
   display: inline-block;
+  padding: 6px 0;
 }
 .pj-name:first-letter {
   text-transform: capitalize;
@@ -479,20 +470,35 @@ tag {
   flex-direction: column;
   padding: 15px;
 }
-#choices > div > form {
+#choices > div > form:not(.grid),
+.buttons-wrapper {
   display: flex;
   flex-wrap: wrap;
+}
+#choices .grid {
+  text-align: left;
 }
 #choices > div > form > fieldset {
   flex: 1;
 }
+.buttons-wrapper > input,
 #choices > div > form > input {
   flex-basis: 100%;
+}
+.buttons-wrapper > input,
+.buttons-wrapper span {
+  text-align: center;
 }
 #choices > div > form select,
 #choices > div > form input:not([type=submit]) {
   margin-bottom: 5px;
   border-radius: 0;
+}
+.settings-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-gap: 3px;
+  grid-auto-rows: minmax(100px, auto);
 }
 #poll > a {
   margin-top: auto;
@@ -713,7 +719,6 @@ input[type=submit] {
 
 /* PAGE NEW */
 #page-new fieldset {
-  width: 100%;
   margin-bottom: 15px;
   align-items: flex-start;
   padding: 10px;
