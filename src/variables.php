@@ -24,7 +24,7 @@ if (
     'carac2_group' => 'fort',
     'carac3_group' => '',
     'adventure_name' => 'Notre Aventure',
-    'adventure_guide' => "Rejoindre l'Aventure : ...'",
+    'adventure_guide' => "Rejoindre l'Aventure : ...",
     'role_leader' => 'leader',
     'role_traitre' => 'traître',
     'same_stats_all' => 0,
