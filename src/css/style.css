@@ -286,6 +286,9 @@ tag + .tagify__input:before {
 .tagify__dropdown__item:first-letter {
   text-transform: uppercase;
 }
+.tagify__input {
+  min-height: 22px;
+}
 .tagify__input:before,
 tag {
   font-size: 0.9em;
