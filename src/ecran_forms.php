@@ -147,10 +147,12 @@ $settings = $_SESSION['settings'];
             <input class="tag-whitelist" type="text" name="choixtag" id="choixtag" maxlength="250" placeholder="Entrez un tag">
           </fieldset>
           <input type="submit" value="Délibérer">
+          <?php if (isset($_SESSION['last_vote'])): ?>
           <fieldset>
             <legend>Rappel du dernier sondage</legend>
             <?php print $_SESSION['last_vote']; ?>
           </fieldset>
+          <?php endif ?>
         </form>
         <?php
       }
@@ -331,77 +333,73 @@ $settings = $_SESSION['settings'];
     <div id="settings">
       <!-- FORMULAIRE DES PARAMETRES DE LA PARTIE-->
       <h3>Changer les réglages de votre aventure.</h3>
-      <form method="post" action="ecran.php?action=settings">
-        <fieldset>
-          <legend>Intro</legend>
-          <label for="adventure_name">Nom de l'aventure</label>
-          <input type="text" name="adventure_name" id="adventure_name" maxlength="250" value="<?php print $settings['adventure_name']; ?>">
-          <label for="adventure_guide">Adresse ip ou url pour rejoindre</label>
-          <textarea type="textarea" name="adventure_guide" size=5 id="adventure_guide" maxlength="250"><?php print $settings['adventure_guide']; ?></textarea>
-        </fieldset>
-        <fieldset>
-          <legend>1ère caractéristique</legend>
-          <label for="carac1_name">Nom</label>
-          <input type="text" placeholder="esprit" name="carac1_name" id="carac1_name" value="<?php print $settings['carac1_name']; ?>">
-          <label for="carac1_group">Un personnage fort dans cette carac est :</label>
-          <input type="text" placeholder="malin" name="carac1_group" id="carac1_group" value="<?php print $settings['carac1_group']; ?>">
-        </fieldset>
-        <fieldset>
-          <legend>2ème caractéristique</legend>
-          <label for="carac2_name">Nom</label>
-          <input type="text" placeholder="corps" name="carac2_name" id="carac2_name" value="<?php print $settings['carac2_name']; ?>">
-          <label for="carac2_group">Un personnage fort dans cette carac est :</label>
-          <input type="text" placeholder="fort" name="carac2_group" id="carac2_group" value="<?php print $settings['carac2_group']; ?>">
-        </fieldset>
-        <fieldset>
-          <legend>3ème caractéristique</legend>
-          <label for="carac3_name">Nom</label>
-          <input type="text" placeholder="" name="carac3_name" id="carac3_name" value="<?php print $settings['carac3_name']; ?>">
-          <label for="carac3_group">Un personnage fort dans cette carac est :</label>
-          <input type="text" placeholder="" name="carac3_group" id="carac3_group" value="<?php print $settings['carac3_group']; ?>">
-        </fieldset>
-        <fieldset>
-          <legend>Rôles</legend>
-          <label for="role_leader">Nom de rôle de leader</label>
-          <input type="text" name="role_leader" id="role_leader" maxlength="250" value="<?php print $settings['role_leader']; ?>">
-          <label for="role_traitre">Nom de rôle de traître</label>
-          <input type="text" name="role_traitre" id="role_traitre" maxlength="250" value="<?php print $settings['role_traitre']; ?>">
-        </fieldset>
-        
-        
-        <fieldset style="text-align: left">
-          <legend>Autres paramètres</legend>
-          <div>
-            <label for="same_stats_all">Mêmes stats pour tout le monde</label>
-            <input type="checkbox" name="same_stats_all" id="same_stats_all" <?php print ($settings['same_stats_all'] ? 'checked' : ''); ?>>
+      <form class="grid" method="post" action="ecran.php?action=settings">
+        <div class="settings-wrapper">
+          <fieldset>
+            <legend>Intro</legend>
+            <label for="adventure_name">Nom de l'aventure</label>
+            <input type="text" name="adventure_name" id="adventure_name" maxlength="250" value="<?php print $settings['adventure_name']; ?>">
+            <label for="adventure_guide">Adresse ip ou url pour rejoindre</label>
+            <textarea type="textarea" name="adventure_guide" size=5 id="adventure_guide" maxlength="250"><?php print $settings['adventure_guide']; ?></textarea>
+          </fieldset>
+          <fieldset>
+            <legend>Rôles</legend>
+            <label for="role_leader">Nom de rôle de leader</label>
+            <input type="text" name="role_leader" id="role_leader" maxlength="250" value="<?php print $settings['role_leader']; ?>">
+            <label for="role_traitre">Nom de rôle de traître</label>
+            <input type="text" name="role_traitre" id="role_traitre" maxlength="250" value="<?php print $settings['role_traitre']; ?>">
+          </fieldset>
+          <fieldset class="form-list">
+            <legend>Autres paramètres</legend>
+            <div>
+              <input type="checkbox" name="same_stats_all" id="same_stats_all" <?php print ($settings['same_stats_all'] ? 'checked' : ''); ?>>
+              <label for="same_stats_all">Mêmes stats pour tout le monde</label>
+            </div>
+            <div>
+              <input type="checkbox" name="random_tags" id="random_tags" <?php print ($settings['random_tags'] ? 'checked' : ''); ?>>
+              <label for="random_tags">Tags distribués aléatoirement</label>
+            </div>
+            <div>
+              <input type="checkbox" name="willpower_on" id="willpower_on" <?php print ($settings['willpower_on'] ? 'checked' : ''); ?>>
+              <label for="willpower_on">Jauge de volonté</label>
+            </div>
+            <div>
+              <input type="checkbox" name="restrict_active" id="restrict_active" <?php print ($settings['restrict_active'] ? 'checked' : ''); ?>>
+              <label for="restrict_active">Restreindre aux actifs par défaut</label>
+            </div>
+            <div>
+              <input type="checkbox" name="lock_new" id="lock_new" <?php print ($settings['lock_new'] ? 'checked' : ''); ?>>
+              <label for="lock_new">Verrouiller les créations de personnage</label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>1ère caractéristique</legend>
+            <label for="carac1_name">Nom</label>
+            <input type="text" placeholder="esprit" name="carac1_name" id="carac1_name" value="<?php print $settings['carac1_name']; ?>">
+            <label for="carac1_group">Un personnage fort dans cette carac est :</label>
+            <input type="text" placeholder="malin" name="carac1_group" id="carac1_group" value="<?php print $settings['carac1_group']; ?>">
+          </fieldset>
+          <fieldset>
+            <legend>2ème caractéristique</legend>
+            <label for="carac2_name">Nom</label>
+            <input type="text" placeholder="corps" name="carac2_name" id="carac2_name" value="<?php print $settings['carac2_name']; ?>">
+            <label for="carac2_group">Un personnage fort dans cette carac est :</label>
+            <input type="text" placeholder="fort" name="carac2_group" id="carac2_group" value="<?php print $settings['carac2_group']; ?>">
+          </fieldset>
+          <fieldset>
+            <legend>3ème caractéristique</legend>
+            <label for="carac3_name">Nom</label>
+            <input type="text" placeholder="" name="carac3_name" id="carac3_name" value="<?php print $settings['carac3_name']; ?>">
+            <label for="carac3_group">Un personnage fort dans cette carac est :</label>
+            <input type="text" placeholder="" name="carac3_group" id="carac3_group" value="<?php print $settings['carac3_group']; ?>">
+          </fieldset>
+        </div>
+        <div class="buttons-wrapper">
+          <input type="submit" value="Enregistrer">
+          <div class="delete-game">
+            <span id="delete-game" class="submit-button">🗑️ Détruire l'aventure</span>
+            <a id="delete-game-confirm" class="submit-button" href="ecran.php?action=delete">Confirmez</a>
           </div>
-          <br />
-          <div>
-            <label for="random_tags">Tags distribués aléatoirement</label>
-            <input type="checkbox" name="random_tags" id="random_tags" <?php print ($settings['random_tags'] ? 'checked' : ''); ?>>
-          </div>
-          <br />
-          <div>
-            <label for="willpower_on">Jauge de volonté</label>
-            <input type="checkbox" name="willpower_on" id="willpower_on" <?php print ($settings['willpower_on'] ? 'checked' : ''); ?>>
-          </div>
-          <br />
-          <div>
-            <label for="restrict_active">Restreindre aux actifs par défaut</label>
-            <input type="checkbox" name="restrict_active" id="restrict_active" <?php print ($settings['restrict_active'] ? 'checked' : ''); ?>>
-          </div>
-          <br />
-          <div>
-            <label for="lock_new">Verrouiller les créations de personnage</label>
-            <input type="checkbox" name="lock_new" id="lock_new" <?php print ($settings['lock_new'] ? 'checked' : ''); ?>>
-          </div>
-        </fieldset>
-        
-        <input type="submit" value="Enregistrer">
-
-        <div class="delete-game">
-          <span id="delete-game" class="submit-button">🗑️ Détruire l'aventure</span>
-          <a id="delete-game-confirm" class="submit-button" href="ecran.php?action=delete">Confirmez</a>
         </div>
       </form>
     </div>
@@ -481,21 +479,19 @@ $settings = $_SESSION['settings'];
       if ( ($settings['willpower_on'] && ($hp > 0 && $wp > 0)) || (!$settings['willpower_on'] && ($hp > 0)) ) {
         print "<div class='stats'>";
         if (!empty($aptitude)) {
-          print "  <span class='aptitude'>$aptitude</span>";
+          print "<span class='aptitude'>$aptitude</span>";
         }
-        print "  <hr />";
-        print "  <span class='caracs'>";
-        print ucfirst($settings['carac1_name']) . " : " . $carac1 . "<br />";
-        print ucfirst($settings['carac2_name']) . " : " . $carac2 . "<br />";
+        print '<span>' . ucfirst($settings['carac1_name']) . " : " . $carac1 . '</span>';
+        print '<span>' . ucfirst($settings['carac2_name']) . " : " . $carac2 . '</span>';
         if ($settings['carac3_name'] != "") {
-          print ucfirst($settings['carac3_name']) . " : " . $carac3;
+          print '<span>' . ucfirst($settings['carac3_name']) . " : " . $carac3 . '</span>';
         }
-        print "  </span>";
-        print "  <span class='life'>Vie: $hp";
+        print "</div>";
+        print "<div class='stats'>";
+        print "<span class='life'>Vie: $hp</span>";
         if ($settings['willpower_on']) {
-          print "<br />Volonté: $wp";
+          print "<span>Volonté: $wp</span>";
         }
-        print "  </span>";
         print "</div>";
       }
       print "</div>";
