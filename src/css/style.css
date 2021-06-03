@@ -150,7 +150,7 @@ hr {
 }
 html:not(#page-new) textarea,
 html:not(#page-new) select,
-html:not(#page-new) input {
+input {
   padding: 5px 10px;
   margin-bottom: 10px;
   box-sizing: border-box;
@@ -722,9 +722,6 @@ input[type=submit] {
   margin-bottom: 15px;
   align-items: flex-start;
   padding: 10px;
-}
-#page-new fieldset > span:not(:last-child) {
-  margin-bottom: 10px;
 }
 #page-new fieldset label {
   margin-right: 15px;
