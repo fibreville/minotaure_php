@@ -1,6 +1,5 @@
 <?php
 // VARIABLES GENERALES.
-clearstatcache();
 $lang = $_SESSION['language'] ?? 'en';
 setlocale(LC_ALL, $lang);
 putenv("LANGUAGE=" . $lang );
