@@ -81,13 +81,13 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
   $pctot = 0;
 
   if ($choixtag != "") {
-    print "Vote limité au groupe : " . implode(', ', $choixtag_data);
+    print _("Vote limité au groupe : ") . implode(', ', $choixtag_data);
   }
   if (isset($leadvalue) && $leadvalue == 2) {
-    print "<div class='poll-action leader-action'>" . $settings['role_leader'] . " $leader a utilisé son pouvoir et choisi : " . $options['c' . $leadvote] . "!</div>";
+    print "<div class='poll-action leader-action'>" . sprintf(_('%s %s a utilisé son pouvoir et choisi : %s !'), $settings['role_leader'], $leader, $options['c' . $leadvote]). "</div>";
   }
   if (isset($traitrevalue) && $traitrevalue == 2) {
-    print "<div class='poll-action traitor-action'>" . $settings['role_traitre'] . " $traitre a utilisé son pouvoir et annule un choix.</div>";
+    print "<div class='poll-action traitor-action'>" . sprintf(_('%s %s a utilisé son pouvoir et annule un choix !'), $settings['role_traitre'], $traitre) . "</div>";
   }
 
   $vote_results_total = '<table>';
@@ -111,20 +111,23 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
     if (isset($traitrevalue) && $traitrevalue == 2 && $vote['vote'] == $traitrevote) {
        $classes[] = 'traitor-vote';
     }
-    $vote_results_line = "<tr class=\"" . implode(' ', $classes) . "\"><td>" . $options['c' . $vote['vote']] . " : </td><td>$nb_votants / $nb_total soit $pc %</td></tr>";
+    $vote_results_line = "<tr class=\"" . implode(' ', $classes) . "\">
+      <td>" . $options['c' . $vote['vote']] . " : </td>
+      <td>" . sprintf(_("%o / %o soit %o %%"), $nb_votants, $nb_total, $pc" . </td>
+    </tr>";
     print $vote_results_line;
     $vote_results_total .= $vote_results_line;
     unset($options['c' . $vote['vote']]);
   }
   foreach ($options as $option) {
     if ($option != '') {
-      print "<td>" . $option . " : </td><td>aucun vote</td></tr>";
+      print "<td>" . $option . " : </td><td>" . _("aucun vote") . "</td></tr>";
     }
   }
   print "</table>";
   $_SESSION['last_vote'] = $vote_results_total . '</table>';
   if ($nb_total > 0) {
-    print "<div>Total votants : " . round(($pctot * 100 / $nb_total), 2) . "%</div>";
+    print "<div>" . sprintf(_("Total votants : %o %%"), round(($pctot * 100 / $nb_total), 2)) . "</div>";
   }
   if ($pctot == 100) {
     $_SESSION['current_poll'] = FALSE;
@@ -165,18 +168,18 @@ elseif ($_GET['role'] == 'pj') {
   $results_tags = $query_tags->fetchAll(PDO::FETCH_KEY_PAIR);
 ?>
 
-<h2>Votre personnage</h2>
+<h2><?php print _('Votre personnage'); ?></h2>
 <?php
 $still_ok = true;
 if ($hp <= 0) {
   $still_ok = false;
   $ko_icon = '☠';
-  $ko_message = "Votre personnage $nom est mort.";
+  $ko_message = _sprintf(_("Votre personnage %s est mort."), $nom);
 }
 elseif ($settings['willpower_on'] && $wp <= 0) {
   $still_ok = false;
   $ko_icon = '🌑';
-  $ko_message = "Votre personnage $nom a sombré.";
+  $ko_message = _sprintf(_("Votre personnage %s a sombré."), $nom);
 }
 
 if ($still_ok) { ?>
@@ -195,18 +198,18 @@ if ($still_ok) { ?>
       <?php if ($settings['carac3_name'] != "") { ?>
       <div><?php print $settings['carac3_name']; ?> : <b><?php print $carac3; ?></b></div>
       <?php } ?>
-      <div>💛 Pts de vie : <b><?php print $hp; ?></b></div>
+      <div>💛 <?php print _("Vie : ") ?><b><?php print $hp; ?></b></div>
       <?php
         if ($settings['willpower_on'] != "") {
-          print "<div>🌟 Pts de volonté : <b>" . $wp ."</b></div>";
+          print "<div>🌟 " . _("Volonté : ")  . "<b>" . $wp ."</b></div>";
         }
       ?>
     </div>
     <?php if ($leader > 0) { ?>
-      <div class="pj-role">Vous êtes actuellement <b><?php print $settings['role_leader']; ?></b> !</div>
+      <div class="pj-role"><?php print sprintf(_("Vous êtes actuellement <b>%s</b> !"), $settings['role_leader']); ?></div>
     <?php } ?>
     <?php if ($traitre > 0) { ?>
-      <div class="pj-role">Vous êtes actuellement <b><?php print $settings['role_traitre']; ?></b> !</div>
+      <div class="pj-role"><?php print sprintf(_("Vous êtes actuellement <b>%s</b> !"), $settings['role_traitre']); ?></div>
     <?php } ?>
   </div>
   <?php
@@ -221,7 +224,7 @@ if ($still_ok) { ?>
     <?php
     if ($choix != "" && $vote == 0 && ($row['choixtag'] == "" || array_intersect($choixtag, array_keys($results_tags)))) {
     ?>
-      <div>Décision en cours : <b><?php print $choix; ?></b></div>
+      <div><?php print _("Décision en cours : "); ?><b><?php print $choix; ?></b></div>
       <form action=main.php method=post>
         <?php
         $key = 1;
@@ -235,26 +238,32 @@ if ($still_ok) { ?>
         if ($leader == 1 || $traitre == 1) {
           print '<div class="powers">';
           if ($leader == 1) {
-            print "<div><input type=checkbox name=lead value=1><label for=lead>👑 Utiliser mon pouvoir de " . $settings['role_leader'] . "</b></label></div>";
+            print "<div>
+              <input type=checkbox name=lead value=1>
+              <label for=lead>👑" . sprintf(_("Utiliser mon pouvoir de %s", $settings['role_leader'])) . "</label>
+            </div>";
           }
           if ($traitre == 1) {
-            print "<div><input type=checkbox name=traitre value=1><label for=traitre>🗡️ Utiliser mon pouvoir de " . $settings['role_traitre'] . " et annuler le vote choisi<label></div>";
+            print "<div>
+              <input type=checkbox name=traitre value=1>
+              <label for=traitre>🗡" . sprintf(_("Utiliser mon pouvoir de %s", $settings['role_traitre'])) . "</label>
+            </div>";
           }
           print '</div>';
         }
         ?>
-        <input type="submit" value="Votre choix est irrévocable">
+        <input type="submit" value="<?php print _("Votre choix est irrévocable"); ?>">
       </form>
       <?php
     }
     elseif ($vote != 0) {
       ?>
-      <div>Votre vote a bien été pris en compte</div>
+      <div><?php print _("Votre vote a bien été pris en compte"); ?></div>
       <?php
     }
     else {
       ?>
-      <div>Pas de décision en cours</div>
+      <div><?php print _("Pas de décision en cours"); ?></div>
       <?php
     }
     ?>
@@ -271,12 +280,12 @@ if ($still_ok) { ?>
     $loot = $stmt->fetchAll();
     if (count($loot) == 0) {
       ?>
-      <b>Vous ne possédez rien de spécial</b>
+      <b><?php print _("Vous ne possédez rien de spécial"); ?></b>
       <?php
     }
     else {
       ?>
-      <b>Possessions :</b>
+      <b><?php print _("Possessions : "); ?></b>
       <?php
       foreach ($loot as $key => $row) {
         $quoi = $row[0];

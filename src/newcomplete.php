@@ -9,13 +9,13 @@ isset($_POST['stat']) ? $stat = $_POST['stat'] : $stat = "";
 $probleme = NULL;
 
 if ($settings['lock_new']) {
-  $probleme = "L'aventure n'accueille pas de nouveaux personnages pour l'instant !";
+  $probleme = _("L'aventure n'accueille pas de nouveaux personnages pour l'instant !");
 }
 elseif (empty($nom) || empty($pass)) {
-  $probleme = 'Veuillez remplir le champ : ' . (empty($nom) ? 'nom' : 'mot de passe') . '.';
+  $probleme = sprintf(_('Veuillez remplir le champ : %s.'), (empty($nom) ? _('nom') : _('mot de passe')));
 }
 elseif (preg_match('/^[A-Za-z0-9-]+$/D', $nom) === 0) {
-  $probleme = 'Veuillez utiliser uniquement des chiffres et des lettres pour votre login.';
+  $probleme = _('Veuillez utiliser uniquement des chiffres et des lettres pour votre login.');
 }
 else {
   $nom = strtolower($nom);
@@ -26,7 +26,7 @@ else {
   ]);
 
   if ($stmt->rowCount() > 0) {
-    $probleme = 'Ce nom est déjà utilisé. Veuillez en choisir un autre.';
+    $probleme = _('Ce nom est déjà utilisé. Veuillez en choisir un autre.');
   }
 }
 ?>
@@ -179,21 +179,21 @@ else {
     $_SESSION['nom'] = $nom;
     ?>
     <?php if ($id != 1): ?>
-      <div><span class="pj-name"><?php print $nom; ?></span> entre en scène.</div>
-      <div>Bienvenue dans notre grande aventure.</div>
-      <div><a href="main.php">C'est parti.</a></div>
+      <div><span class="pj-name"><?php print sprintf(_("%s entre en scène."), $nom); ?></span></div>
+      <div><?php print _("Bienvenue dans notre grande aventure."); ?></div>
+      <div><a href="main.php"><?php print _("C'est parti."); ?></a></div>
     <?php else: ?>
-      <div>Le compte d'administration a été créé.</div>
-      <div>Bienvenue dans votre aventure.</div>
-      <div><a href="ecran.php">Aller sur l'écran du MJ.</a></div>
+      <div><?php print _("Le compte d'administration a été créé."); ?></div>
+      <div><?php print _("Bienvenue dans votre aventure."); ?></div>
+      <div><a href="ecran.php"><?php print _("Aller sur l'écran du MJ."); ?></a></div>
     <?php endif; ?>
     <?php
   }
   else {
     ?>
-    <div>Impossible de créer votre personnage 😢.</div>
+    <div><?php print _("Impossible de créer votre personnage 😢."); ?></div>
     <div><?php print $probleme; ?></div>
-    <div><a href=new.php>Réessayez</a> ou retournez <a href=index.php>au menu principal.</a></div>
+    <div><a href=new.php><?php print _("Réessayez</a> ou retournez <a href=index.php>au menu principal."); ?></a></div>
     <?php
   }
   ?>

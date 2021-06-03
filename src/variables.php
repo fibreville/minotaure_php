@@ -1,5 +1,14 @@
 <?php
 // VARIABLES GENERALES.
+clearstatcache();
+$lang = $_SESSION['language'] ?? 'en';
+setlocale(LC_ALL, $lang);
+putenv("LANGUAGE=" . $lang );
+bindtextdomain("minotaure", "locale");
+bind_textdomain_codeset("minotaure", "utf-8");
+textdomain("minotaure");
+
+
 $game_timestamp = file_get_contents($tmp_path . '/game_timestamp.txt');
 if ($game_timestamp == FALSE) {
   $game_timestamp = time();

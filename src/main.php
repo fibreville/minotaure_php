@@ -35,7 +35,7 @@ if ($traitre == 1) {
 
 ?>
 <div id="loader" class="active"></div>
-<div id="character-wrapper">Nous récupérons votre personnage.</div>
+<div id="character-wrapper"><?php print _("Nous récupérons votre personnage."); ?></div>
 <script src="js/jquery-3.5.1.min.js"></script>
 <script src="js/ajax_pj.js"></script>
 <?php
