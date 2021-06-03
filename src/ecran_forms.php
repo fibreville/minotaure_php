@@ -3,11 +3,11 @@ $stmt = $db->prepare("SELECT nom, id, hp FROM hrpg WHERE leader = 1");
 $stmt->execute([]);
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 if (empty($row)) {
-  $leader = 'aucun';
+  $leader = _('aucun');
   $id_leader = 0;
 }
 elseif ($row['hp'] <= 0) {
-  $leader = 'mort (' . $row['nom'] . ')';
+  $leader = sprintf(_('mort (%s)'), $row['nom']);
   $id_leader = 0;
 }
 else {
@@ -18,11 +18,11 @@ else {
 $stmt = $db->query("SELECT nom, id, hp FROM hrpg WHERE traitre = 1");
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 if (empty($row)) {
-  $traitre = 'aucun';
+  $traitre = _('aucun');
   $id_traitre = 0;
 }
 elseif ($row['hp'] <= 0) {
-  $traitre = 'mort (' . $row['nom'] . ')';
+  $traitre = sprintf(_('mort (%s)'), $row['nom']);
   $id_traitre = 0;
 }
 else {
@@ -53,46 +53,46 @@ $settings = $_SESSION['settings'];
   <div id="group-stats">
     <span><?php print $settings['role_leader']; ?> : <b class="pj-name"><?php print "$leader"; ?></b></span>
     <span><?php print $settings['role_traitre']; ?> : <b class="pj-name"><?php print "$traitre"; ?></b></span>
-    <span>Personnages encore en jeu : <b><?php print $nb_alive . ' / ' . count($players); ?></b></span>
+    <span><?php print _('Personnages encore en jeu : '); ?><b><?php print $nb_alive . ' / ' . count($players); ?></b></span>
   </div>
 </div>
 <div class="wrapper-main">
   <div id="tabs">
-    <div class="first-item" data-target="group" class="active">🧍 Groupe</div>
-    <div data-target="elections">👑 Rôle</div>
-    <div data-target="target">🎲 Tirage</div>
-    <div data-target="poll">🗳️ Sondage</div>
-    <div data-target="epreuve">🤹 Épreuve</div>
-    <div data-target="loot">🎁 Loot</div>
-    <div data-target="tags">🏷️ Tags</div>
-    <div data-target="settings">⚙️ Paramètres</div>
-    <div class="debug" data-target="debug">Debug</div>
-    <div class="last-item"><a class='no-color' href="ecran.php">🔃 Recharger</a></div>
+    <div class="first-item" data-target="group" class="active">🧍 <?php print _('Groupe'); ?></div>
+    <div data-target="elections">👑 <?php print _("Rôle"); ?></div>
+    <div data-target="target">🎲 <?php print _("Tirage"); ?></div>
+    <div data-target="poll">🗳️ <?php print _("Sondage"); ?></div>
+    <div data-target="epreuve">🤹 <?php print _("Épreuve"); ?></div>
+    <div data-target="loot">🎁 <?php print _("Loot"); ?></div>
+    <div data-target="tags">🏷️ <?php print _("Tags"); ?></div>
+    <div data-target="settings">⚙️ <?php print _("Paramètres"); ?></div>
+    <div class="debug" data-target="debug"><?php print _("Debug"); ?></div>
+    <div class="last-item"><a class='no-color' href="ecran.php">🔃 <?php print _("Recharger"); ?></a></div>
   </div>
   <div id="choices">
     <div id="elections" class="active">
-      <h3>Nommer des personnages clefs.</h3>
+      <h3><?php print _("Nommer des personnages clefs."); ?></h3>
       <form method="post" action="ecran.php?action=election">
-        <button name="name" value="leader" type="submit">Nommer <?php print $settings['role_leader']; ?></button>
-        <button name="name" value="traitre" type="submit">Nommer <?php print $settings['role_traitre']; ?></button>
+        <button name="name" value="leader" type="submit"><?php print sprintf(_("Nommer %s"), $settings['role_leader']); ?></button>
+        <button name="name" value="traitre" type="submit"><?php print sprintf(_("Nommer %s"), $settings['role_traitre']); ?></button>
       </form>
       <form method="post" action="ecran.php?action=destitution" style="margin-top: 10px">
-        <button name="name" value="leader" type="submit">Destituer <?php print $settings['role_leader']; ?></button>
-        <button name="name" value="traitre" type="submit">Destituer <?php print $settings['role_traitre']; ?></button>
+        <button name="name" value="leader" type="submit"><?php print sprintf(_("Destituer %s"), $settings['role_leader']); ?></button>
+        <button name="name" value="traitre" type="submit"><?php print sprintf(_("Destituer %s"), $settings['role_traitre']); ?></button>
       </form>
     </div>
     <!-- FORMULAIRE DESIGNATION -->
     <div id="target" class="active">
-      <h3>Désigner un personnage pour votre histoire (par exemple avant une épreuve).</h3>
+      <h3><?php print _("Désigner un personnage pour votre histoire (par exemple avant une épreuve)."); ?></h3>
       <form method="post" action="ecran.php?action=target#target">
         <span class="wrapper-penalite">
-          <label for="limit">Combien ?</label>
+          <label for="limit"><?php print _("Combien ?"); ?></label>
           <input type="number" id="limit" name="limit" value="1" min="1" max="999999999">
         </span>
         <span class="wrapper-penalite">
-          <label for="random_choice">Parmi un groupe</label>
+          <label for="random_choice"><?php print _("Parmi un groupe"); ?></label>
           <select id="random_choice" name="random_choice">
-            <option value="random">Tout le monde</option>
+            <option value="random"><?php print _("Tout le monde"); ?></option>
             <option value="random_carac1"><?php print ucfirst($settings['carac1_group']); ?></option>
             <option value="random_carac2"><?php print ucfirst($settings['carac2_group']); ?></option>
             <?php if ($settings['carac3_name'] != "") {
@@ -104,14 +104,14 @@ $settings = $_SESSION['settings'];
           ET
         </span>
         <span class="wrapper-penalite">
-          <label for="random_tag" >Ayant au moins un des tags :</label>
+          <label for="random_tag" ><?php print _("Ayant au moins un des tags :"); ?></label>
           <input class="tag-whitelist" type="text" id="random_tag" name="random_tag" placeholder="nomdutag" maxlength="250">
         </span>
         <input type="submit" value="Tirer au sort">
       </form>
     </div>
     <div id="poll">
-      <h3>Sonder le groupe pour connaitre la décision de la majorité.</h3>
+      <h3><?php print _("Sonder le groupe pour connaitre la décision de la majorité."); ?></h3>
       <?php
       $query = $db->prepare("SELECT choix FROM sondage");
       $query->execute();
@@ -120,8 +120,8 @@ $settings = $_SESSION['settings'];
 
       if ($choix != "") {
         print "<span class='poll-label'>$choix</span>";
-        print "<div id='poll_results'><table><tr><td>En attente des votes.</td></tr></table></div>";
-        print "<a class='submit-button' href='ecran.php?action=clean'>Terminer le sondage</a>";
+        print "<div id='poll_results'><table><tr><td>" . _("En attente des votes . ") . "</td></tr></table></div>";
+        print "<a class='submit-button' href='ecran.php?action=clean'>" . _("Terminer le sondage"); "</a>";
       }
       else {
         ?>
@@ -129,28 +129,30 @@ $settings = $_SESSION['settings'];
         <form method="post" action="ecran.php?action=poll#poll">
           <fieldset class="poll-choices">
             <legend>Choix</legend>
-            <input autocomplete="off" class="poll-label" required type="text" name="choix" maxlength="250" placeholder="Intitulé du sondage">
-            <input autocomplete="off" placeholder="Choix 1" type="text" name="c1" maxlength="250">
-            <input autocomplete="off" placeholder="Choix 2" class="last-visible" type="text" name="c2" maxlength="250">
-            <input autocomplete="off" placeholder="Choix 3" type="text" name="c3" maxlength="250">
-            <input autocomplete="off" placeholder="Choix 4" type="text" name="c4" maxlength="250">
-            <input autocomplete="off" placeholder="Choix 5" type="text" name="c5" maxlength="250">
-            <input autocomplete="off" placeholder="Choix 6" type="text" name="c6" maxlength="250">
-            <input autocomplete="off" placeholder="Choix 7" type="text" name="c7" maxlength="250">
-            <input autocomplete="off" placeholder="Choix 8" type="text" name="c8" maxlength="250">
-            <input autocomplete="off" placeholder="Choix 9" type="text" name="c9" maxlength="250">
-            <input autocomplete="off" placeholder="Choix 10" type="text" name="c10" maxlength="250">
+            <input autocomplete="off" class="poll-label" required type="text" name="choix" maxlength="250" placeholder="<?php print _("Intitulé du sondage"); ?>">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '1')); ?>" type="text" name="c1" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '2')); ?>" class="last-visible" type="text" name="c2" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '3')); ?>" type="text" name="c3" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '4')); ?>" type="text" name="c4" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '5')); ?>" type="text" name="c5" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '6')); ?>" type="text" name="c6" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '7')); ?>" type="text" name="c7" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '8')); ?>" type="text" name="c8" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '9')); ?>" type="text" name="c9" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '10')); ?>" type="text" name="c10" maxlength="250">
             <div class="poll-plus">+</div>
           </fieldset>
           <fieldset class="poll-limit">
-            <legend>Limiter à</legend>
-            <input class="tag-whitelist" type="text" name="choixtag" id="choixtag" maxlength="250" placeholder="Entrez un tag">
+            <legend><?php print _("Limiter à"); ?></legend>
+            <input class="tag-whitelist" type="text" name="choixtag" id="choixtag" maxlength="250" placeholder="<?php print _("Entrez un tag"); ?>">
           </fieldset>
           <input type="submit" value="Délibérer">
+          <?php if (isset($_SESSION['last_vote'])): ?>
           <fieldset>
             <legend>Rappel du dernier sondage</legend>
             <?php print $_SESSION['last_vote']; ?>
           </fieldset>
+          <?php endif ?>
         </form>
         <?php
       }
@@ -158,13 +160,13 @@ $settings = $_SESSION['settings'];
     </div>
 
     <div id="epreuve">
-      <h3>Faire passer un test à des personnages.</h3>
+      <h3><?php print _('Faire passer un test à des personnages.'); ?></h3>
       <!-- FORMULAIRE DES EPREUVES-->
       <form method="post" action="ecran.php?action=epreuve">
         <fieldset>
           <legend>Test</legend>
           <span class="wrapper-penalite">
-            <label for="type">Caractéristique testée</label>
+            <label for="type"><?php print _('Caractéristique testée.'); ?></label>
             <select name="type" id="type">
               <option value="carac1"><?php print ucfirst($settings['carac1_name']) ?></option>
               <option value="carac2"><?php print ucfirst($settings['carac2_name']) ?></option>
@@ -174,28 +176,38 @@ $settings = $_SESSION['settings'];
             </select>
           </span>
         <span class="wrapper-penalite">
-            <label for="difficulte">Difficulté</label>
-            <select name="difficulte" id="difficulte">
-              <option value="-8">Trivial (-8)</option>
-              <option value="-6">Aisé (-6)</option>
+          Trivial (-8)</option>
+          <option value="-6">Aisé (-6)</option>
               <option value="-4">Facile (-4)</option>
               <option value="-2">Assez facile (-2)</option>
               <option value="0" selected>Normal (0)</option>
               <option value="2">Assez difficile (+2)</option>
               <option value="4">Difficile (+4)</option>
               <option value="6">Ardu (+6)</option>
-              <option value="8">Cauchemardesque (+8)</option>
+              <option value="8">Cauchemardesque (+8)
+
+            <label for="difficulte"><?php print _('Difficulté'); ?></label>
+            <select name="difficulte" id="difficulte">
+              <option value="-8"><?php print _('Trivial (-8)'); ?></option>
+              <option value="-6"><?php print _('Aisé (-6)'); ?></option>
+              <option value="-4"><?php print _('Facile (-4)'); ?></option>
+              <option value="-2"><?php print _('Assez facile (-2)'); ?></option>
+              <option value="0" selected><?php print _('Normal (0)'); ?></option>
+              <option value="2"><?php print _('Assez difficile (+2)'); ?></option>
+              <option value="4"><?php print _('Difficile (+4)'); ?></option>
+              <option value="6"><?php print _('Ardu (+6)'); ?></option>
+              <option value="8"><?php print _('Cauchemardesque (+8)'); ?></option>
             </select>
           </span>
         </fieldset>
         <fieldset>
-          <legend>Conséquences</legend>
+          <legend><?php print _("Conséquences"); ?></legend>
           <span class="wrapper-penalite">
-            <label for="penalite">En cas d'échec (-)</label>
+            <label for="penalite"><?php print _("En cas d'échec (-)"); ?></label>
             <select name="penalite_type" id="penalite">
-              <option value="hp">💛 Santé</option>
+              <option value="hp">💛 <?php print _("Santé"); ?></option>
               <?php if ($settings['willpower_on']) {
-                print "<option value=\"wp\">🌟 Volonté</option>\r\n";
+                print "<option value=\"wp\">🌟" . _("Volonté") . "</option>";
               } ?>
               <option value="carac1"><?php print ucfirst($settings['carac1_name']) ?></option>
               <option value="carac2"><?php print ucfirst($settings['carac2_name']) ?></option>
@@ -206,11 +218,11 @@ $settings = $_SESSION['settings'];
             <input type="number" name="penalite" value="0" min="0" max="999999999">
           </span>
           <span class="wrapper-penalite">
-            <label for="reward_type">En cas de réussite (+)</label>
+            <label for="reward_type"><?php print _("En cas de réussite (+)"); ?></label>
             <select name="reward_type" id="reward_type">
-              <option value="hp">💛 Santé</option>
+              <option value="hp">💛 <?php print _("Santé"); ?></option>
               <?php if ($settings['willpower_on']) {
-                print "<option value=\"wp\">🌟 Volonté</option>\r\n";
+                print "<option value=\"wp\">🌟" . _("Volonté") . "</option>";
               } ?>
               <option value="carac1"><?php print ucfirst($settings['carac1_name']) ?></option>
               <option value="carac2"><?php print ucfirst($settings['carac2_name']) ?></option>
@@ -222,52 +234,52 @@ $settings = $_SESSION['settings'];
           </span>
         </fieldset>
         <fieldset>
-          <legend>Qui ?</legend>
+          <legend><?php print _("Qui ?"); ?></legend>
           <span class="wrapper-penalite">
-            <label for="victime">Par groupe de personnages</label>
+            <label for="victime"><?php print _("Par groupe de personnages"); ?></label>
             <select class='pj-name' name="victime" id="victime">
-              <option value="all">Tout le monde</option>
-              <option value="carac1">Chaque personnage <?php print $settings['carac1_group'] ?></option>
-              <option value="carac2">Chaque personnage <?php print $settings['carac2_group'] ?></option>
+              <option value="all"><?php print _("Tout le monde"); ?></option>
+              <option value="carac1"><?php print sprintf(_("Chaque personnage %s"), $settings['carac1_group']); ?></option>
+              <option value="carac2"><?php print sprintf(_("Chaque personnage %s"), $settings['carac2_group']); ?></option>
               <?php if ($settings['carac3_name'] != "") {
-                print "<option value=\"carac3\">Chaque personnage " . $settings['carac3_group'] . "</option>";
+                print "<option value=\"carac3\">" . sprintf(_("Chaque personnage %s"), $settings['carac3_group'])  . "</option>";
               } ?>
             </select>
           </span>
           <span class="wrapper-penalite">
-            <label for="victime_multiple"><strong>Ou</strong> par personnage</label>
-            <input class="player-whitelist" placeholder="nom du personnage" type="text" name="victime_multiple" id="victime_multiple" maxlength="250">
+            <label for="victime_multiple"><?php print _("<strong>Ou</strong> par personnage"); ?></label>
+            <input class="player-whitelist" placeholder="<?php print _("nom du personnage"); ?>" type="text" name="victime_multiple" id="victime_multiple" maxlength="250">
           </span>
           <span class="wrapper-penalite">
-            <label for="victimetag"><strong>Ou</strong> par Tag</label>
-            <input class="tag-whitelist" type="text" name="victimetag" placeholder="Entrez un tag"  id="victimetag" maxlength="250">
+            <label for="victimetag"><?php print _("<strong>Ou</strong> par Tag"); ?></label>
+            <input class="tag-whitelist" type="text" name="victimetag" placeholder="<?php print _("Entrez un tag"); ?>"  id="victimetag" maxlength="250">
           </span>
           <span class="wrapper-penalite">
-            Limiter aux personnages actifs :
+            <?php print _("Limiter aux personnages actifs :"); ?>
             <input type="checkbox" name="restrict_active" id="restrict_active" <?php print ($settings['restrict_active'] ? 'checked' : ''); ?>>
           </span>
         </fieldset>
-        <input type="submit" value="ÉPROUVER">
+        <input type="submit" value="<?php print _("ÉPROUVER"); ?>">
       </form>
     </div>
 
     <div id="loot">
-      <h3>Attribuer un objet à des personnages.</h3>
+      <h3><?php print _("Attribuer un objet à des personnages."); ?></h3>
       <!-- FORMULAIRE DU LOOT-->
       <form method="post" action="ecran.php?action=loot">
         <fieldset>
-          <legend>Quoi</legend>
+          <legend><?php print _("Quoi"); ?></legend>
           <span class="wrapper-penalite">
-            <label for="loot_input">Nom de l'objet</label>
+            <label for="loot_input"><?php print _("Nom de l'objet"); ?></label>
             <input required type="text" name="loot" id="loot_input" maxlength="250">
           </span>
           <span class="wrapper-penalite">
-            <label for="propriete">Effet</label>
+            <label for="propriete"><?php print _("Effet"); ?></label>
             <select name="propriete" id="propriete">
-              <option value="" selected>Choisir</option>
-              <option value="hp">💛 Vie</option>
+              <option value="" selected><?php print _("Choisir"); ?></option>
+              <option value="hp">💛 <?php print _("Vie"); ?></option>
               <?php if ($settings['willpower_on']) {
-                print "<option value=\"wp\">🌟 Volonté</option>\r\n";
+                print "<option value=\"wp\">🌟" . _("Volonté") . "</option>\r\n";
               } ?>
               <option value="carac1"><?php print ucfirst($settings['carac1_name']); ?></option>
               <option value="carac2"><?php print ucfirst($settings['carac2_name']); ?></option>
@@ -281,13 +293,13 @@ $settings = $_SESSION['settings'];
         <fieldset>
           <legend>À qui (groupe)</legend>
           <span class="wrapper-penalite">
-            <label for="qui">Un groupe de personnage</label>
+            <label for="qui"><?php print _("Un groupe de personnage"); ?></label>
             <select name="qui" id="qui">
-              <option value="all">Tout le monde</option>
-              <option value="carac1">Chaque personnage <?php print $settings['carac1_group'] ?></option>
-              <option value="carac2">Chaque personnage <?php print $settings['carac2_group'] ?></option>
+              <option value="all"><?php print _("Tout le monde"); ?></option>
+              <option value="carac1"><?php print sprintf(_("Chaque personnage %s"), $settings['carac1_group']); ?></option>
+              <option value="carac2"><?php print sprintf(_("Chaque personnage %s"), $settings['carac2_group']); ?></option>
               <?php if ($settings['carac3_name'] != "") {
-                print "<option value=\"carac3\">Chaque personnage " . $settings['carac3_group'] . "</option>";
+                print "<option value=\"carac3\">" . sprintf(_("Chaque personnage %s"), $settings['carac3_group']) . "</option>";
               } ?>
               <?php
               if (isset($list_players)) {
@@ -298,110 +310,106 @@ $settings = $_SESSION['settings'];
               }
               ?>
             </select>
-            <label for="qui_tags"><strong>ayant</strong> au moins un des tags</label>
-            <input class="tag-whitelist" type="text" name="qui_tags" placeholder="Entrez un tag"  id="qui_tags" maxlength="250">
-            <label for="restrict_active">Limiter aux personnages actifs :</label>
+            <label for="qui_tags"><strong><?php print _("ayant</strong> au moins un des tags"); ?></label>
+            <input class="tag-whitelist" type="text" name="qui_tags" placeholder="<?php print _("Entrez un tag"); ?>"  id="qui_tags" maxlength="250">
+            <label for="restrict_active"><?php print _("Limiter aux personnages actifs :"); ?></label>
             <input type="checkbox" name="restrict_active" id="restrict_active" <?php print ($settings['restrict_active'] ? 'checked' : ''); ?>>
           </span>
         </fieldset>
         <fieldset>
           <legend>À qui (individus)</legend>
           <span class="wrapper-penalite">
-            <label for="qui_multiple"><strong>Ou</strong> des personnages spécifiques</label>
-            <input type="text" class="player-whitelist" name="qui_multiple" id="qui_multiple" placeholder="Entrez un nom">
+            <label for="qui_multiple"><?php print _("<strong>Ou</strong> des personnages spécifiques"); ?></label>
+            <input type="text" class="player-whitelist" name="qui_multiple" id="qui_multiple" placeholder="<?php print _("Entrez un nom"); ?>">
           </span>
         </fieldset>
-        <input type="submit" value="Donner">
+        <input type="submit" value="<?php print _("Donner"); ?>">
       </form>
     </div>
 
     <div id="tags">
       <!-- FORMULAIRE DES TAGS-->
-      <h3>Attribuer aléatoirement des étiquettes à la population.</h3>
+      <h3><?php print _("Attribuer aléatoirement des étiquettes à la population."); ?></h3>
       <form method="post" action="ecran.php?action=tags">
-        <span><label for="tag1">Catégorie 1</label><a href="ecran.php?action=delete_tags&category=1">Supprimer</a></span>
+        <span><label for="tag1"><?php print _("Catégorie 1"); ?></label><a href="ecran.php?action=delete_tags&category=1"><?php print _("Supprimer"); ?></a></span>
         <input type="text" id="tag1" name="tag1" maxlength="250" placeholder="Entrez des mots-clefs">
-        <span><label for="tag2">Catégorie 2</label><a href="ecran.php?action=delete_tags&category=2">Supprimer</a></span>
+        <span><label for="tag2"><?php print _("Catégorie 2"); ?></label><a href="ecran.php?action=delete_tags&category=2"><?php print _("Supprimer"); ?></a></span>
         <input type="text" id="tag2" name="tag2" maxlength="250" placeholder="Entrez des mots-clefs">
-        <span><label for="tag3">Catégorie 3</label><a href="ecran.php?action=delete_tags&category=3">Supprimer</a></span>
+        <span><label for="tag3"><?php print _("Catégorie 3"); ?></label><a href="ecran.php?action=delete_tags&category=3"><?php print _("Supprimer"); ?></a></span>
         <input type="text" id="tag3" name="tag3" maxlength="250" placeholder="Entrez des mots-clefs">
-        <input type="submit" value="Attribuer">
+        <input type="submit" value="<?php print _("Attribuer"); ?>">
       </form>
     </div>
     <div id="settings">
       <!-- FORMULAIRE DES PARAMETRES DE LA PARTIE-->
-      <h3>Changer les réglages de votre aventure.</h3>
-      <form method="post" action="ecran.php?action=settings">
-        <fieldset>
-          <legend>Intro</legend>
-          <label for="adventure_name">Nom de l'aventure</label>
-          <input type="text" name="adventure_name" id="adventure_name" maxlength="250" value="<?php print $settings['adventure_name']; ?>">
-          <label for="adventure_guide">Adresse ip ou url pour rejoindre</label>
-          <textarea type="textarea" name="adventure_guide" size=5 id="adventure_guide" maxlength="250"><?php print $settings['adventure_guide']; ?></textarea>
-        </fieldset>
-        <fieldset>
-          <legend>1ère caractéristique</legend>
-          <label for="carac1_name">Nom</label>
-          <input type="text" placeholder="esprit" name="carac1_name" id="carac1_name" value="<?php print $settings['carac1_name']; ?>">
-          <label for="carac1_group">Un personnage fort dans cette carac est :</label>
-          <input type="text" placeholder="malin" name="carac1_group" id="carac1_group" value="<?php print $settings['carac1_group']; ?>">
-        </fieldset>
-        <fieldset>
-          <legend>2ème caractéristique</legend>
-          <label for="carac2_name">Nom</label>
-          <input type="text" placeholder="corps" name="carac2_name" id="carac2_name" value="<?php print $settings['carac2_name']; ?>">
-          <label for="carac2_group">Un personnage fort dans cette carac est :</label>
-          <input type="text" placeholder="fort" name="carac2_group" id="carac2_group" value="<?php print $settings['carac2_group']; ?>">
-        </fieldset>
-        <fieldset>
-          <legend>3ème caractéristique</legend>
-          <label for="carac3_name">Nom</label>
-          <input type="text" placeholder="" name="carac3_name" id="carac3_name" value="<?php print $settings['carac3_name']; ?>">
-          <label for="carac3_group">Un personnage fort dans cette carac est :</label>
-          <input type="text" placeholder="" name="carac3_group" id="carac3_group" value="<?php print $settings['carac3_group']; ?>">
-        </fieldset>
-        <fieldset>
-          <legend>Rôles</legend>
-          <label for="role_leader">Nom de rôle de leader</label>
-          <input type="text" name="role_leader" id="role_leader" maxlength="250" value="<?php print $settings['role_leader']; ?>">
-          <label for="role_traitre">Nom de rôle de traître</label>
-          <input type="text" name="role_traitre" id="role_traitre" maxlength="250" value="<?php print $settings['role_traitre']; ?>">
-        </fieldset>
-        
-        
-        <fieldset style="text-align: left">
-          <legend>Autres paramètres</legend>
-          <div>
-            <label for="same_stats_all">Mêmes stats pour tout le monde</label>
-            <input type="checkbox" name="same_stats_all" id="same_stats_all" <?php print ($settings['same_stats_all'] ? 'checked' : ''); ?>>
+      <h3><?php print _("Changer les réglages de votre aventure."); ?></h3>
+      <form class="grid" method="post" action="ecran.php?action=settings">
+        <div class="settings-wrapper">
+          <fieldset>
+            <legend><?php print _("Intro"); ?></legend>
+            <label for="adventure_name"><?php print _("Nom de l'aventure"); ?></label>
+            <input type="text" name="adventure_name" id="adventure_name" maxlength="250" value="<?php print $settings['adventure_name']; ?>">
+            <label for="adventure_guide"><?php print _("Adresse ip ou url pour rejoindre"); ?></label>
+            <textarea type="textarea" name="adventure_guide" size=5 id="adventure_guide" maxlength="250"><?php print $settings['adventure_guide']; ?></textarea>
+          </fieldset>
+          <fieldset>
+            <legend><?php print _("Rôles"); ?></legend>
+            <label for="role_leader"><?php print _("Nom de rôle de leader"); ?></label>
+            <input type="text" name="role_leader" id="role_leader" maxlength="250" value="<?php print $settings['role_leader']; ?>">
+            <label for="role_traitre"><?php print _("Nom de rôle de traître"); ?></label>
+            <input type="text" name="role_traitre" id="role_traitre" maxlength="250" value="<?php print $settings['role_traitre']; ?>">
+          </fieldset>
+          <fieldset class="form-list">
+            <legend><?php print _("Autres paramètres"); ?></legend>
+            <div>
+              <input type="checkbox" name="same_stats_all" id="same_stats_all" <?php print ($settings['same_stats_all'] ? 'checked' : ''); ?>>
+              <label for="same_stats_all"><?php print _("Mêmes stats pour tout le monde"); ?></label>
+            </div>
+            <div>
+              <input type="checkbox" name="random_tags" id="random_tags" <?php print ($settings['random_tags'] ? 'checked' : ''); ?>>
+              <label for="random_tags"><?php print _("Tags distribués aléatoirement"); ?></label>
+            </div>
+            <div>
+              <input type="checkbox" name="willpower_on" id="willpower_on" <?php print ($settings['willpower_on'] ? 'checked' : ''); ?>>
+              <label for="willpower_on"><?php print _("Jauge de volonté"); ?></label>
+            </div>
+            <div>
+              <input type="checkbox" name="restrict_active" id="restrict_active" <?php print ($settings['restrict_active'] ? 'checked' : ''); ?>>
+              <label for="restrict_active"><?php print _("Restreindre aux actifs par défaut"); ?></label>
+            </div>
+            <div>
+              <input type="checkbox" name="lock_new" id="lock_new" <?php print ($settings['lock_new'] ? 'checked' : ''); ?>>
+              <label for="lock_new"><?php print _("Verrouiller les créations de personnage"); ?></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend><?php print _("1ère caractéristique"); ?></legend>
+            <label for="carac1_name"><?php print _("Nom"); ?></label>
+            <input type="text" placeholder="esprit" name="carac1_name" id="carac1_name" value="<?php print $settings['carac1_name']; ?>">
+            <label for="carac1_group"><?php print _("Un personnage fort dans cette carac est :"); ?></label>
+            <input type="text" placeholder="malin" name="carac1_group" id="carac1_group" value="<?php print $settings['carac1_group']; ?>">
+          </fieldset>
+          <fieldset>
+            <legend><?php print _("2ème caractéristique"); ?></legend>
+            <label for="carac2_name"><?php print _("Nom"); ?></label>
+            <input type="text" placeholder="corps" name="carac2_name" id="carac2_name" value="<?php print $settings['carac2_name']; ?>">
+            <label for="carac2_group"><?php print _("Un personnage fort dans cette carac est :"); ?></label>
+            <input type="text" placeholder="fort" name="carac2_group" id="carac2_group" value="<?php print $settings['carac2_group']; ?>">
+          </fieldset>
+          <fieldset>
+            <legend><?php print _("3ème caractéristique"); ?></legend>
+            <label for="carac3_name"><?php print _("Nom"); ?></label>
+            <input type="text" placeholder="" name="carac3_name" id="carac3_name" value="<?php print $settings['carac3_name']; ?>">
+            <label for="carac3_group"><?php print _("Un personnage fort dans cette carac est :"); ?></label>
+            <input type="text" placeholder="" name="carac3_group" id="carac3_group" value="<?php print $settings['carac3_group']; ?>">
+          </fieldset>
+        </div>
+        <div class="buttons-wrapper">
+          <input type="submit" value="Enregistrer">
+          <div class="delete-game">
+            <span id="delete-game" class="submit-button">🗑️ <?php print _("Détruire l'aventure"); ?></span>
+            <a id="delete-game-confirm" class="submit-button" href="ecran.php?action=delete"><?php print _("Confirmez"); ?></a>
           </div>
-          <br />
-          <div>
-            <label for="random_tags">Tags distribués aléatoirement</label>
-            <input type="checkbox" name="random_tags" id="random_tags" <?php print ($settings['random_tags'] ? 'checked' : ''); ?>>
-          </div>
-          <br />
-          <div>
-            <label for="willpower_on">Jauge de volonté</label>
-            <input type="checkbox" name="willpower_on" id="willpower_on" <?php print ($settings['willpower_on'] ? 'checked' : ''); ?>>
-          </div>
-          <br />
-          <div>
-            <label for="restrict_active">Restreindre aux actifs par défaut</label>
-            <input type="checkbox" name="restrict_active" id="restrict_active" <?php print ($settings['restrict_active'] ? 'checked' : ''); ?>>
-          </div>
-          <br />
-          <div>
-            <label for="lock_new">Verrouiller les créations de personnage</label>
-            <input type="checkbox" name="lock_new" id="lock_new" <?php print ($settings['lock_new'] ? 'checked' : ''); ?>>
-          </div>
-        </fieldset>
-        
-        <input type="submit" value="Enregistrer">
-
-        <div class="delete-game">
-          <span id="delete-game" class="submit-button">🗑️ Détruire l'aventure</span>
-          <a id="delete-game-confirm" class="submit-button" href="ecran.php?action=delete">Confirmez</a>
         </div>
       </form>
     </div>
@@ -481,21 +489,19 @@ $settings = $_SESSION['settings'];
       if ( ($settings['willpower_on'] && ($hp > 0 && $wp > 0)) || (!$settings['willpower_on'] && ($hp > 0)) ) {
         print "<div class='stats'>";
         if (!empty($aptitude)) {
-          print "  <span class='aptitude'>$aptitude</span>";
+          print "<span class='aptitude'>$aptitude</span>";
         }
-        print "  <hr />";
-        print "  <span class='caracs'>";
-        print ucfirst($settings['carac1_name']) . " : " . $carac1 . "<br />";
-        print ucfirst($settings['carac2_name']) . " : " . $carac2 . "<br />";
+        print '<span>' . ucfirst($settings['carac1_name']) . " : " . $carac1 . '</span>';
+        print '<span>' . ucfirst($settings['carac2_name']) . " : " . $carac2 . '</span>';
         if ($settings['carac3_name'] != "") {
-          print ucfirst($settings['carac3_name']) . " : " . $carac3;
+          print '<span>' . ucfirst($settings['carac3_name']) . " : " . $carac3 . '</span>';
         }
-        print "  </span>";
-        print "  <span class='life'>Vie: $hp";
+        print "</div>";
+        print "<div class='stats'>";
+        print "<span class='life'>". sprintf(_("Vie : %o"), $hp) . "</span>";
         if ($settings['willpower_on']) {
-          print "<br />Volonté: $wp";
+          print "<span>" . sprintf(_("Volonté : %o"), $wp) . "</span>";
         }
-        print "  </span>";
         print "</div>";
       }
       print "</div>";

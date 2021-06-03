@@ -1,5 +1,14 @@
 <?php
 // VARIABLES GENERALES.
+clearstatcache();
+$lang = $_SESSION['language'] ?? 'en';
+setlocale(LC_ALL, $lang);
+putenv("LANGUAGE=" . $lang );
+bindtextdomain("minotaure", "locale");
+bind_textdomain_codeset("minotaure", "utf-8");
+textdomain("minotaure");
+
+
 $game_timestamp = file_get_contents($tmp_path . '/game_timestamp.txt');
 if ($game_timestamp == FALSE) {
   $game_timestamp = time();
@@ -24,7 +33,7 @@ if (
     'carac2_group' => 'fort',
     'carac3_group' => '',
     'adventure_name' => 'Notre Aventure',
-    'adventure_guide' => "Rejoindre l'Aventure : ...'",
+    'adventure_guide' => "Rejoindre l'Aventure : ...",
     'role_leader' => 'leader',
     'role_traitre' => 'traître',
     'same_stats_all' => 0,

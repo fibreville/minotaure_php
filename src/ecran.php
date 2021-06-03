@@ -72,7 +72,7 @@ if (isset($_GET['action'])) {
     print random_player($db, $_POST);
   }
   else {
-    die('Unknown action');
+    die(_('Action inconnue'));
   }
 }
 

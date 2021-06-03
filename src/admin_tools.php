@@ -6,7 +6,7 @@
 function admin_only() {
   if ($_SESSION['id'] != 1) {
     include "header.php";
-    print '<span>Vous n\'êtes pas admin. <a href="index.php">Retournez en arrière !</a></span>';
+    print '<span>' . _('Vous n\'êtes pas admin. <a href="index.php">Retournez en arrière !</a>') . '</span>';
     include "footer.php";
     die('</html>');
   }
@@ -154,12 +154,13 @@ function add_new_tags($db, $post) {
         }
         $db->query("INSERT INTO character_tag (id_player,id_tag) VALUES " . implode(',', $insertions));
         // Mise à jour du log des joueurs concernés.
+        $message = _('Vous avez un nouveau tag.');
         $query = $db->prepare("
         UPDATE hrpg
-        SET lastlog=:time,log='Vous avez un nouveau tag'
+        SET lastlog=:time,log=:message
         WHERE id IN (" . implode(',', $results_players) . ")"
         );
-        $query->execute([':time' => time()]);
+        $query->execute([':time' => time(), ':log' => $message]);
       }
     }
   }
@@ -247,17 +248,16 @@ function update_events($db, $post) {
   }
 
   if (!empty($loosers)) {
-    $log = 'Vous avez raté l\'épreuve';
+    $log = _('Vous avez raté l\'épreuve');
     if ($post['penalite'] > 0) {
-      $log .= ' et perdu ' . $post['penalite'] . ' ';
       if ($post['penalite_type'] == 'hp') {
-        $log .= 'point(s) de vie';
+        $log = sprintf(_('Vous avez raté l\'épreuve et perdu %o point(s) de vie'), $post['penalite']);
       }
       elseif ($post['penalite_type'] == 'wp') {
-        $log .= 'point(s) de volonté';
+        $log = sprintf(_('Vous avez raté l\'épreuve et perdu %o point(s) de volonté'), $post['penalite']);
       }
       else {
-        $log .= $_SESSION['settings'][$post['penalite_type'] . '_name'];
+        $log = sprintf(_('Vous avez raté l\'épreuve et perdu %o point(s) en %s'), $post['penalite'], $_SESSION['settings'][$post['penalite_type'] . '_name']);
       }
     }
 
@@ -272,15 +272,14 @@ function update_events($db, $post) {
   if (!empty($winners)) {
     $log = 'Vous avez réussi l\'épreuve';
     if ($post['reward'] > 0) {
-      $log .= ' et gagné ' . $post['reward'] . ' ';
       if ($post['reward_type'] == 'hp') {
-        $log .= 'point(s) de vie';
+        $log = sprintf(_('Vous avez réussi l\'épreuve et gagné %o point(s) de vie'), $post['reward']);
       }
       elseif ($post['reward_type'] == 'wp') {
-        $log .= 'point(s) de volonté';
+        $log = sprintf(_('Vous avez réussi l\'épreuve et gagné %o point(s) de volonté'), $post['reward']);
       }
       else {
-        $log .= $_SESSION['settings'][$post['reward_type'] . '_name'];
+        $log = sprintf(_('Vous avez réussi l\'épreuve et gagné %o point(s) en %s'), $post['penalite'], $_SESSION['settings'][$post['penalite_type'] . '_name']);
       }
     }
 
@@ -294,11 +293,10 @@ function update_events($db, $post) {
   }
 
   // On renvoie deux tableaux d'ids de PJ ayant échoué / réussi, à exploiter par le front.
-  $sanction = '<div class=epreuve-cr><b>' . count($winners) . '</b> victoire(s) pour <b>' . count($loosers) . '</b> défaite(s)';
+  $sanction = '<div class=epreuve-cr>' . sprintf(_('<b>%o</b> victoire(s) pour <b>%o</b> défaite(s).'), count($winners), count($loosers)) . '</div>';
   if (isset($tags)) {
-    $sanction .= ' pour le groupe ' . implode(', ', $tags);
+    $sanction = '<div class=epreuve-cr>' . sprintf(_('<b>%o</b> victoire(s) pour <b>%o</b> défaite(s) pour le groupe %s.'), count($winners), count($loosers), implode(', ', $tags)) . '</div>';
   }
-  $sanction .= '</div>';
   $_SESSION['sanction'] = $sanction;
   return '<script>data_failures = ' . json_encode($failures) . ', data_wins = ' . json_encode($success) . ';</script>';
 }
@@ -365,7 +363,7 @@ function update_loot($db, $post) {
     $db->query(
       'UPDATE hrpg'
       . ' SET lastlog="' . time() . '",'
-      . 'log="Vous avez reçu un nouvel objet.",'
+      . 'log="' . _("Vous avez reçu un nouvel objet.") . '",'
       . $post['propriete'] . '=' . $post['propriete'] . $post['bonus'] . ' WHERE id IN (' . implode(',', $ids) . ')'
     );
     $property = $post['bonus'];
@@ -381,7 +379,7 @@ function update_loot($db, $post) {
     }
   }
   else {
-    $property = 'aucun effet';
+    $property = _("aucun effet");
   }
 
   // Ajout du loot dans chaque inventaire.
@@ -425,7 +423,7 @@ function poll_update($db, $post) {
       ':choixtag' => $choixtag,
     ]);
   } catch (PDOException $e) {
-    die("Erreur !: " . $e->getMessage() . "<br/>");
+    die(_("Erreur : ") . $e->getMessage());
   }
 }
 
@@ -461,7 +459,7 @@ function make_election($db, $post) {
 
 function destitute_player($db, $role) {
   $role_name = $_SESSION['settings']['role_' . $role];
-  $sql = 'UPDATE hrpg SET ' . $role . ' = 0,lastlog="' . time() . '",log="Vous n\'êtes plus ' . $role_name . '." WHERE ' . $role . '=1';
+  $sql = 'UPDATE hrpg SET ' . $role . ' = 0,lastlog="' . time() . '",log="' . sprintf(_("Vous n'êtes plus %s"), $role_name) . '" WHERE ' . $role . '=1';
   $db->query($sql);
 }
 

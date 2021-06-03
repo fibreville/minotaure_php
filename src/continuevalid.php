@@ -39,36 +39,36 @@ if ($id != "") {
   $_SESSION['nom'] = $nom;
   if ($id == 1) {
     $stmt = $db->query("UPDATE hrpg SET active=0");
-    $text = 'Votre grande aventure continue';
-    $link = 'Accédez à l\'écran du MJ en cliquant <a href=ecran.php>ici</a>';
+    $text = _('Votre grande aventure continue');
+    $link = _('Accédez à l\'écran du MJ en cliquant <a href=ecran.php>ici</a>');
   }
   else {
     if ($hp <= 0) {
-      $text = 'Votre personnage est mort ☠️. On en recrée un nouveau ?';
-      $link = "Retourner au <a href=index.php>menu principal</a>";
+      $text = _('Votre personnage est mort ☠️. On en recrée un nouveau ?');
+      $link = _("Retourner au <a href=index.php>menu principal</a>");
       
     }
     elseif ($settings['willpower_on'] && $wp <= 0) {
-      $text = 'Votre personnage a sombré 🌑️. On en recrée un nouveau ?';
-      $link = "Retourner au <a href=index.php>menu principal</a>";
+      $text = _('Votre personnage a sombré 🌑️. On en recrée un nouveau ?');
+      $link = _("Retourner au <a href=index.php>menu principal</a>");
     }
     else {
       $stmt = $db->prepare("UPDATE hrpg SET active=1 WHERE id = :id");
       $stmt->execute([':id' => $id]);
-      $text = 'Votre grande aventure continue';
-      $link = 'Cliquez <a href=main.php>ici</a>';
+      $text = _('Votre grande aventure continue');
+      $link = _('Cliquez <a href=main.php>ici</a>');
     }
   }
 }
 else {
-  $link = "Voulez-vous <a href=continue.php>recommencer</a> <br>ou retourner au <a href=index.php>menu principal</a>";
+  $link = _("<a href=continue.php>Réessayez</a> ou retournez au <a href=index.php>menu principal</a>");
 }
 ?>
 <div>
   <?php if ($id == ""): ?>
-    <div class="hello">Bonjour, nous n'avons pas réussi à vous identifier 😢 !</div>
+    <div class="hello"><?php print _("Bonjour, nous n'avons pas réussi à vous identifier 😢 !"); ?></div>
   <?php else: ?>
-    <div class="hello">Bonjour <span class="pj-name"><?php echo $nom; ?>.</span></div>
+    <div class="hello"><?php print sprintf(_('Bonjour <span class="pj-name">%s.</span>'), $nom) . '</div>'; ?>
     <div><?php echo $text; ?></div>
   <?php endif; ?>
   <div><?php echo $link; ?></div>
