@@ -383,9 +383,6 @@ tag {
   text-align: right;
   margin: 0 auto;
 }
-#group-stats > span {
-  margin-bottom: 10px;
-}
 #group-stats > span:first-letter {
   text-transform: uppercase;
 }
@@ -436,7 +433,6 @@ tag {
 
 .pj-name {
   display: inline-block;
-  padding: 6px 0;
 }
 .pj-name:first-letter {
   text-transform: capitalize;
