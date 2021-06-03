@@ -11,7 +11,7 @@ if (isset($clean_get['language'])) {
   }
 }
 if (isset($_SESSION['language'])) {
-  $lang_set = $_SESSION['language'];
+  $lang_set = setlocale(LC_ALL, $_SESSION['language']);
   putenv("LANGUAGE=" . $lang_set );
   bindtextdomain("minotaure", "locale");
   bind_textdomain_codeset("minotaure", "utf-8");
