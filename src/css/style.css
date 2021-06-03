@@ -256,6 +256,7 @@ body .index-wrapper a {
 .stats, .tags {
   padding: 4px 10px;
   border-top: 1px solid var(--border-color);
+  justify-content: center;
 }
 .tags > span {
   display: flex;
@@ -415,6 +416,9 @@ tag {
 }
 #group > div.chosen {
   background: var(--warning-background);
+}
+#group .pj-name {
+  padding: 4px 0;
 }
 .warning {
   color: red;

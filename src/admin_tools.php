@@ -114,16 +114,14 @@ function add_new_tags($db, $post) {
       }
 
       // Récupération des personnages avec HP/WP
-      if ($_SESSION['settings']['willpower_on']) {
-        $query = $db->query("
-          SELECT hrpg.id
-          FROM hrpg
-          WHERE hrpg.hp > 0 
-          AND hrpg.wp > 0
-          AND hrpg.id > 1
-          ORDER BY RAND()
-        ");
-      }
+      $query = $db->query("
+        SELECT hrpg.id
+        FROM hrpg
+        WHERE hrpg.hp > 0 
+        AND hrpg.wp > 0
+        AND hrpg.id > 1
+        ORDER BY RAND()
+      ");
       $results_players = $query->fetchAll(PDO::FETCH_COLUMN);
 
       // Récupération des tags de la catégorie.
@@ -160,7 +158,7 @@ function add_new_tags($db, $post) {
         SET lastlog=:time,log=:message
         WHERE id IN (" . implode(',', $results_players) . ")"
         );
-        $query->execute([':time' => time(), ':log' => $message]);
+        $query->execute([':time' => time(), ':message' => $message]);
       }
     }
   }

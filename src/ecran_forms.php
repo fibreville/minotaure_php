@@ -471,10 +471,12 @@ $settings = $_SESSION['settings'];
       }
 
       print "<div id=pj-$id_joueur class=\"$alive\">
-        <b class='pj-name'>$nom</b>
-        <div class='tags'>
+        <b class='pj-name'>$nom</b>";
+      if (!empty($str_tags)) {
+        print "<div class='tags'>
           $str_tags
         </div>";
+      }
 
       if ( ($settings['willpower_on'] && ($hp > 0 && $wp > 0)) || (!$settings['willpower_on'] && ($hp > 0)) ) {
         print "<div class='stats'>";
