@@ -21,14 +21,14 @@ if ($stmt->rowCount() > 0) {
   // If a user lost his password, you can empty the hash in the database and
   // tell him to reconnect. Useful for a future "reset password" GM action.
   if ($mdp_hash == '') {
-    $pass = password_hash($pass, PASSWORD_DEFAULT);
+    $pass = password_hash($cleanPost['pass'], PASSWORD_DEFAULT);
     $stmt = $db->prepare("UPDATE hrpg SET mdp=:pass WHERE id=:id");
     $stmt->execute([
       ':id' => $id,
       ':pass' => $pass,
     ]);
   }
-  elseif (!password_verify($pass, $mdp_hash)) {
+  elseif (!password_verify($cleanPost['pass'], $mdp_hash)) {
     $id = "";
     $hp = "";
   }
