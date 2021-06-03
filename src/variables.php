@@ -1,12 +1,23 @@
 <?php
 // VARIABLES GENERALES.
-$lang = $_SESSION['language'] ?? 'en';
-setlocale(LC_ALL, $lang);
-putenv("LANGUAGE=" . $lang );
-bindtextdomain("minotaure", "locale");
-bind_textdomain_codeset("minotaure", "utf-8");
-textdomain("minotaure");
-
+$clean_get = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
+if (isset($clean_get['language'])) {
+  $lang_set = setlocale(LC_ALL, $clean_get['language']);
+  if ($lang_set === FALSE) {
+    echo _('Langue non disponible.');
+  }
+  else {
+    $_SESSION['language'] = $clean_get['language'];
+  }
+}
+if (isset($_SESSION['language'])) {
+  $lang_set = $_SESSION['language'];
+  putenv("LANGUAGE=" . $lang_set );
+  bindtextdomain("minotaure", "locale");
+  bind_textdomain_codeset("minotaure", "utf-8");
+  textdomain("minotaure");
+  $_SESSION['language'] = $lang_set;
+}
 
 $game_timestamp = file_get_contents($tmp_path . '/game_timestamp.txt');
 if ($game_timestamp == FALSE) {
