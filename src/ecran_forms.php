@@ -175,17 +175,7 @@ $settings = $_SESSION['settings'];
               } ?>
             </select>
           </span>
-        <span class="wrapper-penalite">
-          Trivial (-8)</option>
-          <option value="-6">Aisé (-6)</option>
-              <option value="-4">Facile (-4)</option>
-              <option value="-2">Assez facile (-2)</option>
-              <option value="0" selected>Normal (0)</option>
-              <option value="2">Assez difficile (+2)</option>
-              <option value="4">Difficile (+4)</option>
-              <option value="6">Ardu (+6)</option>
-              <option value="8">Cauchemardesque (+8)
-
+          <span class="wrapper-penalite">
             <label for="difficulte"><?php print _('Difficulté'); ?></label>
             <select name="difficulte" id="difficulte">
               <option value="-8"><?php print _('Trivial (-8)'); ?></option>
