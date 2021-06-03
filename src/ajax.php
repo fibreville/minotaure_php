@@ -113,7 +113,7 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
     }
     $vote_results_line = "<tr class=\"" . implode(' ', $classes) . "\">
       <td>" . $options['c' . $vote['vote']] . " : </td>
-      <td>" . sprintf(_("%o / %o soit %o %%"), $nb_votants, $nb_total, $pc" . </td>
+      <td>" . sprintf(_("%o / %o soit %o %%"), $nb_votants, $nb_total, $pc) . "</td>
     </tr>";
     print $vote_results_line;
     $vote_results_total .= $vote_results_line;
