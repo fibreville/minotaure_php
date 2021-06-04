@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-03 01:53+0200\n"
+"POT-Creation-Date: 2021-06-04 21:13+0200\n"
 "PO-Revision-Date: 2021-06-04 16:46+0200\n"
 "Last-Translator: François Grimm <frgri@macbook-pro-de-frantz-2.home>\n"
 "Language-Team: English\n"
@@ -20,71 +20,72 @@ msgstr ""
 
 #: admin_tools.php:9
 msgid "Vous n'êtes pas admin. <a href=\"index.php\">Retournez en arrière !</a>"
-msgstr "<a href=\"index.php\">Please go back</a> because you are not the admin."
+msgstr ""
+"<a href=\"index.php\">Please go back</a> because you are not the admin."
 
 #. Mise à jour du log des joueurs concernés.
-#: admin_tools.php:157
+#: admin_tools.php:155
 msgid "Vous avez un nouveau tag."
 msgstr "You got a new tag."
 
-#: admin_tools.php:251
+#: admin_tools.php:249
 msgid "Vous avez raté l'épreuve"
 msgstr "You failed the test"
 
-#: admin_tools.php:254
+#: admin_tools.php:252
 #, php-format
 msgid "Vous avez raté l'épreuve et perdu %o point(s) de vie"
 msgstr "You failed the test and lost %o Health Points"
 
-#: admin_tools.php:257
+#: admin_tools.php:255
 #, php-format
 msgid "Vous avez raté l'épreuve et perdu %o point(s) de volonté"
 msgstr "You failed the test and lost %o Willpower Points"
 
-#: admin_tools.php:260
+#: admin_tools.php:258
 #, php-format
 msgid "Vous avez raté l'épreuve et perdu %o point(s) en %s"
 msgstr "You failed the test and lost %o %s points"
 
-#: admin_tools.php:276
+#: admin_tools.php:274
 #, php-format
 msgid "Vous avez réussi l'épreuve et gagné %o point(s) de vie"
 msgstr "You passed the test and earned %o Health Points"
 
-#: admin_tools.php:279
+#: admin_tools.php:277
 #, php-format
 msgid "Vous avez réussi l'épreuve et gagné %o point(s) de volonté"
 msgstr "You passed the test and earned %o Willpower Points"
 
-#: admin_tools.php:282
+#: admin_tools.php:280
 #, php-format
 msgid "Vous avez réussi l'épreuve et gagné %o point(s) en %s"
 msgstr "You passed the test and earned %o %s Points"
 
 #. On renvoie deux tableaux d'ids de PJ ayant échoué / réussi, à exploiter par le front.
-#: admin_tools.php:296
+#: admin_tools.php:294
 #, php-format
 msgid "<b>%o</b> victoire(s) pour <b>%o</b> défaite(s)."
 msgstr "<b>%o</b> victories and <b>%o</b> failures."
 
-#: admin_tools.php:298
+#: admin_tools.php:296
 #, php-format
 msgid "<b>%o</b> victoire(s) pour <b>%o</b> défaite(s) pour le groupe %s."
 msgstr "<b>%o</b> victories and <b>%o</b> failures for the %s group."
 
-#: admin_tools.php:366
+#: admin_tools.php:364
 msgid "Vous avez reçu un nouvel objet."
 msgstr "You got a new object."
 
-#: admin_tools.php:382
+#: admin_tools.php:380
 msgid "aucun effet"
 msgstr "no effect"
 
-#: admin_tools.php:426
+#: admin_tools.php:424
 msgid "Erreur : "
 msgstr "Error: "
 
-#: admin_tools.php:462
+#: admin_tools.php:460
 #, php-format
 msgid "Vous n'êtes plus %s"
 msgstr "You are no longer the %s"
@@ -173,17 +174,14 @@ msgstr "You have nothing special"
 msgid "Possessions : "
 msgstr "Belongings: "
 
-#: connexion.php:8 connexion_example.php:8
+#: connexion.php:30 connexion_example.php:30
 msgid "Erreur sql : "
 msgstr "Sql error: "
 
-#: connexion.php:16 connexion_example.php:16 connexion_example.php:20
+#: connexion.php:35 connexion.php:39 connexion_example.php:35
+#: connexion_example.php:39
 msgid "Dossier des fichiers temporaires non-accessible en écriture."
 msgstr "You can't write to the tmp file directory."
-
-#: connexion.php:20
-msgid "Dossier des fichiers temporaires introuvable."
-msgstr "Tmp file directory not found."
 
 #: continue.php:2
 msgid "Repartons à l'aventure !"
@@ -231,8 +229,11 @@ msgstr "Click <a href=main.php>here</a>"
 
 #: continuevalid.php:64
 msgid ""
-"<a href=continue.php>Réessayez</a> ou retournez au <a href=index.php>menu principal</a>"
-msgstr "<a href=continue.php>Retry</a> or go back to the <a href=index.php>main menu</a>"
+"<a href=continue.php>Réessayez</a> ou retournez au <a href=index.php>menu "
+"principal</a>"
+msgstr ""
+"<a href=continue.php>Retry</a> or go back to the <a href=index.php>main "
+"menu</a>"
 
 #: continuevalid.php:69
 msgid "Bonjour, nous n'avons pas réussi à vous identifier 😢 !"
@@ -315,7 +316,8 @@ msgid "Destituer %s"
 msgstr "Remove %s's role"
 
 #: ecran_forms.php:86
-msgid "Désigner un personnage pour votre histoire (par exemple avant une épreuve)."
+msgid ""
+"Désigner un personnage pour votre histoire (par exemple avant une épreuve)."
 msgstr ""
 
 #: ecran_forms.php:89
@@ -326,7 +328,7 @@ msgstr "How much?"
 msgid "Parmi un groupe"
 msgstr "Among a group"
 
-#: ecran_forms.php:95 ecran_forms.php:241 ecran_forms.php:298
+#: ecran_forms.php:95 ecran_forms.php:231 ecran_forms.php:288
 msgid "Tout le monde"
 msgstr "Everyone"
 
@@ -350,9 +352,10 @@ msgstr "End poll"
 msgid "Intitulé du sondage"
 msgstr "Poll title"
 
-#: ecran_forms.php:133 ecran_forms.php:134 ecran_forms.php:135 ecran_forms.php:136
-#: ecran_forms.php:137 ecran_forms.php:138 ecran_forms.php:139 ecran_forms.php:140
-#: ecran_forms.php:141 ecran_forms.php:142
+#: ecran_forms.php:133 ecran_forms.php:134 ecran_forms.php:135
+#: ecran_forms.php:136 ecran_forms.php:137 ecran_forms.php:138
+#: ecran_forms.php:139 ecran_forms.php:140 ecran_forms.php:141
+#: ecran_forms.php:142
 #, php-format
 msgid "Choix %s"
 msgstr "Choice %s"
@@ -361,7 +364,7 @@ msgstr "Choice %s"
 msgid "Limiter à"
 msgstr "Limit to"
 
-#: ecran_forms.php:147 ecran_forms.php:255 ecran_forms.php:314
+#: ecran_forms.php:147 ecran_forms.php:245 ecran_forms.php:304
 msgid "Entrez un tag"
 msgstr "Name a tag"
 
@@ -373,254 +376,254 @@ msgstr "Test one character"
 msgid "Caractéristique testée."
 msgstr "Tested attribute"
 
-#: ecran_forms.php:189
+#: ecran_forms.php:179
 msgid "Difficulté"
 msgstr "Difficulty"
 
-#: ecran_forms.php:191
+#: ecran_forms.php:181
 msgid "Trivial (-8)"
 msgstr "Trivial (-8)"
 
-#: ecran_forms.php:192
+#: ecran_forms.php:182
 msgid "Aisé (-6)"
 msgstr "Doable (-6)"
 
-#: ecran_forms.php:193
+#: ecran_forms.php:183
 msgid "Facile (-4)"
 msgstr "Easy (-4)"
 
-#: ecran_forms.php:194
+#: ecran_forms.php:184
 msgid "Assez facile (-2)"
 msgstr "Fairly easy (-2)"
 
-#: ecran_forms.php:195
+#: ecran_forms.php:185
 msgid "Normal (0)"
 msgstr "Normal (0)"
 
-#: ecran_forms.php:196
+#: ecran_forms.php:186
 msgid "Assez difficile (+2)"
 msgstr "Quite hard (+2)"
 
-#: ecran_forms.php:197
+#: ecran_forms.php:187
 msgid "Difficile (+4)"
 msgstr "Hard (+4)"
 
-#: ecran_forms.php:198
+#: ecran_forms.php:188
 msgid "Ardu (+6)"
 msgstr "Harder (+6)"
 
-#: ecran_forms.php:199
+#: ecran_forms.php:189
 msgid "Cauchemardesque (+8)"
 msgstr "Nightmarish (+8)"
 
-#: ecran_forms.php:204
+#: ecran_forms.php:194
 msgid "Conséquences"
 msgstr "Consequences"
 
-#: ecran_forms.php:206
+#: ecran_forms.php:196
 msgid "En cas d'échec (-)"
 msgstr "In case of failure (-)"
 
-#: ecran_forms.php:208 ecran_forms.php:223
+#: ecran_forms.php:198 ecran_forms.php:213
 msgid "Santé"
 msgstr "Health"
 
-#: ecran_forms.php:210 ecran_forms.php:225 ecran_forms.php:282
+#: ecran_forms.php:200 ecran_forms.php:215 ecran_forms.php:272
 msgid "Volonté"
 msgstr "Willpower"
 
-#: ecran_forms.php:221
+#: ecran_forms.php:211
 msgid "En cas de réussite (+)"
 msgstr "In case of success (+)"
 
-#: ecran_forms.php:237
+#: ecran_forms.php:227
 msgid "Qui ?"
 msgstr "Who?"
 
-#: ecran_forms.php:239
+#: ecran_forms.php:229
 msgid "Par groupe de personnages"
 msgstr "By character group"
 
-#: ecran_forms.php:242 ecran_forms.php:243 ecran_forms.php:245 ecran_forms.php:299
-#: ecran_forms.php:300 ecran_forms.php:302
+#: ecran_forms.php:232 ecran_forms.php:233 ecran_forms.php:235
+#: ecran_forms.php:289 ecran_forms.php:290 ecran_forms.php:292
 #, php-format
 msgid "Chaque personnage %s"
 msgstr "Every %s character"
 
-#: ecran_forms.php:250
+#: ecran_forms.php:240
 msgid "<strong>Ou</strong> par personnage"
 msgstr "<strong>Or</strong> by character"
 
-#: ecran_forms.php:251
+#: ecran_forms.php:241
 msgid "nom du personnage"
 msgstr "character name"
 
-#: ecran_forms.php:254
+#: ecran_forms.php:244
 msgid "<strong>Ou</strong> par Tag"
 msgstr "<strong>Or</strong> by Tag"
 
-#: ecran_forms.php:258 ecran_forms.php:315
+#: ecran_forms.php:248 ecran_forms.php:305
 msgid "Limiter aux personnages actifs :"
 msgstr "Limit to active characters: "
 
-#: ecran_forms.php:262
+#: ecran_forms.php:252
 msgid "ÉPROUVER"
 msgstr "TEST"
 
-#: ecran_forms.php:267
+#: ecran_forms.php:257
 msgid "Attribuer un objet à des personnages."
 msgstr "Give loot to characters."
 
-#: ecran_forms.php:271
+#: ecran_forms.php:261
 msgid "Quoi"
 msgstr "What"
 
-#: ecran_forms.php:273
+#: ecran_forms.php:263
 msgid "Nom de l'objet"
 msgstr "Loot name"
 
-#: ecran_forms.php:277
+#: ecran_forms.php:267
 msgid "Effet"
 msgstr "Effect"
 
-#: ecran_forms.php:279
+#: ecran_forms.php:269
 msgid "Choisir"
 msgstr "Pick"
 
-#: ecran_forms.php:280
+#: ecran_forms.php:270
 msgid "Vie"
 msgstr "Life"
 
-#: ecran_forms.php:296
+#: ecran_forms.php:286
 msgid "Un groupe de personnage"
 msgstr "A group of characters"
 
-#: ecran_forms.php:313
+#: ecran_forms.php:303
 msgid "ayant</strong> au moins un des tags"
 msgstr "having</strong> at least one tag"
 
-#: ecran_forms.php:322
+#: ecran_forms.php:312
 msgid "<strong>Ou</strong> des personnages spécifiques"
 msgstr "<strong>Or</strong> specific characters"
 
-#: ecran_forms.php:323
+#: ecran_forms.php:313
 msgid "Entrez un nom"
 msgstr "Name"
 
-#: ecran_forms.php:326
+#: ecran_forms.php:316
 msgid "Donner"
 msgstr "Give"
 
-#: ecran_forms.php:332
+#: ecran_forms.php:322
 msgid "Attribuer aléatoirement des étiquettes à la population."
 msgstr "Randomly assign tags."
 
-#: ecran_forms.php:334
+#: ecran_forms.php:324
 msgid "Catégorie 1"
 msgstr "Category 1"
 
-#: ecran_forms.php:334 ecran_forms.php:336 ecran_forms.php:338
+#: ecran_forms.php:324 ecran_forms.php:326 ecran_forms.php:328
 msgid "Supprimer"
 msgstr "Remove"
 
-#: ecran_forms.php:336
+#: ecran_forms.php:326
 msgid "Catégorie 2"
 msgstr "Category 2"
 
-#: ecran_forms.php:338
+#: ecran_forms.php:328
 msgid "Catégorie 3"
 msgstr "Category 3"
 
-#: ecran_forms.php:340
+#: ecran_forms.php:330
 msgid "Attribuer"
 msgstr "Assign"
 
-#: ecran_forms.php:345
+#: ecran_forms.php:335
 msgid "Changer les réglages de votre aventure."
 msgstr "Game settings"
 
-#: ecran_forms.php:349
+#: ecran_forms.php:339
 msgid "Intro"
 msgstr "Main settings"
 
-#: ecran_forms.php:350
+#: ecran_forms.php:340
 msgid "Nom de l'aventure"
 msgstr "Game name"
 
-#: ecran_forms.php:352
+#: ecran_forms.php:342
 msgid "Adresse ip ou url pour rejoindre"
 msgstr "URL or IP address"
 
-#: ecran_forms.php:356
+#: ecran_forms.php:346
 msgid "Rôles"
 msgstr "Roles"
 
-#: ecran_forms.php:357
+#: ecran_forms.php:347
 msgid "Nom de rôle de leader"
 msgstr "Leader role"
 
-#: ecran_forms.php:359
+#: ecran_forms.php:349
 msgid "Nom de rôle de traître"
 msgstr "Traitor role"
 
-#: ecran_forms.php:363
+#: ecran_forms.php:353
 msgid "Autres paramètres"
 msgstr "Other settings"
 
-#: ecran_forms.php:366
+#: ecran_forms.php:356
 msgid "Mêmes stats pour tout le monde"
 msgstr "Same stats for everyone"
 
-#: ecran_forms.php:370
+#: ecran_forms.php:360
 msgid "Tags distribués aléatoirement"
 msgstr "Randomly assigned tags"
 
-#: ecran_forms.php:374
+#: ecran_forms.php:364
 msgid "Jauge de volonté"
 msgstr "Willpower gauge"
 
-#: ecran_forms.php:378
+#: ecran_forms.php:368
 msgid "Restreindre aux actifs par défaut"
 msgstr "Limit to active by default"
 
-#: ecran_forms.php:382
+#: ecran_forms.php:372
 msgid "Verrouiller les créations de personnage"
 msgstr "Lock character creation"
 
-#: ecran_forms.php:386
+#: ecran_forms.php:376
 msgid "1ère caractéristique"
 msgstr "1st attribute"
 
-#: ecran_forms.php:387 ecran_forms.php:394 ecran_forms.php:401 new.php:17
+#: ecran_forms.php:377 ecran_forms.php:384 ecran_forms.php:391 new.php:17
 msgid "Nom"
 msgstr "Name"
 
-#: ecran_forms.php:389 ecran_forms.php:396 ecran_forms.php:403
+#: ecran_forms.php:379 ecran_forms.php:386 ecran_forms.php:393
 msgid "Un personnage fort dans cette carac est :"
 msgstr "Strong characters are: "
 
-#: ecran_forms.php:393
+#: ecran_forms.php:383
 msgid "2ème caractéristique"
 msgstr "2nd attribute"
 
-#: ecran_forms.php:400
+#: ecran_forms.php:390
 msgid "3ème caractéristique"
 msgstr "3rd attribute"
 
-#: ecran_forms.php:410
+#: ecran_forms.php:400
 msgid "Détruire l'aventure"
 msgstr "Destroy game"
 
-#: ecran_forms.php:411
+#: ecran_forms.php:401
 msgid "Confirmez"
 msgstr "Confirm"
 
-#: ecran_forms.php:501
+#: ecran_forms.php:493
 #, php-format
 msgid "Vie : %o"
 msgstr "Life: %o"
 
-#: ecran_forms.php:503
+#: ecran_forms.php:495
 #, php-format
 msgid "Volonté : %o"
 msgstr "Willpower: %o"
@@ -637,23 +640,23 @@ msgstr "Light mode"
 msgid "Déconnexion"
 msgstr "Disconnect"
 
-#: index.php:13 new.php:8 new.php:14
+#: index.php:11 new.php:8 new.php:14
 msgid "Création de personnage"
 msgstr "Character creation"
 
-#: index.php:14
+#: index.php:12
 msgid "Continuer la partie"
 msgstr "Continue game"
 
-#: index.php:21
+#: index.php:20
 msgid ""
-"Une idée originale de <a href=\"https://twitter.com/FibreTigre\" target=\"_blank\"> "
-"FibreTigre</a>"
+"Une idée originale de <a href=\"https://twitter.com/FibreTigre\" target="
+"\"_blank\"> FibreTigre</a>"
 msgstr ""
-"Original idea from <a href=\"https://twitter.com/FibreTigre\" target=\"_blank\"> "
-"FibreTigre</a>"
+"Original idea from <a href=\"https://twitter.com/FibreTigre\" target=\"_blank"
+"\"> FibreTigre</a>"
 
-#: index.php:22
+#: index.php:21
 msgid "Version communautaire"
 msgstr "Community edition"
 
@@ -661,7 +664,7 @@ msgstr "Community edition"
 msgid "Nous récupérons votre personnage."
 msgstr "We are retrieving your character."
 
-#: new.php:9 newcomplete.php:12
+#: new.php:9 newcomplete.php:11
 msgid "L'aventure n'accueille pas de nouveaux personnages pour l'instant !"
 msgstr "This game is not accepting new characters for now!"
 
@@ -706,56 +709,64 @@ msgstr "not %s but very %s"
 msgid "Partir à l'aventure"
 msgstr "Play"
 
-#: newcomplete.php:15
+#: newcomplete.php:14
 #, php-format
 msgid "Veuillez remplir le champ : %s."
 msgstr "Please fill in: %s"
 
-#: newcomplete.php:15
+#: newcomplete.php:14
 msgid "nom"
 msgstr "name"
 
-#: newcomplete.php:15
+#: newcomplete.php:14
 msgid "mot de passe"
 msgstr "password"
 
-#: newcomplete.php:18
-msgid "Veuillez utiliser uniquement des chiffres et des lettres pour votre login."
+#: newcomplete.php:17
+msgid ""
+"Veuillez utiliser uniquement des chiffres et des lettres pour votre login."
 msgstr "Please une only letters and numbers."
 
-#: newcomplete.php:29
+#: newcomplete.php:28
 msgid "Ce nom est déjà utilisé. Veuillez en choisir un autre."
 msgstr "This login is registered. Please choose another."
 
-#: newcomplete.php:182
+#: newcomplete.php:181
 #, php-format
 msgid "%s entre en scène."
 msgstr "%s comes in."
 
-#: newcomplete.php:183
+#: newcomplete.php:182
 msgid "Bienvenue dans notre grande aventure."
 msgstr "Welcome to our great adventure."
 
-#: newcomplete.php:184
+#: newcomplete.php:183
 msgid "C'est parti."
 msgstr "Let's go"
 
-#: newcomplete.php:186
+#: newcomplete.php:185
 msgid "Le compte d'administration a été créé."
 msgstr "Admin account created."
 
-#: newcomplete.php:187
+#: newcomplete.php:186
 msgid "Bienvenue dans votre aventure."
 msgstr "Wecome to your great adventure."
 
-#: newcomplete.php:188
+#: newcomplete.php:187
 msgid "Aller sur l'écran du MJ."
 msgstr "Go to GM screen"
 
-#: newcomplete.php:194
+#: newcomplete.php:193
 msgid "Impossible de créer votre personnage 😢."
 msgstr "Could not create your character 😢."
 
-#: newcomplete.php:196
+#: newcomplete.php:195
 msgid "Réessayez</a> ou retournez <a href=index.php>au menu principal."
 msgstr "Retry</a> or go back to the <a href=index.php>main menu."
+
+#: variables.php:23
+msgid "Langue non disponible."
+msgstr ""
+
+#~ msgid "Dossier des fichiers temporaires introuvable."
+#~ msgstr "Tmp file directory not found."
