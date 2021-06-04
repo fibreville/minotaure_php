@@ -107,7 +107,7 @@ $settings = $_SESSION['settings'];
           <label for="random_tag" ><?php print _("Ayant au moins un des tags :"); ?></label>
           <input class="tag-whitelist" type="text" id="random_tag" name="random_tag" placeholder="nomdutag" maxlength="250">
         </span>
-        <input type="submit" value="Tirer au sort">
+        <input type="submit" value="<?php print _("Tirer au sort"); ?>">
       </form>
     </div>
     <div id="poll">
@@ -128,7 +128,7 @@ $settings = $_SESSION['settings'];
         <!-- FORMULAIRE DE SONDAGE-->
         <form method="post" action="ecran.php?action=poll#poll">
           <fieldset class="poll-choices">
-            <legend>Choix</legend>
+            <legend><?php print _("Choix"); ?></legend>
             <input autocomplete="off" class="poll-label" required type="text" name="choix" maxlength="250" placeholder="<?php print _("Intitulé du sondage"); ?>">
             <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s"), '1'); ?>" type="text" name="c1" maxlength="250">
             <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s"), '2'); ?>" class="last-visible" type="text" name="c2" maxlength="250">
@@ -146,7 +146,7 @@ $settings = $_SESSION['settings'];
             <legend><?php print _("Limiter à"); ?></legend>
             <input class="tag-whitelist" type="text" name="choixtag" id="choixtag" maxlength="250" placeholder="<?php print _("Entrez un tag"); ?>">
           </fieldset>
-          <input type="submit" value="Délibérer">
+          <input type="submit" value="<?php print _("Délibérer"); ?>">
           <?php if (isset($_SESSION['last_vote'])): ?>
           <fieldset>
             <legend>Rappel du dernier sondage</legend>
@@ -395,7 +395,7 @@ $settings = $_SESSION['settings'];
           </fieldset>
         </div>
         <div class="buttons-wrapper">
-          <input type="submit" value="Enregistrer">
+          <input type="submit" value="<?php print _("Enregistrer"); ?>">
           <div class="delete-game">
             <span id="delete-game" class="submit-button">🗑️ <?php print _("Détruire l'aventure"); ?></span>
             <a id="delete-game-confirm" class="submit-button" href="ecran.php?action=delete"><?php print _("Confirmez"); ?></a>
