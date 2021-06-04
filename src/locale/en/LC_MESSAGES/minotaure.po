@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-06-03 01:53+0200\n"
-"PO-Revision-Date: 2021-06-03 02:06+0200\n"
+"PO-Revision-Date: 2021-06-04 16:46+0200\n"
 "Last-Translator: François Grimm <frgri@macbook-pro-de-frantz-2.home>\n"
 "Language-Team: English\n"
 "Language: en\n"
@@ -231,9 +231,8 @@ msgstr "Click <a href=main.php>here</a>"
 
 #: continuevalid.php:64
 msgid ""
-"<a href=continue.php>Réessayez</a> ou retournez au <a href=index.php>menu "
-"principal</a>"
-msgstr ""<a href=continue.php>Retry</a> or go back to the <a href=index.php>main menu</a>"
+"<a href=continue.php>Réessayez</a> ou retournez au <a href=index.php>menu principal</a>"
+msgstr "<a href=continue.php>Retry</a> or go back to the <a href=index.php>main menu</a>"
 
 #: continuevalid.php:69
 msgid "Bonjour, nous n'avons pas réussi à vous identifier 😢 !"
@@ -316,8 +315,7 @@ msgid "Destituer %s"
 msgstr "Remove %s's role"
 
 #: ecran_forms.php:86
-msgid ""
-"Désigner un personnage pour votre histoire (par exemple avant une épreuve)."
+msgid "Désigner un personnage pour votre histoire (par exemple avant une épreuve)."
 msgstr ""
 
 #: ecran_forms.php:89
@@ -352,10 +350,9 @@ msgstr "End poll"
 msgid "Intitulé du sondage"
 msgstr "Poll title"
 
-#: ecran_forms.php:133 ecran_forms.php:134 ecran_forms.php:135
-#: ecran_forms.php:136 ecran_forms.php:137 ecran_forms.php:138
-#: ecran_forms.php:139 ecran_forms.php:140 ecran_forms.php:141
-#: ecran_forms.php:142
+#: ecran_forms.php:133 ecran_forms.php:134 ecran_forms.php:135 ecran_forms.php:136
+#: ecran_forms.php:137 ecran_forms.php:138 ecran_forms.php:139 ecran_forms.php:140
+#: ecran_forms.php:141 ecran_forms.php:142
 #, php-format
 msgid "Choix %s"
 msgstr "Choice %s"
@@ -444,8 +441,8 @@ msgstr "Who?"
 msgid "Par groupe de personnages"
 msgstr "By character group"
 
-#: ecran_forms.php:242 ecran_forms.php:243 ecran_forms.php:245
-#: ecran_forms.php:299 ecran_forms.php:300 ecran_forms.php:302
+#: ecran_forms.php:242 ecran_forms.php:243 ecran_forms.php:245 ecran_forms.php:299
+#: ecran_forms.php:300 ecran_forms.php:302
 #, php-format
 msgid "Chaque personnage %s"
 msgstr "Every %s character"
@@ -650,11 +647,11 @@ msgstr "Continue game"
 
 #: index.php:21
 msgid ""
-"Une idée originale de <a href=\"https://twitter.com/FibreTigre\" target="
-"\"_blank\"> FibreTigre</a>"
+"Une idée originale de <a href=\"https://twitter.com/FibreTigre\" target=\"_blank\"> "
+"FibreTigre</a>"
 msgstr ""
-"Original idea from <a href=\"https://twitter.com/FibreTigre\" target="
-"\"_blank\"> FibreTigre</a>"
+"Original idea from <a href=\"https://twitter.com/FibreTigre\" target=\"_blank\"> "
+"FibreTigre</a>"
 
 #: index.php:22
 msgid "Version communautaire"
@@ -723,8 +720,7 @@ msgid "mot de passe"
 msgstr "password"
 
 #: newcomplete.php:18
-msgid ""
-"Veuillez utiliser uniquement des chiffres et des lettres pour votre login."
+msgid "Veuillez utiliser uniquement des chiffres et des lettres pour votre login."
 msgstr "Please une only letters and numbers."
 
 #: newcomplete.php:29
