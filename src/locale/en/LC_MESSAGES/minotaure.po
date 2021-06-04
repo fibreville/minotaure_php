@@ -318,7 +318,7 @@ msgstr "Remove %s's role"
 #: ecran_forms.php:86
 msgid ""
 "Désigner un personnage pour votre histoire (par exemple avant une épreuve)."
-msgstr ""
+msgstr "Pick a character (e.g. for a trial)"
 
 #: ecran_forms.php:89
 msgid "Combien ?"
@@ -766,7 +766,25 @@ msgstr "Retry</a> or go back to the <a href=index.php>main menu."
 
 #: variables.php:23
 msgid "Langue non disponible."
-msgstr ""
+msgstr "Language not available."
+
+msgid "Enregistrer"
+msgstr "Save"
+
+msgid "Tirer au sort"
+msgstr "Pick randomly"
+
+msgid "Choix"
+msgstr "Poll"
+
+msgid "Délibérer"
+msgstr "Start poll"
+
+msgid "À qui (groupe)"
+msgstr "To a group"
+
+msgid "À qui (individus)"
+msgstr "Or to characters"
 
 #~ msgid "Dossier des fichiers temporaires introuvable."
 #~ msgstr "Tmp file directory not found."
