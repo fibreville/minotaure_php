@@ -281,7 +281,7 @@ $settings = $_SESSION['settings'];
           </span>
         </fieldset>
         <fieldset>
-          <legend>À qui (groupe)</legend>
+          <legend><?php print _("À qui (groupe)"); ?></legend>
           <span class="wrapper-penalite">
             <label for="qui"><?php print _("Un groupe de personnage"); ?></label>
             <select name="qui" id="qui">
@@ -307,7 +307,7 @@ $settings = $_SESSION['settings'];
           </span>
         </fieldset>
         <fieldset>
-          <legend>À qui (individus)</legend>
+          <legend><?php print _("À qui (individus)"); ?></legend>
           <span class="wrapper-penalite">
             <label for="qui_multiple"><?php print _("<strong>Ou</strong> des personnages spécifiques"); ?></label>
             <input type="text" class="player-whitelist" name="qui_multiple" id="qui_multiple" placeholder="<?php print _("Entrez un nom"); ?>">
