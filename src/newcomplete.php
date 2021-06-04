@@ -1,5 +1,4 @@
 <?php
-session_start();
 include "connexion.php";
 include "header.php";
 

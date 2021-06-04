@@ -130,16 +130,16 @@ $settings = $_SESSION['settings'];
           <fieldset class="poll-choices">
             <legend>Choix</legend>
             <input autocomplete="off" class="poll-label" required type="text" name="choix" maxlength="250" placeholder="<?php print _("Intitulé du sondage"); ?>">
-            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '1')); ?>" type="text" name="c1" maxlength="250">
-            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '2')); ?>" class="last-visible" type="text" name="c2" maxlength="250">
-            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '3')); ?>" type="text" name="c3" maxlength="250">
-            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '4')); ?>" type="text" name="c4" maxlength="250">
-            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '5')); ?>" type="text" name="c5" maxlength="250">
-            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '6')); ?>" type="text" name="c6" maxlength="250">
-            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '7')); ?>" type="text" name="c7" maxlength="250">
-            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '8')); ?>" type="text" name="c8" maxlength="250">
-            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '9')); ?>" type="text" name="c9" maxlength="250">
-            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s", '10')); ?>" type="text" name="c10" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s"), '1'); ?>" type="text" name="c1" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s"), '2'); ?>" class="last-visible" type="text" name="c2" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s"), '3'); ?>" type="text" name="c3" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s"), '4'); ?>" type="text" name="c4" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s"), '5'); ?>" type="text" name="c5" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s"), '6'); ?>" type="text" name="c6" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s"), '7'); ?>" type="text" name="c7" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s"), '8'); ?>" type="text" name="c8" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s"), '9'); ?>" type="text" name="c9" maxlength="250">
+            <input autocomplete="off" placeholder="<?php print sprintf(_("Choix %s"), '10'); ?>" type="text" name="c10" maxlength="250">
             <div class="poll-plus">+</div>
           </fieldset>
           <fieldset class="poll-limit">

@@ -1,13 +1,29 @@
 <?php
 // VARIABLES GENERALES.
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 $clean_get = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
 if (isset($clean_get['language'])) {
-  $lang_set = setlocale(LC_ALL, $clean_get['language']);
+  if (isset($languages[$clean_get['language']])) {
+    $lang_set = $languages[$clean_get['language']];
+  }
+  else {
+    switch($clean_get['language']) {
+      case 'en':
+        $candidates = ['en', 'en_GB', 'en_GB.utf8', 'en_US', 'en_US.utf8'];
+        break;
+      case 'fr':
+        $candidates = ['fr', 'fr_FR', 'en_FR.utf8'];
+        break;
+    }
+    $lang_set = setlocale(LC_ALL, $candidates);
+  }
   if ($lang_set === FALSE) {
     echo _('Langue non disponible.');
   }
   else {
-    $_SESSION['language'] = $clean_get['language'];
+    $_SESSION['language'] = $lang_set;
   }
 }
 if (isset($_SESSION['language'])) {
