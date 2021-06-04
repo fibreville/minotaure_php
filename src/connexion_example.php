@@ -1,15 +1,34 @@
 <?php
+// Change the values below to connect to your database.
+$host = ''; // Host name.
+$dbname = ''; // Name.
+$port = 3306; // Port.
+$login = ''; // Login.
+$mdp = ''; // Password.
+
+/*
+Fill the location of your temporary files folder.
+For most server you can keep /tmp.
+*/
+$tmp_path = '/tmp';
+
+/*
+Refer to README.md if a language doesn't work on your server.
+Below is an example of manually set the locale for a language.
+*/
+/*
+$languages = [
+  'fr' => 'fr_FR.UTF8',
+];
+*/
+
 try {
-  // Changez les valeurs dans la ligne ci-dessous.
-  $db = new PDO('mysql:host=serveur-mysql;dbname=nombase;', 'login', 'mdp');
+  $db = new PDO("mysql:host=$host:$port;dbname=$dbname", $login, $mdp);
   $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 catch (PDOException $e) {
     die(_('Erreur sql : ') . $e->getMessage());
 }
-// Pour la majorité des hébergements, laissez "/tmp" .
-// Pour 000webhost, mettre "./tmp" .
-$tmp_path = '/tmp';
 
 if (file_exists($tmp_path)) {
   if (!is_writable($tmp_path)) {
