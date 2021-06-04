@@ -4,9 +4,14 @@ $page_id = 'page-index';
 include 'header.php';
 ?>
 <div class="index-wrapper">
-  <h1>Minotaure</h1>
-  <a href="new.php"><?php echo _("Création de personnage"); ?></a>
-  <a href="continue.php"><?php echo _("Continuer la partie"); ?></a>
+  <div class="title-wrapper">
+    <img class="logo" src="./img/minotaure_logo.svg">
+    <h1>minotaure</h1>
+  </div>
+  <div>
+    <a href="new.php"><?php echo _("Création de personnage"); ?></a>
+    <a href="continue.php"><?php echo _("Continuer la partie"); ?></a>
+  </div>
 </div>
 <div class="secondary-links">
   <div class="languages">

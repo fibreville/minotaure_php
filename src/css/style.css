@@ -1,4 +1,4 @@
-/*@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Libre+Baskerville&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Libre+Baskerville&display=swap');
 @import './tagify.css';
 
 :root {
@@ -21,7 +21,7 @@
   --disabled-background: #a4a4a4;
   --disabled--color: #000;
   --disabled-background-secondary: #989898;
-  --main-font: 'Libre Baskerville', serif;
+  --main-font: 'Ubuntu', serif;
 }
 [data-theme="dark"] {
   --font-color: #CCC;
@@ -165,15 +165,25 @@ html:not(#page-new) label {
   justify-content: center;
   flex: 1;
 }
+.index-wrapper > div {
+  display: flex;
+  flex-direction: column;
+}
 
+.title-wrapper {
+  margin-bottom: 50px;
+}
 h1 {
-  font-family: 'Cinzel Decorative', cursive;
-  font-size: 90px;
+  font-size: 50px;
   margin: 0;
 }
 h2 {
-  font-size: 50px;
+  font-size: 40px;
   margin: 0;
+}
+.logo {
+  height: 150px;
+  margin: auto;
 }
 a {
   color: var(--link-color);
