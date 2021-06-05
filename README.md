@@ -27,7 +27,11 @@ Rejoignez le [discord](https://discord.gg/RAhph7z) de la communauté FibreTigre 
 
 Exemple : si votre base de donnée est locale, qu'elle s'appelle `base1`, que votre identifiant est `toto` et votre mot de passe `titi`, écrivez :
 ```php
-$db = new PDO('mysql:host=localhost;dbname=base1;', 'toto', 'titi');
+$host = 'localhost'; // Host name.
+$dbname = 'base1'; // Name.
+$port = 3306; // Port.
+$login = 'toto'; // Login.
+$mdp = 'titi'; // Password.
 ```
 5. Si vous utilisez la version 2.3 minimum, indiquez le chemin de vos fichiers temporaires à la place de /tmp (cette valeur par défaut marche sur beaucoup d'environnements, vous n'avez pas forcément besoin de la changer).
 ```php
@@ -51,12 +55,22 @@ et [make](https://fr.wikipedia.org/wiki/Make).
 * Pour arrêter les conteneurs : `make down`
 * Pour détruire conteneurs et données : `make reset`
 
+### Ma langue ne fonctionne pas
+
+Si vous utilisez une autre langue que le francais et que vous rencontrez le message "Langue indisponible" en cliquant sur la langue sur la page d'accueil, il est possible que votre serveur soit configuré avec d'autres valeur que nos valeurs par défaut. Vous pouver relier chaque bouton à la langue installée sur votre serveur en indiquant sa valeur en face de chaque clef de language. 
+Exemple : si votre serveur a la langue en_NZ.UTF8 installée vous pouvez l'indiquer en face de la clef "en" pour dire que l'anglais utilise en_NZ.UTF8. Pour savoir les langues installées sur votre serveur, tappez "locale -a" dans votre console.
+```php
+$languages = [
+  'en' => 'en_NZ.UTF8',
+];
+```
+Si votre langue n'apparait pas sur la page d'accueil, c'est que nous n'avons pas encore traduit Minotaure dans cette langue. Vous pouvez créer une issue sur github pour signifier votre intérêt pour cette langue.
+
 ### Pour jouer
 
 - Le 1er compte créé sur le jeu est le compte admin (il peut avoir n'importe quel nom).
 - Une fois ce compte créé et le joueur/MJ logué, il peut aller sur `ecran.php` et avoir accès à l'ensemble des commandes.
 - Le mode de fonctionnement ensuite est détaillé ici : https://www.youtube.com/watch?v=XGU3_dczcNE
-
 
 ## 🇺🇸 English readme
 
@@ -83,7 +97,11 @@ Join the FibreTigre [discord](https://discord.gg/RAhph7z) community (in French +
 
 Example: if you use a local database named `base1` with login `foo` and password `bar`, change the 3rd line to:
 ```php
-$db = new PDO('mysql:host=localhost;dbname=base1;', 'foo', 'bar');
+$host = 'localhost'; // Host name.
+$dbname = 'base1'; // Name.
+$port = 3306; // Port.
+$login = 'toto'; // Login.
+$mdp = 'titi'; // Password.
 ```
 
 5. Si vous utilisez la version 2.3 minimum, indiquez le chemin de vos fichiers temporaires à la place de /tmp (cette valeur par défaut marche sur beaucoup d'environnements, vous n'avez pas forcément besoin de la changer).
@@ -108,15 +126,14 @@ and [make](https://fr.wikipedia.org/wiki/Make).
 * To stop the containers: `make down`
 * To delete containers and data: `make reset`
 
-### Tests unitaire (pour les developpeurs)
+### My language doesn't work
 
-Installation de phpunit
-```bash
-./scripts/init_tests.sh
-```
-Lancement des tests
-```bash
-./phpunit tests/
+If you use a language other than French and you encounter the message "Language not available" when clicking on the language on the home page, your server may be configured with values other than our default values. You can link each button to the language installed on your server by indicating its value in front of each language key.
+Example: if your server has the en_NZ.UTF8 language installed, you can indicate in front of the "en" key to say that English uses en_NZ.UTF8. To find out the languages installed on your server, type "locale -a" in your console. 
+```php
+$languages = [
+  'en' => 'en_NZ.UTF8',
+];
 ```
 
 ### How to play
