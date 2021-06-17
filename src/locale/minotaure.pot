@@ -32,43 +32,43 @@ msgstr ""
 
 #: admin_tools.php:252
 #, php-format
-msgid "Vous avez raté l'épreuve et perdu %o point(s) de vie"
+msgid "Vous avez raté l'épreuve et perdu %s point(s) de vie"
 msgstr ""
 
 #: admin_tools.php:255
 #, php-format
-msgid "Vous avez raté l'épreuve et perdu %o point(s) de volonté"
+msgid "Vous avez raté l'épreuve et perdu %s point(s) de volonté"
 msgstr ""
 
 #: admin_tools.php:258
 #, php-format
-msgid "Vous avez raté l'épreuve et perdu %o point(s) en %s"
+msgid "Vous avez raté l'épreuve et perdu %s point(s) en %s"
 msgstr ""
 
 #: admin_tools.php:274
 #, php-format
-msgid "Vous avez réussi l'épreuve et gagné %o point(s) de vie"
+msgid "Vous avez réussi l'épreuve et gagné %s point(s) de vie"
 msgstr ""
 
 #: admin_tools.php:277
 #, php-format
-msgid "Vous avez réussi l'épreuve et gagné %o point(s) de volonté"
+msgid "Vous avez réussi l'épreuve et gagné %s point(s) de volonté"
 msgstr ""
 
 #: admin_tools.php:280
 #, php-format
-msgid "Vous avez réussi l'épreuve et gagné %o point(s) en %s"
+msgid "Vous avez réussi l'épreuve et gagné %s point(s) en %s"
 msgstr ""
 
 #. On renvoie deux tableaux d'ids de PJ ayant échoué / réussi, à exploiter par le front.
 #: admin_tools.php:294
 #, php-format
-msgid "<b>%o</b> victoire(s) pour <b>%o</b> défaite(s)."
+msgid "<b>%s</b> victoire(s) pour <b>%s</b> défaite(s)."
 msgstr ""
 
 #: admin_tools.php:296
 #, php-format
-msgid "<b>%o</b> victoire(s) pour <b>%o</b> défaite(s) pour le groupe %s."
+msgid "<b>%s</b> victoire(s) pour <b>%s</b> défaite(s) pour le groupe %s."
 msgstr ""
 
 #: admin_tools.php:364
@@ -104,7 +104,7 @@ msgstr ""
 
 #: ajax.php:116
 #, php-format
-msgid "%o / %o soit %o %%"
+msgid "%s / %s soit %s %%"
 msgstr ""
 
 #: ajax.php:124
@@ -113,7 +113,7 @@ msgstr ""
 
 #: ajax.php:130
 #, php-format
-msgid "Total votants : %o %%"
+msgid "Total votants : %s %%"
 msgstr ""
 
 #: ajax.php:171
@@ -616,12 +616,12 @@ msgstr ""
 
 #: ecran_forms.php:493
 #, php-format
-msgid "Vie : %o"
+msgid "Vie : %s"
 msgstr ""
 
 #: ecran_forms.php:495
 #, php-format
-msgid "Volonté : %o"
+msgid "Volonté : %s"
 msgstr ""
 
 #: header.php:19

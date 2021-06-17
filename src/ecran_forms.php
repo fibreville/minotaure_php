@@ -490,9 +490,9 @@ $settings = $_SESSION['settings'];
         }
         print "</div>";
         print "<div class='stats'>";
-        print "<span class='life'>". sprintf(_("Vie : %o"), $hp) . "</span>";
+        print "<span class='life'>". sprintf(_("Vie : %s"), $hp) . "</span>";
         if ($settings['willpower_on']) {
-          print "<span>" . sprintf(_("Volonté : %o"), $wp) . "</span>";
+          print "<span>" . sprintf(_("Volonté : %s"), $wp) . "</span>";
         }
         print "</div>";
       }

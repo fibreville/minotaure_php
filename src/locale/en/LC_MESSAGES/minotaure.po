@@ -34,44 +34,44 @@ msgstr "You failed the test"
 
 #: admin_tools.php:252
 #, php-format
-msgid "Vous avez raté l'épreuve et perdu %o point(s) de vie"
-msgstr "You failed the test and lost %o Health Points"
+msgid "Vous avez raté l'épreuve et perdu %s point(s) de vie"
+msgstr "You failed the test and lost %s Health Points"
 
 #: admin_tools.php:255
 #, php-format
-msgid "Vous avez raté l'épreuve et perdu %o point(s) de volonté"
-msgstr "You failed the test and lost %o Willpower Points"
+msgid "Vous avez raté l'épreuve et perdu %s point(s) de volonté"
+msgstr "You failed the test and lost %s Willpower Points"
 
 #: admin_tools.php:258
 #, php-format
-msgid "Vous avez raté l'épreuve et perdu %o point(s) en %s"
-msgstr "You failed the test and lost %o %s points"
+msgid "Vous avez raté l'épreuve et perdu %s point(s) en %s"
+msgstr "You failed the test and lost %s %s points"
 
 #: admin_tools.php:274
 #, php-format
-msgid "Vous avez réussi l'épreuve et gagné %o point(s) de vie"
-msgstr "You passed the test and earned %o Health Points"
+msgid "Vous avez réussi l'épreuve et gagné %s point(s) de vie"
+msgstr "You passed the test and earned %s Health Points"
 
 #: admin_tools.php:277
 #, php-format
-msgid "Vous avez réussi l'épreuve et gagné %o point(s) de volonté"
-msgstr "You passed the test and earned %o Willpower Points"
+msgid "Vous avez réussi l'épreuve et gagné %s point(s) de volonté"
+msgstr "You passed the test and earned %s Willpower Points"
 
 #: admin_tools.php:280
 #, php-format
-msgid "Vous avez réussi l'épreuve et gagné %o point(s) en %s"
-msgstr "You passed the test and earned %o %s Points"
+msgid "Vous avez réussi l'épreuve et gagné %s point(s) en %s"
+msgstr "You passed the test and earned %s %s Points"
 
 #. On renvoie deux tableaux d'ids de PJ ayant échoué / réussi, à exploiter par le front.
 #: admin_tools.php:294
 #, php-format
-msgid "<b>%o</b> victoire(s) pour <b>%o</b> défaite(s)."
-msgstr "<b>%o</b> victories and <b>%o</b> failures."
+msgid "<b>%s</b> victoire(s) pour <b>%s</b> défaite(s)."
+msgstr "<b>%s</b> victories and <b>%s</b> failures."
 
 #: admin_tools.php:296
 #, php-format
-msgid "<b>%o</b> victoire(s) pour <b>%o</b> défaite(s) pour le groupe %s."
-msgstr "<b>%o</b> victories and <b>%o</b> failures for the %s group."
+msgid "<b>%s</b> victoire(s) pour <b>%s</b> défaite(s) pour le groupe %s."
+msgstr "<b>%s</b> victories and <b>%s</b> failures for the %s group."
 
 #: admin_tools.php:364
 msgid "Vous avez reçu un nouvel objet."
@@ -106,8 +106,8 @@ msgstr "%s %s used their power and removed a choice!"
 
 #: ajax.php:116
 #, php-format
-msgid "%o / %o soit %o %%"
-msgstr "%o / %o (%o %%)"
+msgid "%s / %s soit %s %%"
+msgstr "%s / %s (%s %%)"
 
 #: ajax.php:124
 msgid "aucun vote"
@@ -115,8 +115,8 @@ msgstr "no vote"
 
 #: ajax.php:130
 #, php-format
-msgid "Total votants : %o %%"
-msgstr "Total of voters: %o %%"
+msgid "Total votants : %s %%"
+msgstr "Total of voters: %s %%"
 
 #: ajax.php:171
 msgid "Votre personnage"
@@ -620,13 +620,13 @@ msgstr "Confirm"
 
 #: ecran_forms.php:493
 #, php-format
-msgid "Vie : %o"
-msgstr "Life: %o"
+msgid "Vie : %s"
+msgstr "Life: %s"
 
 #: ecran_forms.php:495
 #, php-format
-msgid "Volonté : %o"
-msgstr "Willpower: %o"
+msgid "Volonté : %s"
+msgstr "Willpower: %s"
 
 #: header.php:19
 msgid "Mode sombre"

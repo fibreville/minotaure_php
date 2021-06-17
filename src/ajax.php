@@ -113,7 +113,7 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
     }
     $vote_results_line = "<tr class=\"" . implode(' ', $classes) . "\">
       <td>" . $options['c' . $vote['vote']] . " : </td>
-      <td>" . sprintf(_("%o / %o soit %o %%"), $nb_votants, $nb_total, $pc) . "</td>
+      <td>" . sprintf(_("%s / %s soit %s %%"), $nb_votants, $nb_total, $pc) . "</td>
     </tr>";
     print $vote_results_line;
     $vote_results_total .= $vote_results_line;
@@ -127,7 +127,7 @@ elseif ($_GET['role'] == 'mj' && $_SESSION['id'] == 1) {
   print "</table>";
   $_SESSION['last_vote'] = $vote_results_total . '</table>';
   if ($nb_total > 0) {
-    print "<div>" . sprintf(_("Total votants : %o %%"), round(($pctot * 100 / $nb_total), 2)) . "</div>";
+    print "<div>" . sprintf(_("Total votants : %s %%"), round(($pctot * 100 / $nb_total), 2)) . "</div>";
   }
   if ($pctot == 100) {
     $_SESSION['current_poll'] = FALSE;
