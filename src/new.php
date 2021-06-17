@@ -22,7 +22,7 @@ else {
       <legend>Votre type de personnage</legend>
       <?php if ($_SESSION['settings']['carac3_name'] != ""): ?>
       <span>
-        <input type="radio" name="stat" value="9_9_9"><?php print _("équilibré"); ?>
+        <input checked type="radio" name="stat" value="9_9_9"><?php print _("équilibré"); ?>
       </span>
       <span>
         <input type="radio" name="stat" value="12_6_6"><?php print sprintf(_("orienté %s"), $settings['carac1_group']); ?>
@@ -41,7 +41,7 @@ else {
         <input type="radio" name="stat" value="12_8_10"><?php print sprintf(_("plutôt %s mais peu %s"), $settings['carac1_group'], $settings['carac2_group']); ?>
       </span>
       <span>
-        <input type="radio" name="stat" value="10_10_10"><?php print _("équilibré"); ?>
+        <input checked type="radio" name="stat" value="10_10_10"><?php print _("équilibré"); ?>
       </span>
       <span>
         <input type="radio" name="stat" value="8_12_10"><?php print sprintf(_("peu %s mais plutôt %s"), $settings['carac1_group'], $settings['carac2_group']); ?>
