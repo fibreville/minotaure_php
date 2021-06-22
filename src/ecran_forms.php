@@ -121,7 +121,7 @@ $settings = $_SESSION['settings'];
       if ($choix != "") {
         print "<span class='poll-label'>$choix</span>";
         print "<div id='poll_results'><table><tr><td>" . _("En attente des votes . ") . "</td></tr></table></div>";
-        print "<a class='submit-button' href='ecran.php?action=clean'>" . _("Terminer le sondage"); "</a>";
+        print "<a class='submit-button' href='ecran.php?action=clean'>" . _("Terminer le sondage") . "</a>";
       }
       else {
         ?>
