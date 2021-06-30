@@ -12,7 +12,7 @@ unset($_SESSION['designe']);
 
 if (isset($_GET['action'])) {
   require "variables.php";
-  $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);;
+  $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
   // SUPPRESSION DE L'AVENTURE
   if ($_GET['action'] == "delete") {
@@ -40,7 +40,7 @@ if (isset($_GET['action'])) {
 
     $db->query(
       "INSERT INTO `hrpg`"
-      . " (`nom`, `mdp`, `carac2`, `carac1`, `hp`, `leader`, `traitre`, `vote`, `log`, `lastlog`, `status`)"
+      . " (`nom`, `mdp`, `carac3`, `carac2`, `carac1`, `hp`, `wp`, `leader`, `traitre`, `vote`, `log`, `lastlog`, `status`)"
       . " VALUES ('" . $hash . "', '', '1', '1', '1', '0', '0', '0', '', '', '', NULL, NULL, 1)"
     );
   }
@@ -60,15 +60,19 @@ if (isset($_GET['action'])) {
     poll_update($db, $_POST);
   }
   // TRAITEMENT DES NOMINATIONS.
-  elseif ($_GET['action'] == 'election') {
+  elseif ($_GET['action'] == "election") {
     make_election($db, $_POST);
+  }
+  // TRAITEMENT DES DESTITUTIONS.
+  elseif ($_GET['action'] == "destitution") {
+    remove_role($db, $_POST);
   }
   // TRAITEMENT DES NOMINATIONS.
   elseif ($_GET['action'] == 'target') {
     print random_player($db, $_POST);
   }
   else {
-    die('Unknown action');
+    die(_('Action inconnue'));
   }
 }
 

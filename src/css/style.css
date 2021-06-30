@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Libre+Baskerville&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Libre+Baskerville&display=swap');
 @import './tagify.css';
 
 :root {
@@ -21,7 +21,7 @@
   --disabled-background: #a4a4a4;
   --disabled--color: #000;
   --disabled-background-secondary: #989898;
-  --main-font: 'Libre Baskerville', serif;
+  --main-font: 'Ubuntu', serif;
 }
 [data-theme="dark"] {
   --font-color: #CCC;
@@ -106,6 +106,12 @@ h3 {
   box-shadow: 0 0 3px lightgray;
   border: 1px solid lightgray;
 }
+hr {
+    border: 0;
+    border-top: 1px solid #ddd;
+    margin: 0.1em 0;
+    padding: 0;
+}
 .theme-switch {
   margin-right: 10px;
   display: flex;
@@ -144,7 +150,7 @@ h3 {
 }
 html:not(#page-new) textarea,
 html:not(#page-new) select,
-html:not(#page-new) input {
+input {
   padding: 5px 10px;
   margin-bottom: 10px;
   box-sizing: border-box;
@@ -159,15 +165,25 @@ html:not(#page-new) label {
   justify-content: center;
   flex: 1;
 }
+.index-wrapper > div {
+  display: flex;
+  flex-direction: column;
+}
 
+.title-wrapper {
+  margin-bottom: 50px;
+}
 h1 {
-  font-family: 'Cinzel Decorative', cursive;
-  font-size: 90px;
+  font-size: 50px;
   margin: 0;
 }
 h2 {
-  font-size: 50px;
+  font-size: 40px;
   margin: 0;
+}
+.logo {
+  height: 150px;
+  margin: auto;
 }
 a {
   color: var(--link-color);
@@ -244,12 +260,13 @@ body .index-wrapper a {
   display: flex;
   flex-direction: column;
   flex: 1;
+  text-align: center;
 }
-.stats > .life {
-  margin-top: auto;
-}
+
 .stats, .tags {
-  margin-top: 5px;
+  padding: 4px 10px;
+  border-top: 1px solid var(--border-color);
+  justify-content: center;
 }
 .tags > span {
   display: flex;
@@ -368,7 +385,6 @@ tag {
   flex-direction: column;
   border: 1px solid var(--border-color);
   background: var(--background-color);
-  padding: 5px 10px;
   border-radius: 8px;
 }
 #group-stats {
@@ -377,9 +393,6 @@ tag {
   flex-direction: column;
   text-align: right;
   margin: 0 auto;
-}
-#group-stats > span {
-  margin-bottom: 10px;
 }
 #group-stats > span:first-letter {
   text-transform: uppercase;
@@ -413,6 +426,13 @@ tag {
 }
 #group > div.chosen {
   background: var(--warning-background);
+}
+#group .pj-name {
+  padding: 4px 0;
+}
+#target .warning {
+  margin: auto;
+  display: none;
 }
 .warning {
   color: red;
@@ -467,20 +487,35 @@ tag {
   flex-direction: column;
   padding: 15px;
 }
-#choices > div > form {
+#choices > div > form:not(.grid),
+.buttons-wrapper {
   display: flex;
   flex-wrap: wrap;
+}
+#choices .grid {
+  text-align: left;
 }
 #choices > div > form > fieldset {
   flex: 1;
 }
+.buttons-wrapper > input,
 #choices > div > form > input {
   flex-basis: 100%;
+}
+.buttons-wrapper > input,
+.buttons-wrapper span {
+  text-align: center;
 }
 #choices > div > form select,
 #choices > div > form input:not([type=submit]) {
   margin-bottom: 5px;
   border-radius: 0;
+}
+.settings-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-gap: 3px;
+  grid-auto-rows: minmax(100px, auto);
 }
 #poll > a {
   margin-top: auto;
@@ -496,6 +531,7 @@ tag {
   padding: 15px;
   border-radius: 0 0 4px 4px;
   border: 1px solid var(--border-color);
+  color: var(--input-font-color);
 }
 .success {
   color: green;
@@ -509,6 +545,7 @@ tag {
   display: flex;
   flex-direction: column;
   padding: 15px;
+  text-align: left;
 }
 #choices fieldset legend {
   font-weight: bold;
@@ -701,13 +738,9 @@ input[type=submit] {
 
 /* PAGE NEW */
 #page-new fieldset {
-  width: 100%;
   margin-bottom: 15px;
   align-items: flex-start;
   padding: 10px;
-}
-#page-new fieldset > span:not(:last-child) {
-  margin-bottom: 10px;
 }
 #page-new fieldset label {
   margin-right: 15px;
