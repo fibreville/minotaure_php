@@ -430,6 +430,10 @@ tag {
 #group .pj-name {
   padding: 4px 0;
 }
+#target .warning {
+  margin: auto;
+  display: none;
+}
 .warning {
   color: red;
 }
@@ -527,6 +531,7 @@ tag {
   padding: 15px;
   border-radius: 0 0 4px 4px;
   border: 1px solid var(--border-color);
+  color: var(--input-font-color);
 }
 .success {
   color: green;
@@ -540,6 +545,7 @@ tag {
   display: flex;
   flex-direction: column;
   padding: 15px;
+  text-align: left;
 }
 #choices fieldset legend {
   font-weight: bold;

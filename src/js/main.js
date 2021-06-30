@@ -24,7 +24,7 @@ $(document).ready(function() {
     }
     if (typeof players_chosen !== 'undefined' && players_chosen !== null) {
       if (players_chosen == false) {
-        $('#target').append("<span class=\"warning\">⚠️ Aucun personnage remplissant ces critères n'a été trouvé.</span>");
+        $('#target .warning').show();
       }
       else {
         players_chosen.forEach(element => $('#pj-'+element).addClass('chosen'));

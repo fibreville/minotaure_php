@@ -108,6 +108,7 @@ $settings = $_SESSION['settings'];
           <input class="tag-whitelist" type="text" id="random_tag" name="random_tag" placeholder="nomdutag" maxlength="250">
         </span>
         <input type="submit" value="<?php print _("Tirer au sort"); ?>">
+        <div class="warning">⚠️ <?php print _("Aucun personnage remplissant ces critères n'a été trouvé."); ?></div>
       </form>
     </div>
     <div id="poll">
@@ -121,7 +122,7 @@ $settings = $_SESSION['settings'];
       if ($choix != "") {
         print "<span class='poll-label'>$choix</span>";
         print "<div id='poll_results'><table><tr><td>" . _("En attente des votes . ") . "</td></tr></table></div>";
-        print "<a class='submit-button' href='ecran.php?action=clean'>" . _("Terminer le sondage"); "</a>";
+        print "<a class='submit-button' href='ecran.php?action=clean'>" . _("Terminer le sondage") . "</a>";
       }
       else {
         ?>
@@ -148,10 +149,10 @@ $settings = $_SESSION['settings'];
           </fieldset>
           <input type="submit" value="<?php print _("Délibérer"); ?>">
           <?php if (isset($_SESSION['last_vote'])): ?>
-          <fieldset>
-            <legend>Rappel du dernier sondage</legend>
-            <?php print $_SESSION['last_vote']; ?>
-          </fieldset>
+            <fieldset>
+              <legend><?php print _('Rappel du dernier sondage'); ?></legend>
+              <?php print $_SESSION['last_vote']; ?>
+            </fieldset>
           <?php endif ?>
         </form>
         <?php
@@ -225,7 +226,7 @@ $settings = $_SESSION['settings'];
         </fieldset>
         <fieldset>
           <legend><?php print _("Qui ?"); ?></legend>
-          <span class="wrapper-penalite">
+          <div class="wrapper-penalite">
             <label for="victime"><?php print _("Par groupe de personnages"); ?></label>
             <select class='pj-name' name="victime" id="victime">
               <option value="all"><?php print _("Tout le monde"); ?></option>
@@ -235,19 +236,19 @@ $settings = $_SESSION['settings'];
                 print "<option value=\"carac3\">" . sprintf(_("Chaque personnage %s"), $settings['carac3_group'])  . "</option>";
               } ?>
             </select>
-          </span>
-          <span class="wrapper-penalite">
+          </div>
+          <div class="wrapper-penalite">
             <label for="victime_multiple"><?php print _("<strong>Ou</strong> par personnage"); ?></label>
             <input class="player-whitelist" placeholder="<?php print _("nom du personnage"); ?>" type="text" name="victime_multiple" id="victime_multiple" maxlength="250">
-          </span>
-          <span class="wrapper-penalite">
+          </div>
+          <div class="wrapper-penalite">
             <label for="victimetag"><?php print _("<strong>Ou</strong> par Tag"); ?></label>
             <input class="tag-whitelist" type="text" name="victimetag" placeholder="<?php print _("Entrez un tag"); ?>"  id="victimetag" maxlength="250">
-          </span>
-          <span class="wrapper-penalite">
-            <?php print _("Limiter aux personnages actifs :"); ?>
+          </div>
+          <div>
             <input type="checkbox" name="restrict_active" id="restrict_active" <?php print ($settings['restrict_active'] ? 'checked' : ''); ?>>
-          </span>
+            <label for="restrict_active"><?php print _("Limiter aux personnages actifs"); ?></label>
+          </div>
         </fieldset>
         <input type="submit" value="<?php print _("ÉPROUVER"); ?>">
       </form>
@@ -282,7 +283,7 @@ $settings = $_SESSION['settings'];
         </fieldset>
         <fieldset>
           <legend><?php print _("À qui (groupe)"); ?></legend>
-          <span class="wrapper-penalite">
+          <div class="wrapper-penalite">
             <label for="qui"><?php print _("Un groupe de personnage"); ?></label>
             <select name="qui" id="qui">
               <option value="all"><?php print _("Tout le monde"); ?></option>
@@ -302,9 +303,11 @@ $settings = $_SESSION['settings'];
             </select>
             <label for="qui_tags"><strong><?php print _("ayant</strong> au moins un des tags"); ?></label>
             <input class="tag-whitelist" type="text" name="qui_tags" placeholder="<?php print _("Entrez un tag"); ?>"  id="qui_tags" maxlength="250">
-            <label for="restrict_active"><?php print _("Limiter aux personnages actifs :"); ?></label>
+          </div>
+          <div>
             <input type="checkbox" name="restrict_active" id="restrict_active" <?php print ($settings['restrict_active'] ? 'checked' : ''); ?>>
-          </span>
+            <label for="restrict_active"><?php print _("Limiter aux personnages actifs"); ?></label>
+          </div>
         </fieldset>
         <fieldset>
           <legend><?php print _("À qui (individus)"); ?></legend>
@@ -437,18 +440,18 @@ $settings = $_SESSION['settings'];
           $str_tags .= "<span><span class='tag-bullet' style=background-color:$color></span>$tag</span>";
         }
       }
-      
+
       if ($hp <= 0) {
         $alive = 'not-alive';
       }
       elseif ($settings['willpower_on'] && $wp <= 0) {
-        $alive = 'not-alive'; 
+        $alive = 'not-alive';
       }
       else {
         $alive = 'alive';
       }
       $alive .= ($row['active'] == 0) ? ' inactive' : '';
-      
+
       if ($hp <= 0) {
         $list_players[$id_joueur] = $nom . ' (☠️)';
         $list_players_for_js[] = ['value' => $nom . ' (☠️)', 'code' => $id_joueur];
@@ -461,9 +464,9 @@ $settings = $_SESSION['settings'];
         $list_players[$id_joueur] = $nom;
         $list_players_for_js[] = ['value' => $nom, 'code' => $id_joueur];
       }
-      
+
       $aptitude = '';
-      
+
       if ($carac1 >= 15) $aptitude .= ucfirst($settings['carac1_group']) . "<br />";
       if ($carac2 >= 15) $aptitude .= ucfirst($settings['carac2_group']) . "<br />";
       if ($settings['carac3_group'] != "") {
@@ -490,9 +493,9 @@ $settings = $_SESSION['settings'];
         }
         print "</div>";
         print "<div class='stats'>";
-        print "<span class='life'>". sprintf(_("Vie : %o"), $hp) . "</span>";
+        print "<span class='life'>". sprintf(_("Vie : %s"), $hp) . "</span>";
         if ($settings['willpower_on']) {
-          print "<span>" . sprintf(_("Volonté : %o"), $wp) . "</span>";
+          print "<span>" . sprintf(_("Volonté : %s"), $wp) . "</span>";
         }
         print "</div>";
       }

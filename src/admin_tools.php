@@ -249,13 +249,13 @@ function update_events($db, $post) {
     $log = _('Vous avez raté l\'épreuve');
     if ($post['penalite'] > 0) {
       if ($post['penalite_type'] == 'hp') {
-        $log = sprintf(_('Vous avez raté l\'épreuve et perdu %o point(s) de vie'), $post['penalite']);
+        $log = sprintf(_('Vous avez raté l\'épreuve et perdu %s point(s) de vie'), $post['penalite']);
       }
       elseif ($post['penalite_type'] == 'wp') {
-        $log = sprintf(_('Vous avez raté l\'épreuve et perdu %o point(s) de volonté'), $post['penalite']);
+        $log = sprintf(_('Vous avez raté l\'épreuve et perdu %s point(s) de volonté'), $post['penalite']);
       }
       else {
-        $log = sprintf(_('Vous avez raté l\'épreuve et perdu %o point(s) en %s'), $post['penalite'], $_SESSION['settings'][$post['penalite_type'] . '_name']);
+        $log = sprintf(_('Vous avez raté l\'épreuve et perdu %s point(s) en %s'), $post['penalite'], $_SESSION['settings'][$post['penalite_type'] . '_name']);
       }
     }
 
@@ -271,13 +271,13 @@ function update_events($db, $post) {
     $log = 'Vous avez réussi l\'épreuve';
     if ($post['reward'] > 0) {
       if ($post['reward_type'] == 'hp') {
-        $log = sprintf(_('Vous avez réussi l\'épreuve et gagné %o point(s) de vie'), $post['reward']);
+        $log = sprintf(_('Vous avez réussi l\'épreuve et gagné %s point(s) de vie'), $post['reward']);
       }
       elseif ($post['reward_type'] == 'wp') {
-        $log = sprintf(_('Vous avez réussi l\'épreuve et gagné %o point(s) de volonté'), $post['reward']);
+        $log = sprintf(_('Vous avez réussi l\'épreuve et gagné %s point(s) de volonté'), $post['reward']);
       }
       else {
-        $log = sprintf(_('Vous avez réussi l\'épreuve et gagné %o point(s) en %s'), $post['penalite'], $_SESSION['settings'][$post['penalite_type'] . '_name']);
+        $log = sprintf(_('Vous avez réussi l\'épreuve et gagné %s point(s) en %s'), $post['penalite'], $_SESSION['settings'][$post['penalite_type'] . '_name']);
       }
     }
 
@@ -291,9 +291,9 @@ function update_events($db, $post) {
   }
 
   // On renvoie deux tableaux d'ids de PJ ayant échoué / réussi, à exploiter par le front.
-  $sanction = '<div class=epreuve-cr>' . sprintf(_('<b>%o</b> victoire(s) pour <b>%o</b> défaite(s).'), count($winners), count($loosers)) . '</div>';
+  $sanction = '<div class=epreuve-cr>' . sprintf(_('<b>%s</b> victoire(s) pour <b>%s</b> défaite(s).'), count($winners), count($loosers)) . '</div>';
   if (isset($tags)) {
-    $sanction = '<div class=epreuve-cr>' . sprintf(_('<b>%o</b> victoire(s) pour <b>%o</b> défaite(s) pour le groupe %s.'), count($winners), count($loosers), implode(', ', $tags)) . '</div>';
+    $sanction = '<div class=epreuve-cr>' . sprintf(_('<b>%s</b> victoire(s) pour <b>%s</b> défaite(s) pour le groupe %s.'), count($winners), count($loosers), implode(', ', $tags)) . '</div>';
   }
   $_SESSION['sanction'] = $sanction;
   return '<script>data_failures = ' . json_encode($failures) . ', data_wins = ' . json_encode($success) . ';</script>';
