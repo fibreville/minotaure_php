@@ -9,6 +9,8 @@ services:
     volumes:
       - ./src:/var/www/html
       - ./src/connexion_example.php:/var/www/html/connexion.php
+    depends_on:
+      - "serveur-mysql"
     ports:
       - "8080:80"
 

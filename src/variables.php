@@ -35,12 +35,12 @@ if (isset($_SESSION['language'])) {
   $_SESSION['language'] = $lang_set;
 }
 
-$game_timestamp = file_get_contents($tmp_path . '/game_timestamp.txt');
+$game_timestamp = @file_get_contents($tmp_path . '/game_timestamp.txt');
 if ($game_timestamp == FALSE) {
   $game_timestamp = time();
   file_put_contents($tmp_path . '/game_timestamp.txt', $game_timestamp);
 }
-$settings_timestamp = file_get_contents($tmp_path . '/settings_timestamp.txt');
+$settings_timestamp = @file_get_contents($tmp_path . '/settings_timestamp.txt');
 if ($settings_timestamp == FALSE) {
   $settings_timestamp = time();
   file_put_contents($tmp_path . '/settings_timestamp.txt', $settings_timestamp);
