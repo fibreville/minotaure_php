@@ -174,12 +174,12 @@ $still_ok = true;
 if ($hp <= 0) {
   $still_ok = false;
   $ko_icon = '☠';
-  $ko_message = _sprintf(_("Votre personnage %s est mort."), $nom);
+  $ko_message = sprintf(_("Votre personnage %s est mort."), $nom);
 }
 elseif ($settings['willpower_on'] && $wp <= 0) {
   $still_ok = false;
   $ko_icon = '🌑';
-  $ko_message = _sprintf(_("Votre personnage %s a sombré."), $nom);
+  $ko_message = sprintf(_("Votre personnage %s a sombré."), $nom);
 }
 
 if ($still_ok) { ?>
