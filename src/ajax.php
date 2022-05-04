@@ -230,7 +230,7 @@ if ($still_ok) { ?>
         $key = 1;
         foreach ($cX as $c) {
           if ($c != "") {
-            print "<div><input type=radio name=choix value=\"$key\"><label>" . $c . "</label></div>";
+            print "<div><input type=\"radio\" name=\"choix\" id=\"choix$key\" value=\"$key\"><label for=\"choix$key\"> $c </label></div>";
           }
           $key++;
         }
