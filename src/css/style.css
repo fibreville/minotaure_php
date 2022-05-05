@@ -666,6 +666,10 @@ tag {
   flex: 2;
 }
 
+.poll-choice > form > div {
+  text-align: initial;
+}
+
 .character-tags > div {
   text-transform: capitalize;
 }
