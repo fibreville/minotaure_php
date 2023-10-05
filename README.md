@@ -1,13 +1,11 @@
-# Minotaure PHP
-# DEPRECATED
+# Minotaure PHP - DEPRECATED / OBSOLETE
+
+⚠️ Cette version de Minotaure n'est plus maintenue / this version of Minotaure is no longer maintained.
+Nous vous encourageons à utiliser la [nouvelle application Minotaure](https://github.com/uurshin/minotaure) et à y contribuer vos développements.
+We encourage you to use the [new Minotaure app](https://github.com/uurshin/minotaure) and to contribute your code there.
 
 ## 🇫🇷 Version française
 *English below.*
-
-### AVERTISSEMENT
-
-⚠️ Cette version de Minotaure n'est plus maintenue.
-Nous vous encourageons à utiliser la [nouvelle application Minotaure](https://github.com/uurshin/minotaure) et à y contribuer vos développements.
 
 ### À quoi ça sert ?
 
@@ -74,13 +72,6 @@ Si votre langue n'apparait pas sur la page d'accueil, c'est que nous n'avons pas
 - Le mode de fonctionnement ensuite est détaillé ici : https://www.youtube.com/watch?v=XGU3_dczcNE
 
 ## 🇺🇸 English readme
-
-### WARNING
-
-### AVERTISSEMENT
-
-⚠️ This version of Minotaure is no longer maintained.
-We encourage you to use the [new Minotaure app](https://github.com/uurshin/minotaure) and to contribute your code there.
 
 ### Purpose
 
