@@ -1,12 +1,13 @@
-[![Build Status](https://travis-ci.org/fibreville/atrpg.svg?branch=main)](https://travis-ci.org/fibreville/minotaure)
-# Minotaure
-![logo minotaure](https://repository-images.githubusercontent.com/325598559/5949d200-9e04-11eb-877a-16765728a8f7)
+# Minotaure PHP
+# DEPRECATED
+
 ## 🇫🇷 Version française
 *English below.*
 
 ### AVERTISSEMENT
 
-⚠️ Malgré leur vigilance, les contributeurs du code de Minotaure ne garantissent pas l'absence de failles de sécurité. Utilisation à vos risques et périls.
+⚠️ Cette version de Minotaure n'est plus maintenue.
+Nous vous encourageons à utiliser la [nouvelle application Minotaure](https://github.com/uurshin/minotaure) et à y contribuer vos développements.
 
 ### À quoi ça sert ?
 
@@ -76,7 +77,10 @@ Si votre langue n'apparait pas sur la page d'accueil, c'est que nous n'avons pas
 
 ### WARNING
 
-⚠️ This software may contain vulnerabilities. Use at your own risk.
+### AVERTISSEMENT
+
+⚠️ This version of Minotaure is no longer maintained.
+We encourage you to use the [new Minotaure app](https://github.com/uurshin/minotaure) and to contribute your code there.
 
 ### Purpose
 
