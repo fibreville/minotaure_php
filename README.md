@@ -1,7 +1,9 @@
 # Minotaure PHP - DEPRECATED / OBSOLETE
 
 ⚠️ Cette version de Minotaure n'est plus maintenue / this version of Minotaure is no longer maintained.
+
 Nous vous encourageons à utiliser la [nouvelle application Minotaure](https://github.com/uurshin/minotaure) et à y contribuer vos développements.
+
 We encourage you to use the [new Minotaure app](https://github.com/uurshin/minotaure) and to contribute your code there.
 
 ## 🇫🇷 Version française
